@@ -1,0 +1,13 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Detail_Book_Loan extends Model
+{
+    protected $primaryKey = 'number_borrow';
+    protected $fillable = [
+        'code_borrow', 'id_book', 'qty'
+    ];
+}
