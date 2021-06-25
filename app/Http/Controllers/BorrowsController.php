@@ -73,12 +73,12 @@ class BorrowsController extends Controller
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
-        $sisastok = $request->stok;
-        $count_book = count($request->id_book);
-        for ($x = 0; $x < $count_book; $x++) {
-            DB::table('books')->where('id_book', [$request->id_book[$x]])
-                ->update(['stok' => $request->stok[$x]]);
-        }
+        // $sisastok = $request->stok;
+        // $count_book = count($request->id_book);
+        // for ($x = 0; $x < $count_book; $x++) {
+        //     DB::table('books')->where('id_book', [$request->id_book[$x]])
+        //         ->update(['stok' => $request->stok[$x]]);
+        // }
 
         return redirect('/borrowedbook')->with('notify', 'Successfully borrow a books !');
     }

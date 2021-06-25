@@ -52,6 +52,9 @@
                     <li class="nav-item ">
                         <a class="nav-link" href="/requestbook/info/{{$set_iduser}}">Your Request </a>
                     </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#ComingsoonModal" data-toggle="modal" data-target="#ComingsoonModal">History Borrow </a>
+                    </li>
                     @endif
                     @if($cekrole == "admin")
                     <li class="nav-item ">
@@ -81,10 +84,7 @@
                       <a class="nav-link" href="{{url('/logout')}}">Logout</a>
                     </li>
                   </ul>
-                  <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <a href="#" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#ComingsoonModal">Search</a>
-                  </form>
+
                 </div>
               </nav>
 

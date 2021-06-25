@@ -44,8 +44,25 @@ class BooksController extends Controller
             'publisher' => 'required',
             'time_release' => 'required|numeric',
             'pages_book' => 'required|numeric',
+            'language' => 'required',
+            'image_book' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
-        Book::create($request->all());
+        $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
+        $request->image_book->move(public_path('images'), $imgName);
+        if ($request->isbn == null) {
+            $request->isbn = '-';
+        }
+        Book::create([
+            'name_book' => $request->name_book,
+            'author' => $request->author,
+            'publisher' => $request->publisher,
+            'time_release' => $request->time_release,
+            'pages_book' => $request->pages_book,
+            'language' => $request->language,
+            'image_book' => $imgName,
+            'isbn' =>  $request->isbn,
+        ]);
+        // Book::create($request->all());
         return redirect('/book')->with('notify', 'Data a new book successfully insert !');
     }
 
@@ -86,7 +103,14 @@ class BooksController extends Controller
             'publisher' => 'required',
             'time_release' => 'required|numeric',
             'pages_book' => 'required|numeric',
+            'language' => 'required',
+            'image_book' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
+        $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
+        $request->image_book->move(public_path('images'), $imgName);
+        if ($request->isbn == null) {
+            $request->isbn = '-';
+        }
         Book::where('id_book', $book->id_book)
             ->update([
                 'name_book' => $request->name_book,
@@ -94,6 +118,9 @@ class BooksController extends Controller
                 'publisher' => $request->publisher,
                 'time_release' => $request->time_release,
                 'pages_book' => $request->pages_book,
+                'language' => $request->language,
+                'image_book' => $imgName,
+                'isbn' =>  $request->isbn,
             ]);
         return redirect('/book')->with('notify', 'Data a book successfully change !');
     }

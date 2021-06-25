@@ -9,7 +9,7 @@ class Book extends Model
 {
     protected $primaryKey = 'id_book';
     protected $fillable = [
-        'name_book', 'author', 'publisher', 'time_release', 'pages_book', 'stok',
+        'isbn', 'name_book', 'author', 'publisher', 'time_release', 'pages_book', 'language', 'image_book'
     ];
     //
 }

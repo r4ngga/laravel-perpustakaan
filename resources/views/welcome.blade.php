@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
-
+        <title>BacaBuku Homepage</title>
+        <link rel="icon" href="/template_bootstrap/images/favicon.jpg" type="image/gif" />
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Sistem Perpustakaan
+                    BacaBuku
                 </div>
 
                 <div class="links">

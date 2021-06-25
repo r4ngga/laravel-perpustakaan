@@ -15,8 +15,15 @@
                     </div>
                 @endif
                 <div class="card-body">
-                  <form method="POST" action="/book">
+                  <form method="POST" action="/book" enctype="multipart/form-data">
                   @csrf
+                        <div class="form-group">
+                            <label for="isbn">ISBN </label>
+                            <input type="text" class="form-control @error('isbn') is-invalid @enderror" id="isbn" name="isbn" placeholder="Opsional">
+                        @error('isbn')
+                            <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        </div>
                         <div class="form-group">
                             <label for="name">Book Name </label>
                             <input type="text" class="form-control @error('name_book') is-invalid @enderror" id="name_book" name="name_book">
@@ -46,9 +53,23 @@
                         @enderror
                        </div>
                        <div class="form-group">
+                            <label for="language">Language </label>
+                            <input type="text" class="form-control @error('language') is-invalid @enderror" id="language" name="language">
+                        @error('language')
+                            <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        </div>
+                       <div class="form-group">
                             <label for="pages">Book Pages </label>
                             <input type="text" class="form-control @error('pages_book') is-invalid @enderror" id="pages_book" name="pages_book">
                         @error('pages_book')
+                            <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="image_book">Book Cover </label>
+                            <input type="file" class="form-control-file @error('image_book') is-invalid @enderror" id="image_book" name="image_book">
+                        @error('image_book')
                             <div class="invalid-feedback">{{$message}}</div>
                         @enderror
                         </div>
