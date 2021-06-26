@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/template_bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/template_bootstrap/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/template_bootstrap/css/bootstrap-dataTables.css">
+    <link rel="stylesheet" href="/template_bootstrap/datatable/datatables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> --}}
     <script src="/template_bootstrap/js/jquery-3.6.0.min.js"></script>
@@ -53,7 +54,7 @@
                         <a class="nav-link" href="/requestbook/info/{{$set_iduser}}">Your Request </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#ComingsoonModal" data-toggle="modal" data-target="#ComingsoonModal">History Borrow </a>
+                        <a class="nav-link" href="/history">History Borrow </a>
                     </li>
                     @endif
                     @if($cekrole == "admin")
@@ -129,6 +130,22 @@
       </div>
 
       <script type="text/javascript">
+            $(document).ready(function(){
+                $('#tableBook').DataTable();
+            })
+
+            $(document).ready(function(){
+                $('#tableUser').DataTable();
+            })
+
+            $(document).ready(function(){
+                $('#tableHistoryRequest').DataTable();
+            })
+
+            $(document).ready(function(){
+                $('#tableHistoryBorrow').DataTable();
+            })
+
             $(document).ready(function() {
                 $('#selectbook').DataTable();
             } );

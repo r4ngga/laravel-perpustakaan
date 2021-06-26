@@ -71,6 +71,7 @@
                         <select class="form-control" id="status_request" name="status_request">
                           <option>Please Select </option>
                           <option value="request accept">request accept</option>
+                          <option value="request cancel">request cancel</option>
                         </select>
                   </div>
                   <div class="form-group">

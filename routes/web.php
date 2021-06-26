@@ -68,5 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/requestbook/applyrequest', 'RequestsController@store');
 
         Route::get('/requestbook/info/{request}', 'RequestsController@show');
+
+        Route::get('/history', 'UserController@history');
     });
 });

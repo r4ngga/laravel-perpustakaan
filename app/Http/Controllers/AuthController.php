@@ -47,8 +47,8 @@ class AuthController extends Controller
 
     public function home()
     {
-        $book = Book::all();
-        return view('home', ['book' => $book]);
+        $book = Book::orderBy('created_at', 'desc')->paginate(6);
+        return view('home', compact('book'));
     }
 
     public function logout(Request $request)

@@ -20,7 +20,7 @@
                 {{session('notify')}}
             </div>
              @endif
-            <table class="table">
+            <table class="table mb-2" id="tableBook">
                 <thead>
                   <tr>
                     <th scope="col">Id Book</th>

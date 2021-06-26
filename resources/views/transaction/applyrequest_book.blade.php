@@ -47,6 +47,20 @@
                         @enderror
                         </div>
                         <div class="form-group">
+                            <label for="author">Author </label>
+                            <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" value="{{$book->author}}" readonly>
+                        @error('author')
+                            <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="publisher">Publisher </label>
+                            <input type="text" class="form-control @error('publisher') is-invalid @enderror" id="publisher" name="publisher" value="{{$book->publisher}}" readonly>
+                        @error('publisher')
+                            <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        </div>
+                        <div class="form-group">
                                 <label for="name">Time Request </label>
                                 <input type="date" class="form-control @error('name_book') is-invalid @enderror" id="time_request" name="time_request" >
                         @error('name_book')
@@ -55,6 +69,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary">Send Request</button>
+                        <a href="{{('/requestbook')}}" class="btn btn-warning">Back</a>
                   </form>
                 </div>
               </div>

@@ -20,6 +20,8 @@
                   Status Request : {{$rq->status_request}}. <br>
                   @if($rq->status_request == "request accept")
                   <h6>Let's take your book in library soon</h6>
+                  @elseif($rq->status_request == "request cancel")
+                  <h6>Sorry your request cancelled by admin, please confirmation</h6>
                   @endif
               </p>
             </div>

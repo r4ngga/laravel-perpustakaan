@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -20,7 +22,8 @@ class UserController extends Controller
 
     public function requestbook()
     {
-        $book = Book::all();
+        // $book = Book::all()->paginate(6);
+        $book = Book::orderBy('created_at', 'desc')->paginate(6);
         return view('transaction.request_book', ['book' => $book]);
     }
 
@@ -134,5 +137,29 @@ class UserController extends Controller
         } else {
             return redirect('/user')->with('notify', 'Failed delete data account user');
         }
+    }
+
+    public function history()
+    {
+        $req = DB::table('book_requests')
+            ->join('users', 'book_requests.id_user', '=', 'users.id_user')
+            ->join('books', 'book_requests.id_book', '=', 'books.id_book')
+            ->select('book_requests.*', 'users.*', 'books.*')
+            ->where('book_requests.id_user', auth()->user()->id_user)
+            ->orderBy('book_requests.time_request')
+            ->orderBy('book_requests.id_user')
+            ->get();
+
+        $borrow = DB::table('book_borrows')
+            ->join('detail_book_loans', 'book_borrows.code_borrow', '=', 'detail_book_loans.code_borrow')
+            ->join('users', 'book_borrows.id_user', '=', 'users.id_user')
+            ->join('books', 'detail_book_loans.id_book', '=', 'books.id_book')
+            ->select('book_borrows.*', 'detail_book_loans.*', 'users.*', 'books.*')
+            ->where('book_borrows.id_user', auth()->user()->id_user)
+            ->orderBy('book_borrows.time_borrow')
+            ->orderBy('detail_book_loans.number_borrow')
+            ->get();
+
+        return view('transaction.history', compact('req', 'borrow'));
     }
 }

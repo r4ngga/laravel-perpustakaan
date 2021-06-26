@@ -6,7 +6,7 @@
 <div class="container mt-4 mb-5">
 <h2 class="mb-4">Welcome, BacaBuku Home</h2>
   <div class="row">
-        @foreach($book as $bk)
+    @foreach($book as $bk)
     <div class="col-md-4">
         <div class="card mb-3 mr-2 " style="width: 18rem;">
             <div class="card-body">
@@ -23,6 +23,11 @@
     </div>
     @endforeach
   </div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mb-2">
+      {{ $book->links() }}
+    </ul>
+  </nav>
 </div>
 
 @endsection
