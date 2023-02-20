@@ -1,5 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BooksController;
+use App\Http\Controllers\BorrowsController;
+use App\Http\Controllers\RequestsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,7 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/setting', 'UserController@update');
     Route::get('/changepassword', 'AuthController@changepassword');
     Route::post('/changepassword', 'AuthController@updatepassword');
-    Route::group(['middleware' => ['cek_login:admin']], function () {
+    Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('/admindashboard', 'AdminController@index')->name('admin');
         // Route::get('/book', 'BooksController@index');
         Route::get('/book/addbook', 'BooksController@create');
@@ -60,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/userdelete/{user}', 'UserController@destroy');
     });
 
-    Route::group(['middleware' => ['cek_login:user']], function () {
+    Route::group(['middleware' => ['cek_login:2']], function () {
         Route::get('/userdashboard', 'UserController@index');
 
         Route::get('/requestbook', 'UserController@requestbook');

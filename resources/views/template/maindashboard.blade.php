@@ -24,11 +24,11 @@
                 <?php
                 $cekrole = auth()->user()->role
                 ?>
-                @if($cekrole == "admin")
+                @if($cekrole == "1")
                 <a href="{{('/admindashboard')}}">
                         <img src="/template_bootstrap/images/bacabuku.jpg" class="img-fluid" alt="icon baca buku" sizes="100px">
                 </a>
-                @elseif($cekrole == "user")
+                @elseif($cekrole == "2")
                 <a href="{{('/userdashboard')}}">
                     <img src="/template_bootstrap/images/bacabuku.jpg" class="img-fluid" alt="icon baca buku" sizes="100px">
                 </a>
@@ -43,7 +43,7 @@
                     <a class="nav-link" href="{{('/book')}}">Books </a>
                     </li>
 
-                    @if($cekrole == "user")
+                    @if($cekrole == "2")
                     <?php
                     $set_iduser = auth()->user()->id_user;
                     ?>
@@ -57,7 +57,7 @@
                         <a class="nav-link" href="/history">History Borrow </a>
                     </li>
                     @endif
-                    @if($cekrole == "admin")
+                    @if($cekrole == "1")
                     <li class="nav-item ">
                     <a class="nav-link" href="{{('/user')}}">Users </a>
                     </li>
