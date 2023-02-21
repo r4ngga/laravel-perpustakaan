@@ -14,9 +14,9 @@ class AuthController extends Controller
     public function index()
     {
         if ($user = Auth::user()) {
-            if ($user->role == 'admin') {
+            if ($user->role == 1) {
                 return redirect()->intended('admindashboard');
-            } elseif ($user->role == 'user') {
+            } elseif ($user->role == 2) {
                 return redirect()->intended('userdashboard');
             }
         }
@@ -33,9 +33,9 @@ class AuthController extends Controller
         //     return redirect('login')->with('Field null');
         // }
         if (Auth::attempt($request->only('email', 'password'))) {
-            if (auth()->user()->role == "user") {
+            if (auth()->user()->role == 2) {
                 return redirect('/userdashboard');
-            } elseif (auth()->user()->role == "admin") {
+            } elseif (auth()->user()->role == 1) {
                 return redirect('/admindashboard');
             } else {
                 return redirect('/login')->with('notify', 'You don"t have role');
@@ -75,5 +75,31 @@ class AuthController extends Controller
                 'password' => bcrypt($request['password'])
             ]);
         return redirect('changepassword')->with('notify', 'Success change your password');
+    }
+
+    public function register(Request $request)
+    {
+        $validate =  $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required|numeric',
+            'gender' => 'required',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request['password']),
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+            'gender' => $request->gender,
+            'role' => 2, //2 untuk client
+        ]);
+
+        if($validate){
+            return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
+        }
     }
 }

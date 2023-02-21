@@ -61,6 +61,7 @@ class UserController extends Controller
             'address' => $request->address,
             'phone_number' => $request->phone_number,
             'gender' => $request->gender,
+            'role' => 2, //2 untuk client
         ]);
 
         if ($validate) {
