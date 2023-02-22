@@ -54,30 +54,30 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/borrowedbook', [BorrowsController::class, 'borrowed_book']);
         Route::post('/borrowedbook', [BorrowsController::class, 'store']);
 
-        Route::get('/reportborrowedbook', 'BorrowsController@index');
+        Route::get('/reportborrowedbook', [BorrowsController::class, 'index']);
 
-        Route::get('/returnedbook', 'ReturnsController@index');
-        Route::post('/returnedbook', 'ReturnsController@store');
+        Route::get('/returnedbook', [ReturnsController::class, 'index']);
+        Route::post('/returnedbook', [ReturnsController::class, 'store']);
         // Route::get('/returnedbook', 'ReturnsController@findreturned_book');
 
-        Route::get('/requestedbook', 'RequestsController@confirm');
-        Route::post('/requestedbook', 'RequestsController@change');
+        Route::get('/requestedbook', [RequestsController::class, 'confirm']);
+        Route::post('/requestedbook', [RequestsController::class, 'change']);
 
-        Route::get('/reportrequestbook', 'RequestsController@index');
+        Route::get('/reportrequestbook', [RequestsController::class, 'index']);
 
-        Route::get('/user', 'UserController@show');
-        Route::post('/userdelete/{user}', 'UserController@destroy');
+        Route::get('/user', [UserController::class, 'show']);
+        Route::post('/userdelete/{user}', [UserController::class, 'destroy']);
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
-        Route::get('/userdashboard', 'UserController@index');
+        Route::get('/userdashboard', [UserController::class, 'index']);
 
-        Route::get('/requestbook', 'UserController@requestbook');
-        Route::get('/requestbook/applyrequest/{book}', 'RequestsController@requestbook');
-        Route::post('/requestbook/applyrequest', 'RequestsController@store');
+        Route::get('/requestbook', [UserController::class, 'requestbook']);
+        Route::get('/requestbook/applyrequest/{book}', [RequestsController::class, 'requestbook']);
+        Route::post('/requestbook/applyrequest', [RequestsController::class, 'store']);
 
-        Route::get('/requestbook/info/{request}', 'RequestsController@show');
+        Route::get('/requestbook/info/{request}', [RequestsController::class, 'show']);
 
-        Route::get('/history', 'UserController@history');
+        Route::get('/history', [UserController::class, 'history']);
     });
 });
