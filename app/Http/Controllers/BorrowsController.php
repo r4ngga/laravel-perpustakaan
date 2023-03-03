@@ -11,6 +11,7 @@ use App\Book_Borrow;
 use App\Detail_Book_Loan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 use Symfony\Component\Console\Input\Input as InputInput;
 
 class BorrowsController extends Controller

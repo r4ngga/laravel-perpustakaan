@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Book;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -75,6 +76,37 @@ class AuthController extends Controller
                 'password' => bcrypt($request['password'])
             ]);
         return redirect('changepassword')->with('notify', 'Success change your password');
+    }
+
+    public function create()
+    {
+        return view('register');
+    }
+
+    public function store(Request $request)
+    {
+        $validate =  $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required|numeric',
+            'gender' => 'required',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request['password']),
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+            'gender' => $request->gender,
+            'role' => 2, //2 untuk client
+        ]);
+
+        if ($validate) {
+            return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
+        }
     }
 
     public function register(Request $request)

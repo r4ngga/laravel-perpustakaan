@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Book;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
 class RequestsController extends Controller

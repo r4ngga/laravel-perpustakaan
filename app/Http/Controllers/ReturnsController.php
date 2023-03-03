@@ -7,6 +7,7 @@ use App\User;
 use App\Book;
 use App\Book_Borrow;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
 class ReturnsController extends Controller
