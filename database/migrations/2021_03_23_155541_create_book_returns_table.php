@@ -14,9 +14,10 @@ class CreateBookReturnsTable extends Migration
     public function up()
     {
         Schema::create('book_returns', function (Blueprint $table) {
-            $table->string('code_return', 20);
-            $table->primary('code_return');
-            $table->string('code_borrow', 20);
+            $table->id();
+            $table->bigIncrements('number_return');
+            $table->string('code_return', 20)->nullable();
+            $table->string('code_borrow', 20)->nullable();
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id_user')->on('users');
             $table->date('time_return');

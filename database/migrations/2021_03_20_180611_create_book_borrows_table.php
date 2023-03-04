@@ -14,8 +14,9 @@ class CreateBookBorrowsTable extends Migration
     public function up()
     {
         Schema::create('book_borrows', function (Blueprint $table) {
+            $table->id();
             $table->string('code_borrow', 20);
-            $table->primary('code_borrow');
+            // $table->primary('code_borrow');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id_user')->on('users');
             $table->date('time_borrow');
