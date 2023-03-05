@@ -7,7 +7,7 @@ use App\Http\Controllers\BorrowsController;
 use App\Http\Controllers\RequestsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth as Authentication; // because conflict with Illuminate\Support\Facades\Auth
 use App\Http\Controllers\Admin;
 
 /*
@@ -25,9 +25,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [Admin\AuthController::class, 'index'])->name('login');
-Route::post('/login', [Admin\AuthController::class, 'login'])->middleware('guest');
-Route::get('/home', [Admin\AuthController::class, 'home']);
+Route::get('/login', [Authentication\AuthController::class, 'index'])->name('login');
+Route::post('/login', [Authentication\AuthController::class, 'login'])->middleware('guest');
+Route::get('/home', [Authentication\AuthController::class, 'home']);
 Route::get('/register', [Admin\UserController::class, 'create'])->middleware('guest'); //page for show register
 Route::post('/register', [Admin\UserController::class, 'store'])->middleware('guest'); //for proccess register action
 
@@ -37,12 +37,12 @@ Route::post('/register', [Admin\UserController::class, 'store'])->middleware('gu
 
 Route::group(['middleware' => ['auth']], function () {
     // Route::get('/register', 'UserController@create')->middleware('guest');
-    Route::get('/logout', [Admin\AuthController::class, 'logout'])->middleware('auth');
-    Route::get('/book', [BooksController::class, 'index']);
+    Route::get('/logout', [Authentication\AuthController::class, 'logout'])->middleware('auth');
+    Route::get('/book', [Admin\BooksController::class, 'index']);
     Route::get('/setting', [UserController::class, 'edit']);
     Route::post('/setting', [UserController::class, 'update']);
-    Route::get('/changepassword', [AuthController::class, 'changepassword']);
-    Route::post('/changepassword', [AuthController::class, 'updatepassword']);
+    Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword']);
+    Route::post('/changepassword', [Authentication\AuthController::class, 'updatepassword']);
     Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('/admindashboard', 'AdminController@index')->name('admin');
         // Route::get('/book', 'BooksController@index');
@@ -71,9 +71,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
-        Route::get('/userdashboard', [UserController::class, 'index']);
+        Route::get('/userdashboard', [User\UserController::class, 'index']);
 
-        Route::get('/requestbook', [UserController::class, 'requestbook']);
+        Route::get('/requestbook', [User\UserController::class, 'requestbook']);
         Route::get('/requestbook/applyrequest/{book}', [RequestsController::class, 'requestbook']);
         Route::post('/requestbook/applyrequest', [RequestsController::class, 'store']);
 
