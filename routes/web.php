@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\BooksController;
+use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\BorrowsController;
-use App\Http\Controllers\RequestsController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\User\RequestsController;
+use App\Http\Controllers\User;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth as Authentication; // because conflict with Illuminate\Support\Facades\Auth
 use App\Http\Controllers\Admin;
@@ -52,8 +52,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/book/changebook/{book}', [Admin\BooksController::class, 'update']);
         Route::post('/book/{book}', [Admin\BooksController::class, 'confirmdelete']);
 
-        Route::get('/borrowedbook', [BorrowsController::class, 'borrowed_book']);
-        Route::post('/borrowedbook', [BorrowsController::class, 'store']);
+        Route::get('/borrowedbook', [Admin\BorrowsController::class, 'borrowed_book']);
+        Route::post('/borrowedbook', [Admin\BorrowsController::class, 'store']);
 
         Route::get('/reportborrowedbook', [BorrowsController::class, 'index']);
 
@@ -74,11 +74,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/userdashboard', [User\UserController::class, 'index']);
 
         Route::get('/requestbook', [User\UserController::class, 'requestbook']);
-        Route::get('/requestbook/applyrequest/{book}', [RequestsController::class, 'requestbook']);
-        Route::post('/requestbook/applyrequest', [RequestsController::class, 'store']);
+        Route::get('/requestbook/applyrequest/{book}', [User\RequestsController::class, 'requestbook']);
+        Route::post('/requestbook/applyrequest', [User\RequestsController::class, 'store']);
 
-        Route::get('/requestbook/info/{request}', [RequestsController::class, 'show']);
+        Route::get('/requestbook/info/{request}', [User\RequestsController::class, 'show']);
 
-        Route::get('/history', [UserController::class, 'history']);
+        Route::get('/history', [User\UserController::class, 'history']);
     });
 });
