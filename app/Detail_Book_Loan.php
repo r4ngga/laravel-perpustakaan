@@ -10,4 +10,6 @@ class Detail_Book_Loan extends Model
     protected $fillable = [
         'code_borrow', 'id_book', 'qty'
     ];
+
+    protected $table = 'detail_book_loans';
 }
