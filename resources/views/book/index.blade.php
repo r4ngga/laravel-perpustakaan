@@ -37,7 +37,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach($book as $bk)
+                    @foreach($books as $bk)
                   <tr>
                     <th scope="row">{{$bk->id_book}}</th>
                     <td>{{$bk->isbn}}</td>
@@ -69,7 +69,7 @@
 </div>
 
  <!-- Modal -->
- @foreach($book as $bk)
+ @foreach($books as $bk)
  <div class="modal fade" id="ComfirmDeleteModal{{$bk->id_book}}" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">

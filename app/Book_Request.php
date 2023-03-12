@@ -13,4 +13,9 @@ class Book_Request extends Model
     {
         return $this->hasMany(Book::class, 'id_book', 'code_borrow');
     }
+
+    // public function user()
+    // {
+    //    return $this->belongsTo(User::class, 'id_user', 'id_user');
+    // }
 }

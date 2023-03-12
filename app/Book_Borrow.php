@@ -11,4 +11,10 @@ class Book_Borrow extends Model
     protected $fillable = [
         'id_user', 'time_borrow', 'id_book'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+
 }

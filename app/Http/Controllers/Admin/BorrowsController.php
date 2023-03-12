@@ -29,7 +29,8 @@ class BorrowsController extends Controller
             ->get();
         // $borrow = DB::table('book_borrow')->get();
 
-        return view('report.report_borrow', ['borrow' => $borrow]);
+        // return view('report.report_borrow', ['borrow' => $borrow]);
+        return view('report.report_borrow', compact('borrow'));
     }
 
     public function borrowed_book()

@@ -12,4 +12,9 @@ class Detail_Book_Loan extends Model
     ];
 
     protected $table = 'detail_book_loans';
+
+    public function book()
+    {
+        return $this->hasMany(Book::class, 'id_book', 'number_borrow');
+    }
 }

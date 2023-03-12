@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Admin\BooksController;
-use App\Http\Controllers\BorrowsController;
+// use App\Http\Controllers\Admin\BooksController;
+// use App\Http\Controllers\BorrowsController;
 use App\Http\Controllers\User\RequestsController;
 use App\Http\Controllers\User;
 use App\Http\Controllers\AdminController;
@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword']);
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatepassword']);
     Route::group(['middleware' => ['cek_login:1']], function () {
-        Route::get('/admindashboard', 'AdminController@index')->name('admin');
+        Route::get('/admindashboard', [Admin\AdminController::class, 'index'])->name('admin');
         // Route::get('/book', 'BooksController@index');
         Route::get('/book/addbook', [Admin\BooksController::class, 'create']);
         Route::post('/book', [Admin\BooksController::class, 'store']);
@@ -55,10 +55,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/borrowedbook', [Admin\BorrowsController::class, 'borrowed_book']);
         Route::post('/borrowedbook', [Admin\BorrowsController::class, 'store']);
 
-        Route::get('/reportborrowedbook', [BorrowsController::class, 'index']);
+        Route::get('/reportborrowedbook', [Admin\BorrowsController::class, 'index']);
 
-        Route::get('/returnedbook', [ReturnsController::class, 'index']);
-        Route::post('/returnedbook', [ReturnsController::class, 'store']);
+        Route::get('/returnedbook', [Admin\ReturnsController::class, 'index']);
+        Route::post('/returnedbook', [Admin\ReturnsController::class, 'store']);
         // Route::get('/returnedbook', 'ReturnsController@findreturned_book');
 
         Route::get('/requestedbook', [RequestsController::class, 'confirm']);
@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/reportrequestbook', [RequestsController::class, 'index']);
 
-        Route::get('/user', [UserController::class, 'show']);
+        Route::get('/user', [Admin\UserController::class, 'show']);
         Route::post('/userdelete/{user}', [UserController::class, 'destroy']);
     });
 
