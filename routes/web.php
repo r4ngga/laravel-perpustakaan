@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/book', [Admin\BooksController::class, 'store']);
         Route::get('/book/changebook/{book}', [Admin\BooksController::class, 'edit']);
         Route::post('/book/changebook/{book}', [Admin\BooksController::class, 'update']);
-        Route::post('/book/{book}', [Admin\BooksController::class, 'confirmdelete']);
+        Route::post('/book/{id}', [Admin\BooksController::class, 'confirmdelete']);
 
         Route::get('/borrowedbook', [Admin\BorrowsController::class, 'borrowed_book']);
         Route::post('/borrowedbook', [Admin\BorrowsController::class, 'store']);
