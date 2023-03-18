@@ -20,7 +20,7 @@
 
 </head>
 <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border border-bottom">
                 <?php
                 $cekrole = auth()->user()->role
                 ?>
@@ -39,7 +39,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav mr-auto">
-                    <li class="nav-item ">
+                    <li class="{{ request()->is('book') ? 'nav-item active' : 'nav-item' }}">
                     <a class="nav-link" href="{{('/book')}}">Books </a>
                     </li>
 
@@ -47,38 +47,45 @@
                     <?php
                     $set_iduser = auth()->user()->id_user;
                     ?>
-                    <li class="nav-item ">
+                    <li class="{{ request()->is('requestbook') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{('/requestbook')}}">Request Book </a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="{{ request()->is('requestbook/info') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="/requestbook/info/{{$set_iduser}}">Your Request </a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="{{ request()->is('history') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="/history">History Borrow </a>
                     </li>
                     @endif
                     @if($cekrole == "1")
-                    <li class="nav-item ">
-                    <a class="nav-link" href="{{('/user')}}">Users </a>
+                    {{-- <li @if(request()->is('/user')) class="nav-item active" @else class="nav-item" @endif> --}}
+                    {{-- <li class="{{ (request()->is('/user')) ? 'nav-item active' : 'nav-item' }}"> --}}
+                    <li class="{{ request()->is('user') ? 'nav-item active' : 'nav-item' }}">
+                    <a class="nav-link" href="{{('/user')}}" >Users</a>
+                    {{-- <a class="nav-link" href="{{('/user')}}" >Users </a> --}}
                     </li>
 
-                    <li class="nav-item">
+                    {{-- <li class="nk-menu-item "><a class="nk-menu-link" href="{{route('client.product')}}" style="color: {{ request()->is('client/product')  ? '#0fac81' : 'black' }};"><span class="nk-menu-icon"><em class="icon ni ni-bag " style="color:{{ request()->is('client/product')  ? '#0fac81' : 'grey' }} ;"></em></span><span class="nk-menu-text">My Product</span></a></li>
+                    <li class="nk-menu-item "><a class="nk-menu-link" href="{{route('client.akun.index')}}" style="color: {{ request()->is('client/akun')  ? '#0fac81' : 'black' }};"><span class="nk-menu-icon"><em class="icon ni ni-account-setting" style="color:{{ request()->is('client/akun')  ? '#0fac81' : 'grey' }} ;"></em></span><span class="nk-menu-text">Akun</span></a></li> --}}
+
+
+                    <li class="{{ request()->is('borrowedbook') ? 'nav-item active' : 'nav-item' }}">
                     <a class="nav-link" href="{{('/borrowedbook')}}">Book Out</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="{{ request()->is('reportborrowedbook') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{('/reportborrowedbook')}}">Report Book Out</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="{{ request()->is('returnedbook') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{'/returnedbook'}}">Book In</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="{{ request()->is('requestedbook') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{('/requestedbook')}}">Request Book</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="{{ request()->is('reportrequestbook') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{('/reportrequestbook')}}" >Report Request</a>
                     </li>
                     @endif
-                    <li class="nav-item">
+                    <li class="{{ request()->is('setting') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{('/setting')}}">Setting</a>
                     </li>
                     <li class="nav-item">

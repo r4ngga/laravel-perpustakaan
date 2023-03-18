@@ -6,6 +6,17 @@
 <div class="container mt-3 mb-5">
     <div class="row justify-content-center">
         <div class="col">
+            @php
+            $parsing = [
+                'list' => array(['href' => route('admindashboard'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'Book', 'is_active' => true]),
+                'title' => 'All Books'
+            ];
+            @endphp
+            @include('template.breadcrumb', $parsing)
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col">
             <h3> All Book</h3>
             <?php
             $cekrole = auth()->user()->role

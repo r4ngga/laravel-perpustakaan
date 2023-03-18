@@ -78,7 +78,7 @@ class UserController extends Controller
      */
     public function show()
     {
-        $user = user::all();
+        $user = User::all();
         return view('user.show_all', ['user' => $user]);
     }
 
