@@ -1,7 +1,7 @@
 <div class="col-lg-6 col-7">
-    <h4 class="h4 text-black d-inline-block mb-0">{{$parsing['title']}}</h4>
-    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-        <ol class="breadcrumb breadcrumb-pipe breadcrumb-dark">
+    <h5 class="h5 d-inline-block pl-2 pb-4">{{$parsing['title']}}</h4>
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-pipe breadcrumb-dark pt-1 pl-1 bg-white">
             <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
             @foreach($parsing['list'] as $key => $data)
             <li class="breadcrumb-item @if($data['is_active']) active @endif"> <a @if($data['href'] != '') href="{{$data['href'] ?? ''}} @endif" @if($data['is_active']) style="font-weight: bolder; color: black;" @endif>{{$data['text'] ?? ''}}</a></li>

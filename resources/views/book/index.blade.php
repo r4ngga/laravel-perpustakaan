@@ -8,7 +8,7 @@
         <div class="col">
             @php
             $parsing = [
-                'list' => array(['href' => route('admindashboard'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'Book', 'is_active' => true]),
+                'list' => array(['href' => route('admin'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'Book', 'is_active' => true]),
                 'title' => 'All Books'
             ];
             @endphp
@@ -21,7 +21,7 @@
             <?php
             $cekrole = auth()->user()->role
             ?>
-            @if($cekrole == "admin")
+            @if($cekrole == "1")
             <a href="/book/addbook" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                 <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
               </svg> Insert a new book</a>
@@ -31,7 +31,7 @@
                 {{session('notify')}}
             </div>
              @endif
-            <table class="table mb-2" id="tableBook">
+            <table class="table table-bordered border-1 mb-2" id="tableBook">
                 <thead>
                   <tr>
                     <th scope="col">Id Book</th>

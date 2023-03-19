@@ -10,6 +10,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth as Authentication; // because conflict with Illuminate\Support\Facades\Auth
 use App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,40 +40,41 @@ Route::post('/register', [Admin\UserController::class, 'store'])->middleware('gu
 Route::group(['middleware' => ['auth']], function () {
     // Route::get('/register', 'UserController@create')->middleware('guest');
     Route::get('/logout', [Authentication\AuthController::class, 'logout'])->middleware('auth');
-    Route::get('/book', [Admin\BooksController::class, 'index']);
-    Route::get('/setting', [UserController::class, 'edit']);
-    Route::post('/setting', [UserController::class, 'update']);
+    Route::get('/book', [Admin\BooksController::class, 'index'])->name('book');
+    Route::get('/setting', [User\UserController::class, 'edit']);
+    Route::post('/setting', [User\UserController::class, 'update']);
     Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword']);
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatepassword']);
     Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('/admindashboard', [Admin\AdminController::class, 'index'])->name('admin');
         // Route::get('/book', 'BooksController@index');
-        Route::get('/book/addbook', [Admin\BooksController::class, 'create']);
-        Route::post('/book', [Admin\BooksController::class, 'store']);
+        Route::post('/book', [Admin\BooksController::class, 'store'])->name('book.store');
+        Route::get('/book/addbook', [Admin\BooksController::class, 'create'])->name('book.create');
         Route::get('/book/changebook/{book}', [Admin\BooksController::class, 'edit']);
         Route::post('/book/changebook/{book}', [Admin\BooksController::class, 'update']);
-        Route::post('/book/{id}', [Admin\BooksController::class, 'confirmdelete']);
+        Route::post('/book/{id}', [Admin\BooksController::class, 'confirmdelete'])->name('book.delete');
 
-        Route::get('/borrowedbook', [Admin\BorrowsController::class, 'borrowed_book']);
-        Route::post('/borrowedbook', [Admin\BorrowsController::class, 'store']);
+        Route::get('/borrowedbook', [Admin\BorrowsController::class, 'borrowed_book'])->name('borrowedbook');
+        Route::post('/borrowedbook', [Admin\BorrowsController::class, 'store'])->name('borrowedbook.store');
 
-        Route::get('/reportborrowedbook', [Admin\BorrowsController::class, 'index']);
+        Route::get('/reportborrowedbook', [Admin\BorrowsController::class, 'index'])->name('report-borrowed-book');
 
-        Route::get('/returnedbook', [Admin\ReturnsController::class, 'index']);
-        Route::post('/returnedbook', [Admin\ReturnsController::class, 'store']);
+        Route::get('/returnedbook', [Admin\ReturnsController::class, 'index'])->name('returned-book');
+        Route::post('/returnedbook', [Admin\ReturnsController::class, 'store'])->name('returned-book.store');
         // Route::get('/returnedbook', 'ReturnsController@findreturned_book');
 
-        Route::get('/requestedbook', [RequestsController::class, 'confirm']);
-        Route::post('/requestedbook', [RequestsController::class, 'change']);
+        Route::get('/requestedbook', [RequestsController::class, 'confirm'])->name('requested-book');
+        Route::post('/requestedbook', [RequestsController::class, 'change'])->name('requested-book.change');
 
-        Route::get('/reportrequestbook', [RequestsController::class, 'index']);
+        Route::get('/reportrequestbook', [RequestsController::class, 'index'])->name('report-request-book');
 
-        Route::get('/user', [Admin\UserController::class, 'show']);
-        Route::post('/userdelete/{user}', [UserController::class, 'destroy']);
+        Route::get('/user', [Admin\UserController::class, 'index'])->name('users');
+        // Route::get('/user', [Admin\UserController::class, 'show'])->name('user.show');
+        Route::post('/userdelete/{user}', [UserController::class, 'destroy'])->name('users.delete');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
-        Route::get('/userdashboard', [User\UserController::class, 'index']);
+        Route::get('/userdashboard', [User\UserController::class, 'index'])->name('user');
 
         Route::get('/requestbook', [User\UserController::class, 'requestbook']);
         Route::get('/requestbook/applyrequest/{book}', [User\RequestsController::class, 'requestbook']);

@@ -4,11 +4,24 @@
 
 @section('container')
 <div class="container mt-3 mb-5">
+
+    <div class="row justify-content-center">
+        <div class="col">
+            @php
+            $parsing = [
+                'list' => array(['href' => route('admin'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => route('book'), 'text' => 'Book', 'is_active' => false], ['href' => '', 'text' => 'Insert Book', 'is_active' => true]),
+                'title' => 'Insert'
+            ];
+            @endphp
+            @include('template.breadcrumb', $parsing)
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
             <h3> Insert New Data Book</h3>
 
-            <div class="card">
+            <div class="card m-4 p-2">
                 @if(session('notify'))
                     <div class="alert alert-success my-2" role="alert">
                         {{session('notify')}}

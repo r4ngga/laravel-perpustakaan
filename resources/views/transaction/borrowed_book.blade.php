@@ -4,6 +4,17 @@
 
 @section('container')
 <div class="container mt-3 mb-5">
+    <div class="row justify-content-center">
+        <div class="col">
+            @php
+            $parsing = [
+                'list' => array(['href' => route('admin'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'Borrowed Book', 'is_active' => true]),
+                'title' => 'Borrow Books'
+            ];
+            @endphp
+            @include('template.breadcrumb', $parsing)
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <h3> Borrowed Book</h3>
