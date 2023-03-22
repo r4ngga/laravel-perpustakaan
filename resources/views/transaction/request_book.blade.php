@@ -5,6 +5,19 @@
 @section('container')
 <div class="container mt-4 mb-5">
 <h2 class="mb-4">Welcome, BacaBuku Home</h2>
+
+<div class="row justify-content-center">
+    <div class="col">
+        @php
+        $parsing = [
+            'list' => array(['href' => route('admin'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'Request Borrow Book', 'is_active' => true]),
+            'title' => 'Request Books'
+        ];
+        @endphp
+        @include('template.breadcrumb', $parsing)
+    </div>
+</div>
+
 @if(session('notify'))
     <div class="alert alert-success my-2" role="alert">
         {{session('notify')}}

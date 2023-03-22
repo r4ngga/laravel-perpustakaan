@@ -21,10 +21,10 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav mr-auto">
-                    <li class="nav-item ">
+                    <li class="{{ request()->is('home') ? 'nav-item active' : 'nav-item' }}">
                       <a class="nav-link" href="{{url('/home')}}" >Home </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="{{ request()->is('login') ? 'nav-item active' : 'nav-item' }}">
                       <a class="nav-link" href="{{url('/login')}}">Login</a>
                     </li>
                   </ul>

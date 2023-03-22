@@ -4,6 +4,19 @@
 
 @section('container')
 <div class="container mt-4 mb-5">
+
+    <div class="row justify-content-center">
+        <div class="col">
+            @php
+            $parsing = [
+                'list' => array(['href' => route('admin'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'Info Request Borrow Book', 'is_active' => true]),
+                'title' => 'Info Request Books'
+            ];
+            @endphp
+            @include('template.breadcrumb', $parsing)
+        </div>
+    </div>
+
 <h2 class="mb-4">Your Request Borrow a Book</h2>
   <div class="row">
     @foreach($req as $rq)

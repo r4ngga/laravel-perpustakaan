@@ -29,7 +29,7 @@ Route::get('/', function () {
 
 Route::get('/login', [Authentication\AuthController::class, 'index'])->name('login');
 Route::post('/login', [Authentication\AuthController::class, 'login'])->middleware('guest');
-Route::get('/home', [Authentication\AuthController::class, 'home']);
+Route::get('/home', [Authentication\AuthController::class, 'home'])->name('home');
 Route::get('/register', [Admin\UserController::class, 'create'])->middleware('guest'); //page for show register
 Route::post('/register', [Admin\UserController::class, 'store'])->middleware('guest'); //for proccess register action
 

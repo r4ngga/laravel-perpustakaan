@@ -6,6 +6,19 @@
 
 
 <div class="container mt-3 mb-5">
+
+    <div class="row justify-content-center">
+        <div class="col">
+            @php
+            $parsing = [
+                'list' => array(['href' => route('admin'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'Confirm Request Borrow Book', 'is_active' => true]),
+                'title' => 'Confirm Request Books'
+            ];
+            @endphp
+            @include('template.breadcrumb', $parsing)
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col">
             <h3>Confrim Request Borrow a Book</h3>

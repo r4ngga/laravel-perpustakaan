@@ -4,6 +4,19 @@
 
 @section('container')
 <div class="container mt-3 mb-5">
+
+    <div class="row justify-content-center">
+        <div class="col">
+            @php
+            $parsing = [
+                'list' => array(['href' => route('admin'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'All User', 'is_active' => true]),
+                'title' => 'Show All User'
+            ];
+            @endphp
+            @include('template.breadcrumb', $parsing)
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col">
             <h3> All User</h3>
