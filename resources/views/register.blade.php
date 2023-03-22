@@ -5,8 +5,9 @@
 @section('container')
 <div class="container mt-4 mb-5">
     <div class="row justify-content-center">
-        <div class="col col-lg-4">
-            <div class="card">
+        <div class="col col-lg-6">
+            <h3 class="p-2"> Register</h3>
+            <div class="card mb-4">
               <div class="card-body">
                 @if(session('notify'))
                 <div class="alert alert-success my-2" role="alert">

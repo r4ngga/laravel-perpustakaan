@@ -25,11 +25,11 @@
                 $cekrole = auth()->user()->role
                 ?>
                 @if($cekrole == "1")
-                <a href="{{('/admindashboard')}}">
+                <a href="{{('/admin-dashboard')}}">
                         <img src="/template_bootstrap/images/bacabuku.jpg" class="img-fluid" alt="icon baca buku" sizes="100px">
                 </a>
                 @elseif($cekrole == "2")
-                <a href="{{('/userdashboard')}}">
+                <a href="{{('/dashboard')}}">
                     <img src="/template_bootstrap/images/bacabuku.jpg" class="img-fluid" alt="icon baca buku" sizes="100px">
                 </a>
                 @endif
@@ -60,8 +60,8 @@
                     @if($cekrole == "1")
                     {{-- <li @if(request()->is('/user')) class="nav-item active" @else class="nav-item" @endif> --}}
                     {{-- <li class="{{ (request()->is('/user')) ? 'nav-item active' : 'nav-item' }}"> --}}
-                    <li class="{{ request()->is('user') ? 'nav-item active' : 'nav-item' }}">
-                    <a class="nav-link" href="{{('/user')}}" >Users</a>
+                    <li class="{{ request()->is('users') ? 'nav-item active' : 'nav-item' }}">
+                    <a class="nav-link" href="{{('/users')}}" >Users</a>
                     {{-- <a class="nav-link" href="{{('/user')}}" >Users </a> --}}
                     </li>
 
@@ -82,7 +82,7 @@
                         <a class="nav-link" href="{{('/requestedbook')}}">Request Book</a>
                     </li>
                     <li class="{{ request()->is('reportrequestbook') ? 'nav-item active' : 'nav-item' }}">
-                        <a class="nav-link" href="{{('/reportrequestbook')}}" >Report Request</a>
+                        <a class="nav-link" href="{{('/report-request-book')}}" >Report Request</a>
                     </li>
                     @endif
                     <li class="{{ request()->is('setting') ? 'nav-item active' : 'nav-item' }}">

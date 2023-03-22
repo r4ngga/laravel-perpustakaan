@@ -4,6 +4,19 @@
 
 @section('container')
 <div class="container mt-3 mb-5">
+
+    <div class="row justify-content-center">
+        <div class="col">
+            @php
+            $parsing = [
+                'list' => array(['href' => route('admin'), 'text'=> 'Beranda', 'is_active' => false ], ['href' => '', 'text' => 'Setting Account', 'is_active' => true]),
+                'title' => 'Setting'
+            ];
+            @endphp
+            @include('template.breadcrumb', $parsing)
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
          @if(session('notify'))
@@ -12,7 +25,7 @@
             </div>
          @endif
         <p><h5> Change Your Data</h5>  <a href="{{('/changepassword')}}" class="btn btn-info">Change Password</a></p>
-            <div class="card">
+            <div class="card m-4">
                 <div class="card-body">
                   <form method="POST" action="{{('/setting')}}">
                   @csrf

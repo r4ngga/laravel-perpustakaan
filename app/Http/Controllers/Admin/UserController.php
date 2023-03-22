@@ -18,7 +18,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user.index');
+        // return view('user.index');
+        $users = User::where('role', 2)->get();
+        return view('user.show_all', compact('users'));
     }
 
     public function requestbook()

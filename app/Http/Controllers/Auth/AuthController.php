@@ -35,9 +35,9 @@ class AuthController extends Controller
         // }
         if (Auth::attempt($request->only('email', 'password'))) {
             if (auth()->user()->role == 2) {
-                return redirect('/userdashboard');
+                return redirect('/dashboard'); //user dashboard
             } elseif (auth()->user()->role == 1) {
-                return redirect('/admindashboard');
+                return redirect('/admin-dashboard'); //admin dashboard
             } else {
                 return redirect('/login')->with('notify', 'You don"t have role');
             }
