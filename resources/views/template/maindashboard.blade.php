@@ -12,12 +12,18 @@
     <link rel="stylesheet" href="/template_bootstrap/css/bootstrap-dataTables.css">
     <link rel="stylesheet" href="/template_bootstrap/datatable/datatables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/template_bootstrap/css/fontawesome.css">
+    <link rel="stylesheet" href="/template_bootstrap/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/template_bootstrap/css/regular.css">
+    <link rel="stylesheet" href="/template_bootstrap/css/brands.css">
+    <link rel="stylesheet" href="/template_bootstrap/css/solid.css">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> --}}
     <script src="/template_bootstrap/js/jquery-3.6.0.min.js"></script>
     <script src="/template_bootstrap/js/jquery.dataTables.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
+    @yield('style')
 </head>
 <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-white border border-bottom">
@@ -187,10 +193,17 @@
 			$('#SelectBookModal').modal('hide');
 		});
        </script>
+       @yield('scripts')
 
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="/template_bootstrap/js/dataTables.bootstrap4.min.js"></script>
     <script src="/template_bootstrap/js/bootstrap.js"></script>
     <script src="/template_bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/template_bootstrap/js/fontawesome.js"></script>
+    <script src="/template_bootstrap/js/fontawesome.min.js"></script>
+    <script src="/template_bootstrap/js/regular.js"></script>
+    <script src="/template_bootstrap/js/brands.js"></script>
+    <script src="/template_bootstrap/js/solid.js"></script>
+    <script src="/template_bootstrap/js/chart.bundle.min.js"></script>
 </body>
 </html>
