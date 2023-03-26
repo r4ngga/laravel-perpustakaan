@@ -28,6 +28,9 @@
             @if(session('notify'))
             <div class="alert alert-success my-2" role="alert">
                 {{session('notify')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
              @endif
             <table class="table mb-2" id="tableUser">
@@ -106,7 +109,7 @@
           </button>
         </div>
         <div class="modal-body m-2">
-            <form action="{{ route('users') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('post')
                 {{-- @method('delete') --}}
@@ -115,34 +118,41 @@
                             <input type="text" class="form-control" id="validation" name="validation" placeholder="Type here">
                 </div> --}}
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Type Name Here">
+                    <label for="name">Name</label> <span style="color: red;">*</span>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Type Name Here" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" name="email" id="email" class="form-control" placeholder="Email Here">
+                    <label for="email">Email</label> <span style="color: red;">*</span>
+                    <input type="text" name="email" id="email" class="form-control" placeholder="Email Here" required>
                 </div>
                 <div class="form-group">
-                    <label for="phonenumber">Phone Number</label>
-                    <input type="number" name="phone_number" id="phone_number" class="form-control" placeholder="Phone Number Here">
-                </div>
-                <div class="for-group">
-                    <label for="adress">Address</label>
-                    <input type="text" name="address" id="address" class="form-control" placeholder="Type Address Here">
+                    <label for="phonenumber">Phone Number</label> <span style="color: red;">*</span>
+                    <input type="number" name="phone_number" id="phone_number" class="form-control" placeholder="Phone Number Here" required>
                 </div>
                 <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="man" name="gender" value="man" class="form-check-input">
-                        <label class="custom-control-label" for="man">Man</label>
+                    <label for="adress">Address</label> <span style="color: red;">*</span>
+                    <input type="text" name="address" id="address" class="form-control" placeholder="Type Address Here" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label> <span style="color: red;">*</span>
+                    <div class="form-check">
+                        <input type="radio" id="man" name="gender" value="man" class="form-check-input" required>
+                        <label for="man">Man</label>
                       </div>
-                      <div class="custom-control custom-radio">
+                      <div class="form-check">
                         <input type="radio" id="woman" name="gender" value="woman" class="form-check-input">
-                        <label class="custom-control-label" for="woman">Woman</label>
+                        <label  for="woman">Woman</label>
                         {{-- @error('gender')
                         <div class="invalid-feedback">{{$message}}</div>
                         @enderror --}}
                       </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Confirm</button>
             </form>

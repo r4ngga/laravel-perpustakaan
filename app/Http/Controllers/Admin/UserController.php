@@ -51,24 +51,33 @@ class UserController extends Controller
         $validate =  $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required',
             'address' => 'required',
             'phone_number' => 'required|numeric',
             'gender' => 'required',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request['password']),
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-            'gender' => $request->gender,
-            'role' => 2, //2 untuk client
-        ]);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = !empty($request->password) ?  bcrypt($request['password']) : null;
+        $user->address = $request->address;
+        $user->phone_number = $request->phone_number;
+        $user->gender = $request->gender;
+        $user->role = 2; //untuk client atau user
+        $user->save();
+
+        // User::create([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'password' => bcrypt($request['password']),
+        //     'address' => $request->address,
+        //     'phone_number' => $request->phone_number,
+        //     'gender' => $request->gender,
+        //     'role' => 2, //2 untuk client
+        // ]);
 
         if ($validate) {
-            return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
+            return redirect('/users')->with('notify', 'Data a new user successfully insert !!');
         }
     }
 

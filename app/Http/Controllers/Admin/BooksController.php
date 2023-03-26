@@ -35,24 +35,34 @@ class BooksController extends Controller
         ]);
         if($request->image_book)
         {
-
+            $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
+            $request->image_book->move(public_path('images'), $imgName);
         }
-        $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
-        $request->image_book->move(public_path('images'), $imgName);
+
         if ($request->isbn == null) {
             $request->isbn = '-';
         }
 
-        Book::create([
-            'name_book' => $request->name_book,
-            'author' => $request->author,
-            'publisher' => $request->publisher,
-            'time_release' => $request->time_release,
-            'pages_book' => $request->pages_book,
-            'language' => $request->language,
-            'image_book' => $imgName,
-            'isbn' =>  $request->isbn,
-        ]);
+        $book = new Book();
+        $book->name_book = $request->name_book;
+        $book->author = $request->author;
+        $book->publisher = $request->publisher;
+        $book->time_release = $request->time_release;
+        $book->pages_book = $request->pages_book;
+        $book->language =  $request->language;
+        $book->isbn = $request->isbn;
+        $book->image_book = !empty($request->image_book) ? $imgName : null;
+        $book->save();
+        // Book::create([
+        //     'name_book' => $request->name_book,
+        //     'author' => $request->author,
+        //     'publisher' => $request->publisher,
+        //     'time_release' => $request->time_release,
+        //     'pages_book' => $request->pages_book,
+        //     'language' => $request->language,
+        //     'image_book' => $imgName,
+        //     'isbn' =>  $request->isbn,
+        // ]);
     return redirect('/book')->with('notify', 'Data a new book successfully insert !');
     }
 
