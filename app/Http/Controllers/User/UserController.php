@@ -20,6 +20,13 @@ class UserController extends Controller
 
     }
 
+    public function fetchEdit($id){
+        $users = User::findOrfail($id);
+        $json_encode = json_encode($users);
+
+        return $json_encode;
+    }
+
     public function update(){
 
     }

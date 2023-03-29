@@ -47,7 +47,7 @@
                 </thead>
                 <tbody>
                 @foreach($users as $usr)
-                    @if($usr->role == "user")
+                    @if($usr->role == 2)
                   <tr>
                     <th scope="row">{{$usr->id_user}}</th>
                     <td>{{$usr->name}}</td>
@@ -56,6 +56,7 @@
                     <td>{{$usr->phone_number}}</td>
                     <td>{{$usr->role}}</td>
                     <td>
+                        <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}')" class="btn btn-warning">Edit</button>
                         <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a>
                     </td>
                   </tr>
@@ -165,4 +166,87 @@
     </div>
 </div>
 
+<div class="modal fade" id="edit-user" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit a user</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-2">
+            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('post')
+                {{-- @method('delete') --}}
+                {{-- <div class="form-group">
+                            <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
+                            <input type="text" class="form-control" id="validation" name="validation" placeholder="Type here">
+                </div> --}}
+                <div class="form-group">
+                    <label for="name">Name</label> <span style="color: red;">*</span>
+                    <input type="text" class="form-control" id="user-name" name="name" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label> <span style="color: red;">*</span>
+                    <input type="text" name="email" id="user-email" class="form-control" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="phonenumber">Phone Number</label> <span style="color: red;">*</span>
+                    <input type="number" name="phone_number" id="user-phone" class="form-control" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="adress">Address</label> <span style="color: red;">*</span>
+                    <input type="text" name="address" id="user-address" class="form-control" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label> <span style="color: red;">*</span>
+                    <div class="form-check">
+                        <input type="radio" id="man" name="gender" value="man" class="form-check-input" required>
+                        <label for="man">Man</label>
+                      </div>
+                      <div class="form-check">
+                        <input type="radio" id="woman" name="gender" value="woman" class="form-check-input">
+                        <label  for="woman">Woman</label>
+                        {{-- @error('gender')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror --}}
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 @endsection()
+
+@section('scripts')
+<script>
+    function getEdit(id, nm, eml, pn, adres, gnder){
+        let user_id = id;
+        let user_name = nm;
+        let user_email = eml;
+        let user_phone = pn;
+        let user_address = adres;
+        let user_gender = gnder;
+        console.log(user_id, user_name, user_email, user_phone, user_address, user_gender);
+        document.getElementById('user-name').value = user_name;
+        document.getElementById('user-email').value = user_email;
+        /* show data to modal */
+    }
+</script>
+@endsection

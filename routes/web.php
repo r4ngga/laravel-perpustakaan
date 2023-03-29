@@ -70,7 +70,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/users', [Admin\UserController::class, 'index'])->name('users');
         Route::post('/users', [Admin\UserController::class, 'store'])->name('users.store');
-        // Route::get('/user', [Admin\UserController::class, 'show'])->name('user.show');
+        // Route::get('/users', [Admin\UserController::class, 'show'])->name('users.show');
+        // Route::get('/users/{id}', [Admin\UserController::class, 'fetchEdit'])->name('users.edit');
         Route::post('/userdelete/{user}', [UserController::class, 'destroy'])->name('users.delete');
     });
 

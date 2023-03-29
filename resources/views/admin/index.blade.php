@@ -33,6 +33,7 @@
                   <i class="fa-solid fa-user fa-2x" aria-hidden="true"></i>
                 </div>
                 <div class="col">
+                    {{ $countuser ?? '-' }}
                   {{-- count all user --}}
                 </div>
               </div>
@@ -51,6 +52,7 @@
                  <i class="fa-solid fa-book fa-2x"></i>
                 </div>
                 <div class="col">
+                    {{ $countbook ?? '-' }}
                   {{-- count all book --}}
                 </div>
               </div>
