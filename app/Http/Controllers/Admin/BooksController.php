@@ -99,16 +99,27 @@ class BooksController extends Controller
             $request->isbn = '-';
         }
 
-        Book::where('id', $id)->update([
-            'name_book' => $request->name_book,
-            'author' => $request->author,
-            'publisher' => $request->publisher,
-            'time_release' => $request->time_release,
-            'pages_book' => $request->pages_book,
-            'language' => $request->language,
-            'image_book' => $imgName,
-            'isbn' =>  $request->isbn,
-        ]);
+        $book = Book::where('id_book', $id)->first();
+        $book->name_book = $request->name_book;
+        $book->author = $request->author;
+        $book->publisher = $request->publisher;
+        $book->time_release = $request->time_release;
+        $book->pages_book = $request->pages_book;
+        $book->language = $request->language;
+        $book->isbn = $request->isbn;
+        $book->image_book = !empty($request->image_book) ? $imgName : null;
+        $book->save();
+
+        // Book::where('id', $id)->update([
+        //     'name_book' => $request->name_book,
+        //     'author' => $request->author,
+        //     'publisher' => $request->publisher,
+        //     'time_release' => $request->time_release,
+        //     'pages_book' => $request->pages_book,
+        //     'language' => $request->language,
+        //     'image_book' => $imgName,
+        //     'isbn' =>  $request->isbn,
+        // ]);
 
         return redirect()->back()->with('notify', 'Data a book successfully change !');
     }

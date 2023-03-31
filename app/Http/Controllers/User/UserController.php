@@ -27,7 +27,24 @@ class UserController extends Controller
         return $json_encode;
     }
 
-    public function update(){
+    public function update(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required',
+            'gender' => 'required',
+        ]);
 
+        $user = User::where('id_user', auth()->user()->id_user)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone_number = $request->phone_number;
+        $user->gender = $request->gender;
+        $user->save();
+
+        return redirect()->back()->with('notify', 'Success change your data !');
     }
 }

@@ -56,7 +56,7 @@
                     <td>{{$usr->phone_number}}</td>
                     <td>{{$usr->role}}</td>
                     <td>
-                        <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}')" class="btn btn-warning">Edit</button>
+                        <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-warning">Edit</button>
                         <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a>
                     </td>
                   </tr>
@@ -176,7 +176,7 @@
           </button>
         </div>
         <div class="modal-body m-2">
-            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('users.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('post')
                 {{-- @method('delete') --}}
@@ -184,6 +184,7 @@
                             <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
                             <input type="text" class="form-control" id="validation" name="validation" placeholder="Type here">
                 </div> --}}
+                <input type="hidden" name="id_user" id="user-id" value="">
                 <div class="form-group">
                     <label for="name">Name</label> <span style="color: red;">*</span>
                     <input type="text" class="form-control" id="user-name" name="name" value="" required>
@@ -203,11 +204,11 @@
                 <div class="form-group">
                     <label for="gender">Gender</label> <span style="color: red;">*</span>
                     <div class="form-check">
-                        <input type="radio" id="man" name="gender" value="man" class="form-check-input" required>
+                        <input type="radio" id="usr-man" name="gender" value="man" class="form-check-input" required>
                         <label for="man">Man</label>
                       </div>
                       <div class="form-check">
-                        <input type="radio" id="woman" name="gender" value="woman" class="form-check-input">
+                        <input type="radio" id="usr-woman" name="gender" value="woman" class="form-check-input">
                         <label  for="woman">Woman</label>
                         {{-- @error('gender')
                         <div class="invalid-feedback">{{$message}}</div>
@@ -216,7 +217,7 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" class="form-control">
+                    <input type="password" name="password" id="usr-password" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
@@ -244,8 +245,16 @@
         let user_address = adres;
         let user_gender = gnder;
         console.log(user_id, user_name, user_email, user_phone, user_address, user_gender);
+        document.getElementById('user-id').value = user_id;
         document.getElementById('user-name').value = user_name;
         document.getElementById('user-email').value = user_email;
+        document.getElementById('user-phone').value = user_phone;
+        document.getElementById('user-address').value = user_address;
+        if(user_gender == 'man'){
+          document.getElementById('usr-man').checked = true;
+        }else{
+          document.getElementById('usr-woman').checked = true;
+        }
         /* show data to modal */
     }
 </script>

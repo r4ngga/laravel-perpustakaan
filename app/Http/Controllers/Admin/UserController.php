@@ -56,7 +56,7 @@ class UserController extends Controller
             'gender' => 'required',
         ]);
 
-        $user = new User();
+        $user = User::where('id_user', $request->id_user)->get();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = !empty($request->password) ?  bcrypt($request['password']) : null;
@@ -114,6 +114,8 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        $lastUser = User::findOrFail($request->id_user);
+        $lastUserPassword = $lastUser->password;
         $request->validate([
             'id_user' => 'required',
             'name' => 'required',
@@ -123,16 +125,17 @@ class UserController extends Controller
             'gender' => 'required',
         ]);
 
-        User::where('id_user', auth()->user()->id_user)
-            ->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'address' => $request->address,
-                'phone_number' => $request->phone_number,
-                'gender' => $request->gender,
-            ]);
+        $user = User::where('id_user', $request->id_user)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone_number = $request->phone_number;
+        $user->gender = $request->gender;
+        // $user->password = !empty($request->password) ? bcrypt($request['password']) : $lastUserPassword;
+        $user->save();
 
-        return redirect('/setting')->with('notify', 'Success Change your data account');
+
+        return redirect('/setting')->with('notify', 'Success Change data user');
     }
 
     /**

@@ -169,7 +169,7 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button  id="btn-edtbook" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -189,6 +189,8 @@
         let pages_book = pages;
         let language = lang;
 
+        let url = '/book/update/'+book_id+'';
+
         console.log(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language);
         document.getElementById('name-book').value = book_name;
         document.getElementById('author-book').value = author;
@@ -198,7 +200,16 @@
         document.getElementById('pages-book').value = pages;
         document.getElementById('language-book').value = lang;
 
-        document.getElementById('editbook').action = '';
+        if(book_id){
+            editApi(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language);
+        }
+
+        var clicked = document.getElementById("btn-edtbook").onclick = function () {
+            document.getElementById("editbook").action = url;
+            // alert('button was click');
+        };
+         //route to update
+        // alert("Form action changed to "+act);
         // document.getElementById("editbook").classList.add("show");
         // document.querySelector(".modal").classList.add("show");
 
@@ -213,6 +224,14 @@
         // if (e.target !== modal && e.target !== container) return;
         // modal.classList.add("hidden");
         // });
+    }
+
+    function editApi(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language){
+        // let values =
+        $.ajax({
+            url : '{{ url("/book/update/'+book_id+'") }}',
+            data :
+        });
     }
 </script>
 @endsection
