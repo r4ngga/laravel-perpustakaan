@@ -134,8 +134,7 @@ class UserController extends Controller
         // $user->password = !empty($request->password) ? bcrypt($request['password']) : $lastUserPassword;
         $user->save();
 
-
-        return redirect('/setting')->with('notify', 'Success Change data user');
+        return redirect()->back()->with('notify', 'Success Change data user');
     }
 
     /**

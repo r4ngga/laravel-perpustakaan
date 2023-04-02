@@ -22,18 +22,24 @@
             $cekrole = auth()->user()->role
             ?>
             @if($cekrole == "1")
-            <a href="/book/addbook" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+            <a href="/book/create" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                 <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
               </svg> Insert a new book</a>
             @endif
             @if(session('notify'))
-            <div class="alert alert-success my-2" role="alert">
+            <div class="alert alert-success my-2" role="alert" style="display: {{ session('notify') ? 'block' : 'none'}}">
                 {{session('notify')}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
              @endif
+
+             <div id="aler-success" class="alert alert-success my-2" role="alert" style="display: none">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <table class="table table-bordered border-1 mb-2" id="tableBook">
                 <thead>
                   <tr>
@@ -50,7 +56,7 @@
                     @endif
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="row-table-book">
                     @foreach($books as $bk)
                   <tr>
                     <th scope="row">{{$bk->id_book ?? ''}}</th>
@@ -136,6 +142,8 @@
                             <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
                             <input type="text" class="form-control" id="validation" name="validation" placeholder="Type here">
                 </div> --}}
+                <input type="hidden" id="id-book" value="">
+
                 <div class="form-group">
                     <label for="name">Name</label> <span style="color: red;">*</span>
                     <input type="text" class="form-control" id="name-book" name="name" value="" required>
@@ -164,12 +172,12 @@
                     <label for="label">Language</label>
                     <input type="text" name="language" id="language-book" class="form-control" value="">
                 </div>
-                <button type="submit" class="btn btn-primary">Confirm</button>
+                <button type="submit" id="btn-edtbook" class="btn btn-primary">Confirm</button>
             </form>
 
         </div>
         <div class="modal-footer">
-          <button  id="btn-edtbook" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -180,18 +188,19 @@
 @section('scripts')
 <script>
     function getEdtBook(id, nm, isbn, authr, publish, time, pages, lang){
-        let book_id = id;
-        let book_name = nm;
-        let book_isbn = isbn;
-        let author = authr;
-        let publisher = publish;
-        let time_release = time;
-        let pages_book = pages;
-        let language = lang;
+        const book_id = id;
+        const book_name = nm;
+        const book_isbn = isbn;
+        const author = authr;
+        const publisher = publish;
+        const time_release = time;
+        const pages_book = pages;
+        const language = lang;
 
-        let url = '/book/update/'+book_id+'';
+        // let url = '/book/update/'+book_id+'';
 
         console.log(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language);
+        document.getElementById('id-book').value = book_id;
         document.getElementById('name-book').value = book_name;
         document.getElementById('author-book').value = author;
         document.getElementById('isbn-book').value = isbn;
@@ -200,14 +209,14 @@
         document.getElementById('pages-book').value = pages;
         document.getElementById('language-book').value = lang;
 
-        if(book_id){
-            editApi(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language);
-        }
+       var click = document.getElementById("btn-edtbook").onclick;
 
-        var clicked = document.getElementById("btn-edtbook").onclick = function () {
-            document.getElementById("editbook").action = url;
-            // alert('button was click');
-        };
+        // if(click){
+        //     // document.getElementById("btn-edtbook").onclick = function() {
+        //         editApi(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language);
+        //     // };
+        // }
+
          //route to update
         // alert("Form action changed to "+act);
         // document.getElementById("editbook").classList.add("show");
@@ -227,10 +236,124 @@
     }
 
     function editApi(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language){
-        // let values =
+    //     // let values =
+            $.ajax({
+                type: 'PUT',
+                enctype: 'multipart/form-data',
+                // url : '{{ url("/book/update/'+book_id+'") }}',
+                url: '/book/update/'+book_id ,
+                headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+                },
+                data : {
+                    id_book: book_id,
+                    name_book: book_name,
+                    isbn: book_isbn,
+                    author: author,
+                    publisher: publisher,
+                    time_release: time_release,
+                    pages_book: pages_book,
+                    language: language
+                },success: function(data){
+                alert("okay");
+                console.log(data);
+                },
+                error: function(){
+                    alert("failure From php side!!! ");
+                }
+            });
+    }
+
+    // function sendUpdate(){
+    //     let book_id = document.getElementById('name-book').value;
+    //     let book_name = document.getElementById('name-book').value;
+    //     let book_isbn = document.getElementById('isbn-book').value;
+    //     let author = document.getElementById('author-book').value;
+    //     let publisher = document.getElementById('publisher-book').value;
+    //     let time_release = document.getElementById('timerelease-book').value;
+    //     let pages_book = document.getElementById('pages-book').value;
+    //     let language = document.getElementById('language-book').value;
+
+    //     $.ajax({
+    //             type: 'PUT',
+    //             // enctype: 'multipart/form-data',
+    //             url : "{{ route('book.update', "book_id") }}",
+    //             // url: '/book/update/'+book_id ,
+    //             headers: {
+    //             'X-CSRF-Token': '{{ csrf_token() }}',
+    //             },
+    //             data : {
+    //                 id_book: book_id,
+    //                 name_book: book_name,
+    //                 isbn: book_isbn,
+    //                 author: author,
+    //                 publisher: publisher,
+    //                 time_release: time_release,
+    //                 pages_book: pages_book,
+    //                 language: language
+    //             },success: function(data){
+    //             alert("okay");
+    //             console.log(data);
+    //             },
+    //             error: function(){
+    //                 alert("failure From php side!!! ");
+    //             }
+    //         });
+    // }
+    $("#btn-edtbook").click(function(e) {
+        e.preventDefault();
+
+        let book_id = $('#id-book').val();
+        let book_name = $('#name-book').val();
+        let book_isbn = $('#isbn-book').val();
+        let author = $('#author-book').val();
+        let publisher = $('#publisher-book').val();
+        let time_release = $('#timerelease-book').val();
+        let pages_book = $('#pages-book').val();
+        let language = $('#language-book').val();
+
         $.ajax({
-            url : '{{ url("/book/update/'+book_id+'") }}',
-            data :
+                // method: 'PUT',
+                type: 'POST',
+                // enctype: 'multipart/form-data',
+                // url : "{{ route('book.update', "book_id") }}",
+                url: '/book/update/'+book_id ,
+                headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+                },
+                processdata: false,
+                data : {
+                    id_book: book_id,
+                    name_book: book_name,
+                    isbn: book_isbn,
+                    author: author,
+                    publisher: publisher,
+                    time_release: time_release,
+                    pages_book: pages_book,
+                    language: language
+                },
+                success: function(data){
+                  console.log(data.data);
+                  $('#editbook').modal('hide');
+                //   location.href = '/book';
+                //   window.location.reload();
+                    $("#aler-success").css("display", "block");
+                    // $("#aler-success").append("<p>Success</p>");
+                    $("#aler-success").append("<p>"+data.data+"");
+                    fetchbook();
+                }
+            });
+    });
+
+    function fetchbook(){
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('book.fetch-index') }}',
+            processdata: false,
+            success:function(data){
+                // console.log(data);
+                $('#row-table-book').html(data.html);
+            }
         });
     }
 </script>

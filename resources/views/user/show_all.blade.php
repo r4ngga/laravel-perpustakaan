@@ -41,7 +41,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Address</th>
                     <th scope="col">Phone Number</th>
-                    <th scope="col">Role</th>
+                    {{-- <th scope="col">Role</th> --}}
                     <th scope="col">Act</th>
                   </tr>
                 </thead>
@@ -54,7 +54,7 @@
                     <td>{{$usr->email}}</td>
                     <td>{{$usr->address}}</td>
                     <td>{{$usr->phone_number}}</td>
-                    <td>{{$usr->role}}</td>
+                    {{-- <td>{{$usr->role}}</td> --}}
                     <td>
                         <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-warning">Edit</button>
                         <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a>

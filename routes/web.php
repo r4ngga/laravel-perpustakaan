@@ -46,15 +46,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword']);
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatepassword']);
     Route::group(['middleware' => ['cek_login:1']], function () {
-        Route::get('/admin-dashboard', [Admin\AdminController::class, 'index'])->name('admin');
-        // Route::get('/book', 'BooksController@index');
-        Route::post('/book', [Admin\BooksController::class, 'store'])->name('book.store');
-        Route::get('/get/{id}', [Admin\BooksController::class, 'show'])->name('book.show');
-        Route::get('/book/addbook', [Admin\BooksController::class, 'create'])->name('book.create');
-        Route::post('/book/update/{id}', [Admin\BooksController::class, 'update'])->name('book.update');
+        Route::get('admin-dashboard', [Admin\AdminController::class, 'index'])->name('admin');
+        Route::get('book', [Admin\BooksController::class, 'index'])->name('book');
+        Route::get('book/create', [Admin\BooksController::class, 'create'])->name('book.create');
+        Route::get('book/{id}', [Admin\BooksController::class, 'show'])->name('book.show');
+        Route::post('book', [Admin\BooksController::class, 'store'])->name('book.store');
+        Route::post('book/update/{id}', [Admin\BooksController::class, 'update'])->name('book.update');
         // Route::get('/book/changebook/{book}', [Admin\BooksController::class, 'edit']);
         // Route::post('/book/changebook/{book}', [Admin\BooksController::class, 'update']);
         Route::post('/book/{id}', [Admin\BooksController::class, 'confirmdelete'])->name('book.delete');
+         Route::get('fetchbook', [Admin\BooksController::class, 'fetchIndex'])->name('book.fetch-index');
 
         Route::get('/borrowedbook', [Admin\BorrowsController::class, 'borrowed_book'])->name('borrowedbook');
         Route::post('/borrowedbook', [Admin\BorrowsController::class, 'store'])->name('borrowedbook.store');
