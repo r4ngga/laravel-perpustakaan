@@ -12,14 +12,15 @@
     <link rel="stylesheet" href="/template_bootstrap/css/bootstrap-dataTables.css">
     <link rel="stylesheet" href="/template_bootstrap/datatable/datatables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="/template_bootstrap/css/fontawesome.css">
-    <link rel="stylesheet" href="/template_bootstrap/css/fontawesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/template_bootstrap/css/fontawesome.css">
+    <link type="text/css" rel="stylesheet" href="/template_bootstrap/css/fontawesome.min.css">
     <link rel="stylesheet" href="/template_bootstrap/css/regular.css">
     <link rel="stylesheet" href="/template_bootstrap/css/brands.css">
     <link rel="stylesheet" href="/template_bootstrap/css/solid.css">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> --}}
     <script src="/template_bootstrap/js/jquery-3.6.0.min.js"></script>
     <script src="/template_bootstrap/js/jquery.dataTables.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
@@ -45,8 +46,8 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav mr-auto">
-                    <li class="{{ request()->is('book') ? 'nav-item active' : 'nav-item' }}">
-                    <a class="nav-link" href="{{('/book')}}">Books </a>
+                    <li class="{{ request()->is('book') || request()->is('books') ? 'nav-item active' : 'nav-item' }}">
+                    <a class="nav-link" href="{{($cekrole == 1) ? ('book') : ('books')}}">Books </a>
                     </li>
 
                     @if($cekrole == "2")

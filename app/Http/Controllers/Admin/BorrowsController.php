@@ -37,8 +37,9 @@ class BorrowsController extends Controller
     {
         $set_value = Str::random(7);
         $book = Book::all();
-        $user = User::all();
-        return view('transaction.borrowed_book', ['book' => $book, 'user' => $user, 'set_value' => $set_value]);
+        $user = User::where('role', 2)->get();
+        // return view('transaction.borrowed_book', ['book' => $book, 'user' => $user, 'set_value' => $set_value]);
+        return view('transaction.borrowed_book', compact('book', 'user', 'set_value'));
     }
 
     public function store(Request $request, Book $book)

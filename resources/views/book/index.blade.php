@@ -48,9 +48,6 @@
                     <th scope="col">Book Name</th>
                     <th scope="col">Author</th>
                     <th scope="col">Publisher</th>
-                    <th scope="col">Time Release</th>
-                    <th scope="col">Book Pages</th>
-                    <th scope="col">Language</th>
                     @if($cekrole == 1)
                     <th scope="col">Act</th>
                     @endif
@@ -64,24 +61,15 @@
                     <td>{{$bk->name_book ?? ''}}</td>
                     <td>{{$bk->author ?? ''}}</td>
                     <td>{{$bk->publisher ?? ''}}</td>
-                    <td>{{$bk->time_release ?? ''}}</td>
-                    <td>{{$bk->pages_book ?? ''}}</td>
-                    <td>{{$bk->language ?? ''}}</td>
                     @if($cekrole == "1")
                     <td>
                         {{-- <a href="/book/changebook/{{$bk->id_book}}" class="btn btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                           </svg> </a> --}}
-                        <a onclick="getEdtBook({{ $bk->id_book }},'{{$bk->name_book }}', '{{ $bk->isbn }}','{{$bk->author}}','{{$bk->publisher}}', '{{$bk->time_release}}','{{$bk->pages_book}}','{{$bk->language}}')" data-toggle="modal" data-target="#editbook" class="btn btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                          </svg> </a>
-                        <a href="{{$bk->id_book}}/#ComfirmDeleteModal" class="btn btn-danger" data-toggle="modal" data-target="#ComfirmDeleteModal{{$bk->id_book}}"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                          </svg></a>
-                        <a href="#" class="btn btn-warning">Show a Detail</a>
+                        <a onclick="getEdtBook({{ $bk->id_book }},'{{$bk->name_book }}', '{{ $bk->isbn }}','{{$bk->author}}','{{$bk->publisher}}', '{{$bk->time_release}}','{{$bk->pages_book}}','{{$bk->language}}')" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i> </a>
+                        <a href="{{$bk->id_book}}/#ComfirmDeleteModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteModal{{$bk->id_book}}"> <i class="far fa-trash-alt"></i> </a>
+                        <a href="#" onclick="fetchShowBook({{ $bk->id_book }})" data-toggle="modal" data-target="#showbook" class="btn btn-sm btn-warning">Show a Detail</a>
                     </td>
                     @endif
                   </tr>
@@ -174,6 +162,63 @@
                 </div>
                 <button type="submit" id="btn-edtbook" class="btn btn-primary">Confirm</button>
             </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="showbook" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Detail a book</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-2">
+            <div class="card">
+              <div class="card-header">
+
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col"> Name Book : </div>
+                  <div class="col"> <p id="b-name"></p> </div>
+                </div>
+                <div class="row">
+                  <div class="col"> ISBN : </div>
+                  <div class="col"> <p id="b-isbn"></p> </div>
+                </div>
+                <div class="row">
+                  <div class="col"> Author : </div>
+                  <div class="col"> <p id="b-author"></p></div>
+                </div>
+                <div class="row">
+                  <div class="col"> Publisher :</div>
+                  <div class="col"> <p id="b-publisher"></p></div>
+                </div>
+                <div class="row">
+                   <div class="col"> Time Release :  </div>
+                   <div class="col"> <p id="b-timerelease"></p></div>
+                </div>
+                <div class="row">
+                  <div class="col"> Pages Book :</div>
+                  <div class="col"> <p id="b-pagesbook"></p></div>
+                </div>
+                <div class="row">
+                  <div class="col"> Language :</div>
+                  <div class="col"> <p id="b-language"></p> </div>
+                </div>
+                <div class="row"> <div class="col"> Image Cover Book ; </div></div>
+                <div class="row"> <div class="b-imgbok"></div>
+                </div>
+              </div>
+            </div>
 
         </div>
         <div class="modal-footer">
@@ -339,7 +384,7 @@
                 //   window.location.reload();
                     $("#aler-success").css("display", "block");
                     // $("#aler-success").append("<p>Success</p>");
-                    $("#aler-success").append("<p>"+data.data+"");
+                    $("#aler-success").append("<p>"+data.data+"</p>");
                     fetchbook();
                 }
             });
@@ -353,6 +398,18 @@
             success:function(data){
                 // console.log(data);
                 $('#row-table-book').html(data.html);
+            }
+        });
+    }
+
+    function fetchShowBook(id){
+        $.ajax({
+            type: 'GET',
+            url: '/book/'+id,
+            processdata: false,
+            // type: 'JSON',
+            success:function(data){
+                console.log(data);
             }
         });
     }

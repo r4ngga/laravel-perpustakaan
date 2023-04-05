@@ -217,7 +217,7 @@
             </thead>
             <tbody>
                 @foreach($user as $usr)
-                @if($usr->role == "user")
+                @if($usr->role == 2)
               <tr>
                 <th scope="row">{{$usr->id_user}}</th>
                 <td>{{$usr->name}}</td>

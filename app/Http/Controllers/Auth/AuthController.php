@@ -16,9 +16,9 @@ class AuthController extends Controller
     {
         if ($user = Auth::user()) {
             if ($user->role == 1) {
-                return redirect()->intended('admindashboard');
+                return redirect()->intended('admin-dashboard');
             } elseif ($user->role == 2) {
-                return redirect()->intended('userdashboard');
+                return redirect()->intended('dashboard');
             }
         }
         return view('login');

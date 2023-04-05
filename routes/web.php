@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['cek_login:2']], function () {
         Route::get('/dashboard', [User\UserController::class, 'index'])->name('user');
+        Route::get('books', [User\BookController::class, 'index'])->name('books');
 
         Route::get('/requestbook', [User\UserController::class, 'requestbook'])->name('request-book');
         Route::get('/requestbook/applyrequest/{book}', [User\RequestsController::class, 'requestbook']);

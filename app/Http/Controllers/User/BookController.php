@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -8,7 +8,7 @@ use App\User;
 use App\Book;
 use Illuminate\Support\Facades\Auth;
 
-class BooksController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class BooksController extends Controller
     public function index()
     {
         $book = Book::all();
-        return view('book.index', ['book' => $book]);
+        return view('book.index', ['books' => $book]);
     }
 
     /**
