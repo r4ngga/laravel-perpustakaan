@@ -154,6 +154,12 @@ class UserController extends Controller
         }
     }
 
+    public function fetchShow($id){
+        $user = User::findOrFail($id);
+
+        return response()->json($user);
+    }
+
     public function history()
     {
         $req = DB::table('book_requests')

@@ -1,6 +1,28 @@
 @extends('template/maindashboard')
 
 @section('title','Show all book')
+@section('style')
+<style>
+    .card-total{
+        position: absolute;
+        /* right: 100%; */
+        left: 65%;
+        background: #D0D0D0;
+        color: black;
+        size: 5em;
+        width: 100%;
+        height: 100%;
+        max-width: 10em;
+        text-align: center;
+        justify-content: space-around;
+        /* padding-top: 1px; */
+    }
+
+    .position-col{
+        right: 100%;
+    }
+</style>
+@endsection
 
 @section('container')
 <div class="container mt-3 mb-5">
@@ -22,9 +44,19 @@
             $cekrole = auth()->user()->role
             ?>
             @if($cekrole == "1")
-            <a href="/book/create" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
-              </svg> Insert a new book</a>
+            <div class="row mb-4">
+                <div class="col col-lg-6">
+                    <a href="/book/create" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                      </svg> Insert a new book</a>
+                </div>
+                <div class="col col-lg-6 pt-1">
+                    <div class="card card-total">
+                        <h5>Total Books {{ $countBook ?? 0 }}</h5>
+                    </div>
+                </div>
+            </div>
+
             @endif
             @if(session('notify'))
             <div class="alert alert-success my-2" role="alert" style="display: {{ session('notify') ? 'block' : 'none'}}">
@@ -43,7 +75,7 @@
             <table class="table table-bordered border-1 mb-2" id="tableBook">
                 <thead>
                   <tr>
-                    <th scope="col">Id Book</th>
+                    <th scope="col">Id</th>
                     <th scope="col">ISBN</th>
                     <th scope="col">Book Name</th>
                     <th scope="col">Author</th>
@@ -69,7 +101,7 @@
                           </svg> </a> --}}
                         <a onclick="getEdtBook({{ $bk->id_book }},'{{$bk->name_book }}', '{{ $bk->isbn }}','{{$bk->author}}','{{$bk->publisher}}', '{{$bk->time_release}}','{{$bk->pages_book}}','{{$bk->language}}')" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i> </a>
                         <a href="{{$bk->id_book}}/#ComfirmDeleteModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteModal{{$bk->id_book}}"> <i class="far fa-trash-alt"></i> </a>
-                        <a href="#" onclick="fetchShowBook({{ $bk->id_book }})" data-toggle="modal" data-target="#showbook" class="btn btn-sm btn-warning">Show a Detail</a>
+                        <a onclick="fetchShowBook({{ $bk->id_book }})" data-toggle="modal" data-target="#showbook" class="btn btn-sm btn-warning"><i class="fas fa-eye" aria-hidden="true"></i></a>
                     </td>
                     @endif
                   </tr>
@@ -81,7 +113,7 @@
 </div>
 
  <!-- Modal -->
- @foreach($books as $bk)
+ {{-- @foreach($books as $bk) --}}
  <div class="modal fade" id="ComfirmDeleteModal{{$bk->id_book}}" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -92,9 +124,12 @@
           </button>
         </div>
         <div class="modal-body">
-            <form action="/book/{{$bk->id_book}}" method="POST">
+            <form action="/book/delete" method="POST">
                 @csrf
                 {{-- @method('delete') --}}
+                    <div class="form group">
+                        <input type="hidden" name="book_id" id="del-bookid">
+                    </div>
                     <div class="form-group">
                             <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
                             {{-- <input type="text" class="form-control" name="id_book" id="id_book" value="{{$bk->id_book}}" hidden> --}}
@@ -110,7 +145,7 @@
       </div>
     </div>
 </div>
-@endforeach
+{{-- @endforeach --}}
 
 <div class="modal fade" id="editbook" tabindex="-1">
     <div class="modal-dialog">
@@ -183,7 +218,7 @@
         <div class="modal-body m-2">
             <div class="card">
               <div class="card-header">
-
+                <h5 id="titlecard"></h4>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -410,6 +445,14 @@
             // type: 'JSON',
             success:function(data){
                 console.log(data);
+                document.getElementById('titlecard').innerHTML = data.name_book;
+                document.getElementById('b-name').innerHTML = data.name_book;
+                document.getElementById('b-isbn').innerHTML = data.isbn;
+                document.getElementById('b-author').innerHTML = data.author;
+                document.getElementById('b-publisher').innerHTML = data.publisher;
+                document.getElementById('b-timerelease').innerHTML = data.time_release;
+                document.getElementById('b-pagesbook').innerHTML = data.pages_book;
+                document.getElementById('b-language').innerHTML = data.language;
             }
         });
     }

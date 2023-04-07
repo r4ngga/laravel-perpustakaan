@@ -54,8 +54,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('book/update/{id}', [Admin\BooksController::class, 'update'])->name('book.update');
         // Route::get('/book/changebook/{book}', [Admin\BooksController::class, 'edit']);
         // Route::post('/book/changebook/{book}', [Admin\BooksController::class, 'update']);
-        Route::post('/book/{id}', [Admin\BooksController::class, 'confirmdelete'])->name('book.delete');
-         Route::get('fetchbook', [Admin\BooksController::class, 'fetchIndex'])->name('book.fetch-index');
+        Route::post('/book/delete', [Admin\BooksController::class, 'confirmdelete'])->name('book.delete');
+        Route::get('fetchbook', [Admin\BooksController::class, 'fetchIndex'])->name('book.fetch-index');
 
         Route::get('/borrowedbook', [Admin\BorrowsController::class, 'borrowed_book'])->name('borrowedbook');
         Route::post('/borrowedbook', [Admin\BorrowsController::class, 'store'])->name('borrowedbook.store');
@@ -71,12 +71,13 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/report-request-book', [RequestsController::class, 'index'])->name('report-request-book');
 
-        Route::get('/users', [Admin\UserController::class, 'index'])->name('users');
-        Route::post('/users', [Admin\UserController::class, 'store'])->name('users.store');
-        Route::post('/users/update', [Admin\UserController::class, 'update'])->name('users.update');
+        Route::get('users', [Admin\UserController::class, 'index'])->name('users');
+        Route::post('users', [Admin\UserController::class, 'store'])->name('users.store');
+        // Route::get('users/{id}', [Admin\UserController::class, 'fetchShow'])->name('users.show');
+        Route::post('users/update', [Admin\UserController::class, 'update'])->name('users.update');
         // Route::get('/users', [Admin\UserController::class, 'show'])->name('users.show');
         // Route::get('/users/{id}', [Admin\UserController::class, 'fetchEdit'])->name('users.edit');
-        Route::post('/users/delete/{id}', [UserController::class, 'destroy'])->name('users.delete');
+        Route::post('users/delete', [UserController::class, 'destroy'])->name('users.delete');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
@@ -89,6 +90,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/requestbook/info/{request}', [User\RequestsController::class, 'show']);
 
-        Route::get('/history', [User\UserController::class, 'history'])->name('history');
+        Route::get('history', [User\UserController::class, 'history'])->name('history');
     });
 });

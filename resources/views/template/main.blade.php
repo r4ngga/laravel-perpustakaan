@@ -24,9 +24,16 @@
                     <li class="{{ request()->is('home') ? 'nav-item active' : 'nav-item' }}">
                       <a class="nav-link" href="{{url('/home')}}" >Home </a>
                     </li>
+                    @if (auth()->user())
                     <li class="{{ request()->is('login') ? 'nav-item active' : 'nav-item' }}">
-                      <a class="nav-link" href="{{url('/login')}}">Login</a>
+                        <a class="nav-link" href="{{(auth()->user()->role == 1) ? url('/admin-dashboard') : url('/dashboard')}}">Dashboard</a>
                     </li>
+                    @else
+                    <li class="{{ request()->is('login') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{url('/login')}}">Login</a>
+                    </li>
+                    @endif
+
                   </ul>
 
                 </div>

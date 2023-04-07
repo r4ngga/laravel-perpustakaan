@@ -47,4 +47,9 @@ class UserController extends Controller
 
         return redirect()->back()->with('notify', 'Success change your data !');
     }
+
+    public function history(){
+
+        return view('transaction.history', compact('req', 'borrow'));
+    }
 }

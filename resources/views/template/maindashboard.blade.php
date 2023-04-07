@@ -61,7 +61,7 @@
                         <a class="nav-link" href="/requestbook/info/{{$set_iduser}}">Your Request </a>
                     </li>
                     <li class="{{ request()->is('history') ? 'nav-item active' : 'nav-item' }}">
-                        <a class="nav-link" href="/history">History Borrow </a>
+                        <a class="nav-link" href="history">History Borrow </a>
                     </li>
                     @endif
                     @if($cekrole == "1")

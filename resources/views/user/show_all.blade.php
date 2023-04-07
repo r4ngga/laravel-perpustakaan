@@ -33,13 +33,13 @@
                 </button>
             </div>
              @endif
-            <table class="table mb-2" id="tableUser">
+            <table class="table table-bordered border-1 mb-2" id="tableUser">
                 <thead>
                   <tr>
-                    <th scope="col">Id User</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Address</th>
+                    {{-- <th scope="col">Address</th> --}}
                     <th scope="col">Phone Number</th>
                     {{-- <th scope="col">Role</th> --}}
                     <th scope="col">Act</th>
@@ -52,7 +52,7 @@
                     <th scope="row">{{$usr->id_user}}</th>
                     <td>{{$usr->name}}</td>
                     <td>{{$usr->email}}</td>
-                    <td>{{$usr->address}}</td>
+                    {{-- <td>{{$usr->address}}</td> --}}
                     <td>{{$usr->phone_number}}</td>
                     {{-- <td>{{$usr->role}}</td> --}}
                     <td>
@@ -69,7 +69,7 @@
     </div>
 </div>
 
-@foreach($users as $usr)
+{{-- @foreach($users as $usr) --}}
  <div class="modal fade" id="ComfirmDeleteUserModal{{$usr->id_user}}" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -80,9 +80,12 @@
           </button>
         </div>
         <div class="modal-body">
-            <form action="/userdelete/{{$usr->id_user}}" method="POST">
+            <form action="{{ route('users.delete') }}" method="POST">
                 @csrf
                 {{-- @method('delete') --}}
+                    <div class="form-group">
+                        <input type="hidden" name="id_user" id="u-userid">
+                    </div>
                     <div class="form-group">
                             <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
                             {{-- <input type="text" class="form-control" name="id_book" id="id_book" value="{{$bk->id_book}}" hidden> --}}
@@ -98,7 +101,7 @@
       </div>
     </div>
 </div>
-@endforeach
+{{-- @endforeach --}}
 
 <div class="modal fade" id="insert-user" tabindex="-1">
     <div class="modal-dialog">
@@ -256,6 +259,17 @@
           document.getElementById('usr-woman').checked = true;
         }
         /* show data to modal */
+    }
+
+    function setDeleteUser(id){
+        let user_id = id;
+        console.log(user_id);
+        document.getElementById('u-userid').value = user_id;
+    }
+
+    function fetchShowUser(id){
+
+        // $.ajax({});
     }
 </script>
 @endsection
