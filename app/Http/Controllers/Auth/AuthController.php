@@ -83,31 +83,32 @@ class AuthController extends Controller
         return view('register');
     }
 
-    public function store(Request $request)
-    {
-        $validate =  $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'address' => 'required',
-            'phone_number' => 'required|numeric',
-            'gender' => 'required',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $validate =  $request->validate([
+    //         'name' => 'required',
+    //         'email' => 'required',
+    //         'password' => 'required',
+    //         'address' => 'required',
+    //         'phone_number' => 'required|numeric',
+    //         'gender' => 'required',
+    //     ]);
+    //     $userCheckEmail = User::where('email',$request->email)->first();
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request['password']),
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-            'gender' => $request->gender,
-            'role' => 2, //2 untuk client
-        ]);
+    //     User::create([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'password' => bcrypt($request['password']),
+    //         'address' => $request->address,
+    //         'phone_number' => $request->phone_number,
+    //         'gender' => $request->gender,
+    //         'role' => 2, //2 untuk client
+    //     ]);
 
-        if ($validate) {
-            return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
-        }
-    }
+    //     if ($validate) {
+    //         return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
+    //     }
+    // }
 
     public function register(Request $request)
     {
@@ -119,6 +120,11 @@ class AuthController extends Controller
             'phone_number' => 'required|numeric',
             'gender' => 'required',
         ]);
+        $userCheckEmail = User::where('email',$request->email)->first();
+        if($userCheckEmail){
+            //redirect back
+            return redirect()->back()->withErrors('Email sudah digunakan')->withInput();
+        }
 
         User::create([
             'name' => $request->name,
@@ -133,5 +139,41 @@ class AuthController extends Controller
         if($validate){
             return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
         }
+    }
+
+    public function validationPhoneNumber(Request $request){
+       $phone =  $request->phone_number;
+       $checkPhoneNumberUser = User::where('phone_number', $phone)->first();
+       $status = array(
+         'message' => 'valid',
+         'status' => true
+       );
+
+       if($checkPhoneNumberUser){
+            $status = array(
+                'message' => 'this number phone has been use',
+                'status' => false
+            );
+       }
+
+       return response()->json($status);
+    }
+
+    public function validationEmail(Request $request){
+        $emai = $request->email;
+        $checkEmailUser = User::where('email', $emai)->first();
+        $status = array(
+            'message' => 'valid',
+            'status' => true,
+        );
+
+        if($checkEmailUser){
+            $status = array(
+                'message' => 'this email has been taken',
+                'status' => false
+            );
+        }
+
+        return response()->json($status);
     }
 }

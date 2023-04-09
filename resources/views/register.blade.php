@@ -25,10 +25,15 @@
                     </div>
                     <div class="form-group">
                       <label for="Email">Email address</label>
-                      <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
+                      <input type="text" class="form-control @error('email') is-invalid @enderror" id="regis_email" name="email">
                     @error('email')
                       <div class="invalid-feedback">{{$message}}</div>
                     @enderror
+                    <span id="email-msg" class="text-sm text-gray-600 one-number" style="display: none;">
+                        <i class="fas fa-circle" aria-hidden="true"></i>
+                        &nbsp;<p id="response-email"></p>
+                    </span>
+
                     </div>
                     <div class="form-group">
                       <label for="Password">Password</label>
@@ -46,10 +51,15 @@
                     </div>
                     <div class="form-group">
                       <label for="Phonenumber">Phone Number</label>
-                      <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number">
+                      <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="regis_phone_number" name="phone_number">
                     @error('phone_number')
                       <div class="invalid-feedback">{{$message}}</div>
                     @enderror
+                      <span id="nomer-tlp" class="text-sm text-gray-600 one-number" style="display: none;">
+                        <i class="fas fa-circle" aria-hidden="true"></i>
+                        &nbsp;<p id="response"></p>
+                      </span>
+
                     </div>
                     <div class="form-group">
                         <label for="Gender">Select Gender</label>
@@ -76,4 +86,69 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    const phoneNumber = document.querySelector("#regis_phone_number");
+
+    phoneNumber.addEventListener("blur", (event) => {
+      event.preventDefault();
+
+      const number = phoneNumber.value;
+    //   console.log(number);
+
+      $.ajax({
+          type: 'POST',
+          data: {
+            phone_number:number,
+            _token: '{{ csrf_token() }}'
+          },
+          url: "{{ route('validation-phone') }}",
+          success: function(e){
+            console.log(e);
+            if(e.status == true){
+                document.getElementById('nomer-tlp').style.display = 'block';
+                document.getElementById('nomer-tlp').style.color = '#02b502';
+                const responseMessage = document.getElementById('nomer-tlp');
+                responseMessage.textContent = e.message;
+            }else{
+                document.getElementById('nomer-tlp').style.display = 'block';
+                document.getElementById('nomer-tlp').style.color = '#e90f10';
+                const responseMessage = document.getElementById('nomer-tlp');
+                responseMessage.textContent = e.message;
+            }
+          }
+      });
+
+    });
+
+    const getEmail = document.querySelector("#regis_email");
+
+    getEmail.addEventListener("blur", (event) => {
+        event.preventDefault();
+
+        const emai = getEmail.value;
+
+        $.ajax({
+            type: 'POST',
+            data: {email:emai, _token:"{{ csrf_token() }}"},
+            url: "{{ route('validation-email') }}",
+            success: function(e){
+                console.log(e);
+                if(e.status == true){
+                    document.getElementById('email-msg').style.display = 'block';
+                    document.getElementById('email-msg').style.color = '#02b502';
+                    const responseMessage = document.getElementById('email-msg');
+                    responseMessage.textContent = e.message;
+                }else{
+                    document.getElementById('email-msg').style.display = 'block';
+                    document.getElementById('email-msg').style.color = '#e90f10';
+                    const responseMessage = document.getElementById('email-msg');
+                    responseMessage.textContent = e.message;
+                }
+            }
+        });
+    });
+</script>
 @endsection

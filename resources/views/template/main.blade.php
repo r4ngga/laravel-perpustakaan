@@ -76,6 +76,8 @@
         </div>
     </div>
 
+    @yield('scripts')
+
     <script src="/template_bootstrap/js/bootstrap.js"></script>
     <script src="/template_bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

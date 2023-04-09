@@ -58,6 +58,7 @@
                     <td>
                         <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-warning">Edit</button>
                         <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a>
+                        <a href="" data-toggle="modal" data-target="" class="btn btn-sm btn-warning">Show</a>
                     </td>
                   </tr>
                   @endif
@@ -127,11 +128,19 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label> <span style="color: red;">*</span>
-                    <input type="text" name="email" id="email" class="form-control" placeholder="Email Here" required>
+                    <input type="text" name="email" id="add-email" class="form-control" placeholder="Email Here" required>
+                    <span id="msg-email" class="text-sm text-gray-600 one-number" style="display: none;">
+                        <i class="fas fa-circle" aria-hidden="true"></i>
+                        &nbsp;<p id="response-email"></p>
+                    </span>
                 </div>
                 <div class="form-group">
                     <label for="phonenumber">Phone Number</label> <span style="color: red;">*</span>
-                    <input type="number" name="phone_number" id="phone_number" class="form-control" placeholder="Phone Number Here" required>
+                    <input type="number" name="phone_number" id="add_phone_number" class="form-control" placeholder="Phone Number Here" required>
+                    <span id="msg-phone" class="text-sm text-gray-600 one-number" style="display: none;">
+                        <i class="fas fa-circle" aria-hidden="true"></i>
+                        &nbsp;<p id="response-phone"></p>
+                    </span>
                 </div>
                 <div class="form-group">
                     <label for="adress">Address</label> <span style="color: red;">*</span>
@@ -158,7 +167,7 @@
                 <div class="form-group">
                     <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Confirm</button>
+                <button id="button-submit" type="submit"  class="btn btn-primary" disabled>Confirm</button>
             </form>
 
         </div>
@@ -240,6 +249,75 @@
 
 @section('scripts')
 <script>
+    $(document).ready(function(){
+        let msg_email_valid =  document.getElementById('msg-email').textContent;
+        let msg_phone_valid = document.getElementById('msg-phone').textContent;
+
+        let btn_set = document.getElementById('button-submit');
+        if(msg_email_valid == 'valid' && msg_phone_valid == 'valid'){
+            btn_set.disabled = false;
+        }
+    });
+
+    const getPhoneNumber = document.querySelector("#add_phone_number");
+    const getEmail = document.querySelector("#add-email");
+
+    getEmail.addEventListener("blur", (event) => {
+        event.preventDefault();
+
+        const emai = getEmail.value;
+        console.log(emai);
+
+        $.ajax({
+            type: 'POST',
+            data: {email:emai, _token:"{{ csrf_token() }}"},
+            url: "{{ route('validation-email') }}",
+            success: function(e){
+                console.log(e);
+                if(e.status == true){
+                    document.getElementById('msg-email').style.display = 'block';
+                    document.getElementById('msg-email').style.color = '#02b502';
+                    const responseMessage = document.getElementById('msg-email');
+                    responseMessage.textContent = e.message;
+
+                }else{
+                    document.getElementById('msg-email').style.display = 'block';
+                    document.getElementById('msg-email').style.color = '#e90f10';
+                    const responseMessage = document.getElementById('msg-email');
+                    responseMessage.textContent = e.message;
+                }
+            }
+        });
+    });
+
+
+    getPhoneNumber.addEventListener("blur", (event) => {
+        event.preventDefault();
+
+        const phone_number = getPhoneNumber.value;
+        console.log(phone_number);
+
+        $.ajax({
+            type: 'POST',
+            data: {phone_number:phone_number, _token:"{{ csrf_token() }}"},
+            url: "{{ route('validation-phone') }}",
+            success: function(e){
+                console.log(e);
+                if(e.status == true){
+                    document.getElementById('msg-phone').style.display = 'block';
+                    document.getElementById('msg-phone').style.color = '#02b502';
+                    const responseMessage = document.getElementById('msg-phone');
+                    responseMessage.textContent = e.message;
+                }else{
+                    document.getElementById('msg-phone').style.display = 'block';
+                    document.getElementById('msg-phone').style.color = '#e90f10';
+                    const responseMessage = document.getElementById('msg-phone');
+                    responseMessage.textContent = e.message;
+                }
+            }
+        });
+    });
+
     function getEdit(id, nm, eml, pn, adres, gnder){
         let user_id = id;
         let user_name = nm;

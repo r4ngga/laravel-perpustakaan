@@ -48,6 +48,13 @@ class UserController extends Controller
         return redirect()->back()->with('notify', 'Success change your data !');
     }
 
+    public function requestbook()
+    {
+        // $book = Book::all()->paginate(6);
+        $book = Book::orderBy('created_at', 'desc')->paginate(6);
+        return view('transaction.request_book', ['book' => $book]);
+    }
+
     public function history(){
 
         return view('transaction.history', compact('req', 'borrow'));

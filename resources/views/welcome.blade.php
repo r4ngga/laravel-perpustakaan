@@ -85,7 +85,11 @@
                 </div>
 
                 <div class="links">
+                    @if (auth()->user())
+                    <a href="{{(auth()->user()->role == 1) ? url('/admin-dashboard') : url('/dashboard')}}">Dashboard</a>
+                    @else
                     <a href="{{('/login')}}">Login</a>
+                    @endif
                     <a href="https://laravel.com/docs">Docs</a>
                     {{-- <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
