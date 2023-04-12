@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function index(){
-        return view('user.index');
+        $user = Auth::user();
+
+        //getting count a request book
+
+        return view('user.index', compact('user'));
     }
 
     public function edit(){
@@ -55,8 +59,8 @@ class UserController extends Controller
         return view('transaction.request_book', ['book' => $book]);
     }
 
-    public function history(){
+    // public function history(){
 
-        return view('transaction.history', compact('req', 'borrow'));
-    }
+    //     return view('transaction.history', compact('req', 'borrow'));
+    // }
 }

@@ -24,6 +24,12 @@ class RequestsController extends Controller
         return view('report.report_request', ['req' => $req]);
     }
 
+    public function requestallbook(){
+        // $book = Book::all()->paginate(6);
+        $book = Book::orderBy('created_at', 'desc')->paginate(6);
+        return view('transaction.request_book', ['book' => $book]);
+    }
+
     public function requestbook(Book $book)
     {
         // $book = Book::all();
@@ -52,31 +58,31 @@ class RequestsController extends Controller
         return redirect('/requestbook')->with('notify', 'Successfully request a books, please wait your request accept by admin !');
     }
 
-    public function confirm()
-    {
-        $req = DB::table('book_requests')
-            ->join('users', 'book_requests.id_user', '=', 'users.id_user')
-            ->join('books', 'book_requests.id_book', '=', 'books.id_book')
-            ->select('book_requests.*', 'users.*', 'books.*')
-            ->orderBy('book_requests.time_request')
-            ->orderBy('book_requests.id_user')
-            ->get();
-        // $req = DB::table('book_requests')->get();
-        return view('transaction.confirm_request', ['req' => $req]);
-    }
+    // public function confirm() // -> to update in requestcontroller (admin)
+    // {
+    //     $req = DB::table('book_requests')
+    //         ->join('users', 'book_requests.id_user', '=', 'users.id_user')
+    //         ->join('books', 'book_requests.id_book', '=', 'books.id_book')
+    //         ->select('book_requests.*', 'users.*', 'books.*')
+    //         ->orderBy('book_requests.time_request')
+    //         ->orderBy('book_requests.id_user')
+    //         ->get();
+    //     // $req = DB::table('book_requests')->get();
+    //     return view('transaction.confirm_request', ['req' => $req]);
+    // }
 
-    public function change(Request $request)
-    {
-        $validateData = $request->validate([
-            'status_request' => 'required',
-        ]);
-        DB::table('book_requests')->where('code_request', $request->code_request)
-            ->update([
-                'status_request' => $request->status_request,
-            ]);
+    // public function change(Request $request) // -> to update in requestcontroller (admin)
+    // {
+    //     $validateData = $request->validate([
+    //         'status_request' => 'required',
+    //     ]);
+    //     DB::table('book_requests')->where('code_request', $request->code_request)
+    //         ->update([
+    //             'status_request' => $request->status_request,
+    //         ]);
 
-        return redirect('requestedbook')->with('notify', 'Successfully accept request a books by borrowers !');
-    }
+    //     return redirect('requestedbook')->with('notify', 'Successfully accept request a books by borrowers !');
+    // }
 
     public function show(User $user)
     {

@@ -261,13 +261,15 @@
 
     const getPhoneNumber = document.querySelector("#add_phone_number");
     const getEmail = document.querySelector("#add-email");
+    let btn_set = document.getElementById('button-submit');
 
     getEmail.addEventListener("blur", (event) => {
         event.preventDefault();
 
         const emai = getEmail.value;
         console.log(emai);
-
+        let msg_email_valid =  document.getElementById('msg-email').textContent;
+        let msg_phone_valid = document.getElementById('msg-phone').textContent;
         $.ajax({
             type: 'POST',
             data: {email:emai, _token:"{{ csrf_token() }}"},
@@ -279,6 +281,11 @@
                     document.getElementById('msg-email').style.color = '#02b502';
                     const responseMessage = document.getElementById('msg-email');
                     responseMessage.textContent = e.message;
+                    if(msg_email_valid == 'valid' && msg_phone_valid == 'valid'){
+                        btn_set.disabled = false;
+                    }else{
+                        btn_set.disabled = true;
+                    }
 
                 }else{
                     document.getElementById('msg-email').style.display = 'block';
@@ -296,6 +303,8 @@
 
         const phone_number = getPhoneNumber.value;
         console.log(phone_number);
+        let email_valid =  document.getElementById('msg-email').textContent;
+        let phone_valid = document.getElementById('msg-phone').textContent;
 
         $.ajax({
             type: 'POST',
@@ -308,6 +317,12 @@
                     document.getElementById('msg-phone').style.color = '#02b502';
                     const responseMessage = document.getElementById('msg-phone');
                     responseMessage.textContent = e.message;
+
+                    if(email_valid == 'valid' && phone_valid == 'valid'){
+                        btn_set.disabled = false;
+                    }else{
+                        btn_set.disabled = true;
+                    }
                 }else{
                     document.getElementById('msg-phone').style.display = 'block';
                     document.getElementById('msg-phone').style.color = '#e90f10';

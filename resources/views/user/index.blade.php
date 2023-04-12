@@ -13,8 +13,8 @@
                     {{session('notify')}}
                 </div>
                 @endif
-                <p>Your Id User : {{auth()->user()->id_user}}</p>
-                <p>Welcome {{auth()->user()->name}}</p>
+                <p>Your Id User : {{$user->id_user ?? ''}}</p>
+                <p>Welcome {{$user->name ?? ''}}</p>
                 <p>User Dashboard</p>
               </div>
             </div>

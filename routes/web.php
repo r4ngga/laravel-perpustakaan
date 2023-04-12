@@ -60,19 +60,19 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/book/delete', [Admin\BooksController::class, 'confirmdelete'])->name('book.delete');
         Route::get('fetchbook', [Admin\BooksController::class, 'fetchIndex'])->name('book.fetch-index');
 
-        Route::get('/borrowedbook', [Admin\BorrowsController::class, 'borrowed_book'])->name('borrowedbook');
-        Route::post('/borrowedbook', [Admin\BorrowsController::class, 'store'])->name('borrowedbook.store');
+        Route::get('borrowedbook', [Admin\BorrowsController::class, 'borrowed_book'])->name('borrowedbook');
+        Route::post('borrowedbook', [Admin\BorrowsController::class, 'store'])->name('borrowedbook.store');
 
-        Route::get('/reportborrowedbook', [Admin\BorrowsController::class, 'index'])->name('report-borrowed-book');
+        Route::get('reportborrowedbook', [Admin\BorrowsController::class, 'index'])->name('report-borrowed-book');
 
-        Route::get('/returnedbook', [Admin\ReturnsController::class, 'index'])->name('returned-book');
-        Route::post('/returnedbook', [Admin\ReturnsController::class, 'store'])->name('returned-book.store');
+        Route::get('returnedbook', [Admin\ReturnsController::class, 'index'])->name('returned-book');
+        Route::post('returnedbook', [Admin\ReturnsController::class, 'store'])->name('returned-book.store');
         // Route::get('/returnedbook', 'ReturnsController@findreturned_book');
 
-        Route::get('/requestedbook', [RequestsController::class, 'confirm'])->name('requested-book');
-        Route::post('/requestedbook', [RequestsController::class, 'change'])->name('requested-book.change');
+        Route::get('requestedbook', [Admin\RequestController::class, 'confirm'])->name('requested-book');
+        Route::post('requestedbook', [Admin\RequestController::class, 'update'])->name('requested-book.change');
 
-        Route::get('/report-request-book', [RequestsController::class, 'index'])->name('report-request-book');
+        Route::get('report-request-book', [Admin\RequestController::class, 'index'])->name('report-request-book');
 
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
         Route::post('users', [Admin\UserController::class, 'store'])->name('users.store');
@@ -93,6 +93,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/requestbook/info/{request}', [User\RequestsController::class, 'show']);
 
-        Route::get('history', [User\UserController::class, 'history'])->name('history');
+        Route::get('history', [User\HistoryController::class, 'index'])->name('history');
     });
 });
