@@ -77,19 +77,19 @@
 
 
                     <li class="{{ request()->is('borrowedbook') ? 'nav-item active' : 'nav-item' }}">
-                    <a class="nav-link" href="{{('/borrowedbook')}}">Book Out</a>
+                    <a class="nav-link" href="{{('borrowedbook')}}">Book Out</a>
                     </li>
                     <li class="{{ request()->is('reportborrowedbook') ? 'nav-item active' : 'nav-item' }}">
-                        <a class="nav-link" href="{{('/reportborrowedbook')}}">Report Book Out</a>
+                        <a class="nav-link" href="{{('reportborrowedbook')}}">Report Book Out</a>
                     </li>
                     <li class="{{ request()->is('returnedbook') ? 'nav-item active' : 'nav-item' }}">
-                        <a class="nav-link" href="{{'/returnedbook'}}">Book In</a>
+                        <a class="nav-link" href="{{'returnedbook'}}">Book In</a>
                     </li>
                     <li class="{{ request()->is('requestedbook') ? 'nav-item active' : 'nav-item' }}">
-                        <a class="nav-link" href="{{('/requestedbook')}}">Request Book</a>
+                        <a class="nav-link" href="{{('requestedbook')}}">Request Book</a>
                     </li>
                     <li class="{{ request()->is('reportrequestbook') ? 'nav-item active' : 'nav-item' }}">
-                        <a class="nav-link" href="{{('/report-request-book')}}" >Report Request</a>
+                        <a class="nav-link" href="{{('report-request-book')}}" >Report Request</a>
                     </li>
                     @endif
                     <li class="{{ request()->is('setting') ? 'nav-item active' : 'nav-item' }}">

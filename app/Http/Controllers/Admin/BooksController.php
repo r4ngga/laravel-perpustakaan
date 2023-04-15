@@ -60,6 +60,7 @@ class BooksController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         // $validate = '';
         $validateData = $request->validate([
             'name_book' => 'required',
@@ -112,11 +113,13 @@ class BooksController extends Controller
 
     public function edit($id)
     {
-        return view('book.change_book');
+        $book = Book::findOrFail($id);
+        return view('book.change_book', compact('book'));
     }
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             'name_book' => 'required',
             'author' => 'required',
@@ -128,7 +131,9 @@ class BooksController extends Controller
         ]);
 
         if($request->image_book){
-            $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
+            // $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
+            $setoriname = $request->image_book->getClientOriginalName() ;
+            $imgName = $setoriname .  '-' . time() . '.' . $request->image_book->extension();
             $request->image_book->move(public_path('images'), $imgName);
         }
 
@@ -144,7 +149,11 @@ class BooksController extends Controller
         $book->pages_book = $request->pages_book;
         $book->language = $request->language;
         $book->isbn = $request->isbn;
-        $book->image_book = !empty($request->image_book) ? $imgName : null;
+        if(!empty($request->image_book))
+        {
+            $book->image_book = $imgName;
+        }
+
         $book->save();
 
         // Book::where('id', $id)->update([

@@ -30,7 +30,7 @@ Route::get('/', function () {
 Route::get('/login', [Authentication\AuthController::class, 'index'])->name('login');
 Route::post('/login', [Authentication\AuthController::class, 'login'])->middleware('guest');
 Route::get('/home', [Authentication\AuthController::class, 'home'])->name('home');
-Route::get('/register', [Admin\UserController::class, 'create'])->middleware('guest'); //page for show register
+Route::get('/register', [Authentication\AuthController::class, 'create'])->middleware('guest'); //page for show register
 Route::post('/register', [Admin\UserController::class, 'store'])->middleware('guest'); //for proccess register action
 
 Route::post('validation-phone-number', [Authentication\AuthController::class, 'validationPhoneNumber'])->name('validation-phone'); //checking phone_number
@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('book/create', [Admin\BooksController::class, 'create'])->name('book.create');
         Route::get('book/{id}', [Admin\BooksController::class, 'show'])->name('book.show');
         Route::post('book', [Admin\BooksController::class, 'store'])->name('book.store');
+        Route::get('book/edit/{id}', [Admin\BooksController::class, 'edit'])->name('book.edit');
         Route::post('book/update/{id}', [Admin\BooksController::class, 'update'])->name('book.update');
         // Route::get('/book/changebook/{book}', [Admin\BooksController::class, 'edit']);
         // Route::post('/book/changebook/{book}', [Admin\BooksController::class, 'update']);

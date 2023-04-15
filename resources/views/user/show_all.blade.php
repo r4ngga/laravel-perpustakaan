@@ -1,6 +1,28 @@
 @extends('template/maindashboard')
 
 @section('title','Show all user')
+@section('style')
+<style>
+     .card-total{
+        position: absolute;
+        /* right: 100%; */
+        left: 65%;
+        background: #D0D0D0;
+        color: black;
+        size: 5em;
+        width: 100%;
+        height: 100%;
+        max-width: 10em;
+        text-align: center;
+        justify-content: space-around;
+        /* padding-top: 1px; */
+    }
+
+    .position-col{
+        right: 100%;
+    }
+</style>
+@endsection
 
 @section('container')
 <div class="container mt-3 mb-5">
@@ -21,9 +43,18 @@
         <div class="col">
             <h3> All User</h3>
 
-            <a href="#" data-toggle="modal" data-target="#insert-user" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
-              </svg> Insert a new user</a>
+            <div class="row mb-4">
+                <div class="col col-lg-6">
+                    <a href="#" data-toggle="modal" data-target="#insert-user" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                      </svg> Insert a new user</a>
+                </div>
+                <div class="col col-lg-6 pt-1">
+                    <div class="card card-total">
+                        <h5>Total Users {{ $countUser ?? 0 }}</h5>
+                    </div>
+                </div>
+            </div>
 
             @if(session('notify'))
             <div class="alert alert-success my-2" role="alert">
@@ -42,7 +73,7 @@
                     {{-- <th scope="col">Address</th> --}}
                     <th scope="col">Phone Number</th>
                     {{-- <th scope="col">Role</th> --}}
-                    <th scope="col">Act</th>
+                    <th scope="col" style="text-align: center">Act</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -56,7 +87,7 @@
                     <td>{{$usr->phone_number}}</td>
                     {{-- <td>{{$usr->role}}</td> --}}
                     <td>
-                        <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-warning">Edit</button>
+                        <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>
                         <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a>
                         <a href="" data-toggle="modal" data-target="" class="btn btn-sm btn-warning">Show</a>
                     </td>

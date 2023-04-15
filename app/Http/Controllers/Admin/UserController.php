@@ -20,9 +20,9 @@ class UserController extends Controller
     {
         // return view('user.index');
         $users = User::where('role', 2)->get();
-        $countUser = User::where('role', 2)->get();
+        $countUser = User::where('role', 2)->get()->count();
         // dd($countUser->count());
-        return view('user.show_all', compact('users'));
+        return view('user.show_all', compact('users', 'countUser'));
     }
 
     public function requestbook()

@@ -10,7 +10,7 @@
 
             <div class="card">
                 <div class="card-body">
-                  <form method="POST" action="/book/changebook/{{$book->id_book}}">
+                  <form method="POST" action="/book/update/{{$book->id_book}}" enctype="multipart/form-data">
                   @csrf
                         <div class="form-group">
                             <label for="isbn">ISBN </label>

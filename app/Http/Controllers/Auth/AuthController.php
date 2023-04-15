@@ -126,6 +126,13 @@ class AuthController extends Controller
             return redirect()->back()->withErrors('Email sudah digunakan')->withInput();
         }
 
+        $userCheckPhone = User::where('phone_number', $request->phone_numbger)->first();
+
+        if($userCheckPhone)
+        {
+            return redirect()->back()->withErrors('Nomor telepon sudah digunakan')->withInput();
+        }
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -143,6 +150,13 @@ class AuthController extends Controller
 
     public function validationPhoneNumber(Request $request){
        $phone =  $request->phone_number;
+       $nomerexplode = $phone;
+       if(substr($nomerexplode, 0, 2) === "62"){
+            $nomerparse = explode('62', $nomerexplode)[1];
+            $phone = '0'.$nomerparse;
+
+       }
+    //    dd($phone);
        $checkPhoneNumberUser = User::where('phone_number', $phone)->first();
        $status = array(
          'message' => 'valid',

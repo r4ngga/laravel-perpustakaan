@@ -81,7 +81,7 @@
                     <th scope="col">Author</th>
                     <th scope="col">Publisher</th>
                     @if($cekrole == 1)
-                    <th scope="col">Act</th>
+                    <th scope="col" style="text-align: center">Act</th>
                     @endif
                   </tr>
                 </thead>
@@ -95,7 +95,7 @@
                     <td>{{$bk->publisher ?? ''}}</td>
                     @if($cekrole == "1")
                     <td>
-                        {{-- <a href="/book/changebook/{{$bk->id_book}}" class="btn btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        {{-- <a href="/book/edit/{{$bk->id_book}}" class="btn btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                           </svg> </a> --}}
@@ -157,7 +157,7 @@
           </button>
         </div>
         <div class="modal-body m-2">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="" id="form-edt" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('post')
                 {{-- @method('delete') --}}
@@ -169,19 +169,19 @@
 
                 <div class="form-group">
                     <label for="name">Name</label> <span style="color: red;">*</span>
-                    <input type="text" class="form-control" id="name-book" name="name" value="" required>
+                    <input type="text" class="form-control" id="name-book" name="name_book" value="" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Author</label> <span style="color: red;">*</span>
-                    <input type="text" name="email" id="author-book" class="form-control" value="" required>
+                    <input type="text" name="author" id="author-book" class="form-control" value="" required>
                 </div>
                 <div class="form-group">
                     <label for="phonenumber">ISBN</label> <span style="color: red;">*</span>
-                    <input type="number" name="phone_number" id="isbn-book" class="form-control" value="" required>
+                    <input type="number" name="isbn" id="isbn-book" class="form-control" value="" required>
                 </div>
                 <div class="form-group">
                     <label for="adress">Publisher</label> <span style="color: red;">*</span>
-                    <input type="text" name="address" id="publisher-book" class="form-control" value="" required>
+                    <input type="text" name="publisher" id="publisher-book" class="form-control" value="" required>
                 </div>
                 <div class="form-group">
                   <label for="timerelease">Time Release</label>
@@ -189,11 +189,15 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Pasges Book</label>
-                    <input type="text" name="pages" id="pages-book" class="form-control" value="">
+                    <input type="text" name="pages_book" id="pages-book" class="form-control" value="">
                 </div>
                 <div class="form-group">
                     <label for="label">Language</label>
                     <input type="text" name="language" id="language-book" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label for="forimg">Image</label>
+                    <input type="file" name="image_book" id="img-book" class="form-control">
                 </div>
                 <button type="submit" id="btn-edtbook" class="btn btn-primary">Confirm</button>
             </form>
@@ -297,22 +301,6 @@
         //     // };
         // }
 
-         //route to update
-        // alert("Form action changed to "+act);
-        // document.getElementById("editbook").classList.add("show");
-        // document.querySelector(".modal").classList.add("show");
-
-        // var modal = document.querySelector(".modal");
-        // var container = modal.querySelector(".container");
-
-        // document.querySelector("button").addEventListener("click", function (e) {
-        // modal.classList.remove("hidden")
-        // });
-
-        // document.querySelector(".modal").addEventListener("click", function (e) {
-        // if (e.target !== modal && e.target !== container) return;
-        // modal.classList.add("hidden");
-        // });
     }
 
     function editApi(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language){
@@ -334,7 +322,8 @@
                     time_release: time_release,
                     pages_book: pages_book,
                     language: language
-                },success: function(data){
+                },
+                success: function(data){
                 alert("okay");
                 console.log(data);
                 },
@@ -391,38 +380,48 @@
         let time_release = $('#timerelease-book').val();
         let pages_book = $('#pages-book').val();
         let language = $('#language-book').val();
+        let img_book = $('#img-book').val() ;
 
+        let form = new FormData($("#form-edt")[0]);
+        // let replace_name_img = img_book.replace("C:\\fakepath\\","");
+
+        // console.log(replace_name_img);
         $.ajax({
                 // method: 'PUT',
                 type: 'POST',
-                // enctype: 'multipart/form-data',
+                enctype: 'multipart/form-data',
                 // url : "{{ route('book.update', "book_id") }}",
                 url: '/book/update/'+book_id ,
                 headers: {
                 'X-CSRF-Token': '{{ csrf_token() }}',
                 },
-                processdata: false,
-                data : {
-                    id_book: book_id,
-                    name_book: book_name,
-                    isbn: book_isbn,
-                    author: author,
-                    publisher: publisher,
-                    time_release: time_release,
-                    pages_book: pages_book,
-                    language: language
-                },
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                data:form,
+                // data : {
+                //     id_book: book_id,
+                //     name_book: book_name,
+                //     isbn: book_isbn,
+                //     author: author,
+                //     publisher: publisher,
+                //     time_release: time_release,
+                //     pages_book: pages_book,
+                //     language: language,
+                //     image_book: img_book
+                // },
                 success: function(data){
-                  console.log(data.data);
+                //   console.log(data.data);
                   $('#editbook').modal('hide');
-                //   location.href = '/book';
-                //   window.location.reload();
+
                     $("#aler-success").css("display", "block");
                     // $("#aler-success").append("<p>Success</p>");
                     $("#aler-success").append("<p>"+data.data+"</p>");
                     fetchbook();
                 }
             });
+
+        $.ajax();
     });
 
     function fetchbook(){
