@@ -18,6 +18,13 @@
         /* padding-top: 1px; */
     }
 
+    .mini-img-cover{
+        max-width: 100px;
+        width: 100%;
+        max-height: 100px;
+        height: 100%;
+    }
+
     .position-col{
         right: 100%;
     }
@@ -99,7 +106,7 @@
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                           </svg> </a> --}}
-                        <a onclick="getEdtBook({{ $bk->id_book }},'{{$bk->name_book }}', '{{ $bk->isbn }}','{{$bk->author}}','{{$bk->publisher}}', '{{$bk->time_release}}','{{$bk->pages_book}}','{{$bk->language}}')" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i> </a>
+                        <a onclick="getEdtBook({{ $bk->id_book }},'{{$bk->name_book }}', '{{ $bk->isbn }}','{{$bk->author}}','{{$bk->publisher}}', '{{$bk->time_release}}','{{$bk->pages_book}}','{{$bk->language}}', '{{ $bk->image_book ?? 'default.jpeg'}}')" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i> </a>
                         <a href="{{$bk->id_book}}/#ComfirmDeleteModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteModal{{$bk->id_book}}"> <i class="far fa-trash-alt"></i> </a>
                         <a onclick="fetchShowBook({{ $bk->id_book }})" data-toggle="modal" data-target="#showbook" class="btn btn-sm btn-warning"><i class="fas fa-eye" aria-hidden="true"></i></a>
                     </td>
@@ -195,9 +202,10 @@
                     <label for="label">Language</label>
                     <input type="text" name="language" id="language-book" class="form-control" value="">
                 </div>
-                <div class="form-group">
-                    <label for="forimg">Image</label>
-                    <input type="file" name="image_book" id="img-book" class="form-control">
+                <div class="form-group ">
+                    <label for="forimg">Image Cover Book </label>
+                    <img src="" id="img-book" class="mini-img-cover" alt="" style="margin-top: 2px; margin-bottom: 4px;">
+                    <input type="file" name="image_book" id="image-book" class="form-control mt-2">
                 </div>
                 <button type="submit" id="btn-edtbook" class="btn btn-primary">Confirm</button>
             </form>
@@ -253,8 +261,10 @@
                   <div class="col"> Language :</div>
                   <div class="col"> <p id="b-language"></p> </div>
                 </div>
-                <div class="row"> <div class="col"> Image Cover Book ; </div></div>
-                <div class="row"> <div class="b-imgbok"></div>
+                <div class="row" > <div class="col" style="justify-content: center; align-self: center"> Image Cover Book ; </div>
+                <div class="col"> <img id="b-img" class="mini-img-cover" src="" alt=""> </div>
+                </div>
+                <div class="row">
                 </div>
               </div>
             </div>
@@ -280,6 +290,7 @@
         const time_release = time;
         const pages_book = pages;
         const language = lang;
+        // const img_book = img_bk;
 
         // let url = '/book/update/'+book_id+'';
 
@@ -293,7 +304,13 @@
         document.getElementById('pages-book').value = pages;
         document.getElementById('language-book').value = lang;
 
-       var click = document.getElementById("btn-edtbook").onclick;
+    // if(img_book == 'default.jpeg')
+    // {
+    //     document.getElementById('img-book').src = "/images/default.jpeg";
+    // }else{
+    //     document.getElementById('img-book').src = "/images/"+img_book;
+    // }
+
 
         // if(click){
         //     // document.getElementById("btn-edtbook").onclick = function() {
@@ -333,42 +350,6 @@
             });
     }
 
-    // function sendUpdate(){
-    //     let book_id = document.getElementById('name-book').value;
-    //     let book_name = document.getElementById('name-book').value;
-    //     let book_isbn = document.getElementById('isbn-book').value;
-    //     let author = document.getElementById('author-book').value;
-    //     let publisher = document.getElementById('publisher-book').value;
-    //     let time_release = document.getElementById('timerelease-book').value;
-    //     let pages_book = document.getElementById('pages-book').value;
-    //     let language = document.getElementById('language-book').value;
-
-    //     $.ajax({
-    //             type: 'PUT',
-    //             // enctype: 'multipart/form-data',
-    //             url : "{{ route('book.update', "book_id") }}",
-    //             // url: '/book/update/'+book_id ,
-    //             headers: {
-    //             'X-CSRF-Token': '{{ csrf_token() }}',
-    //             },
-    //             data : {
-    //                 id_book: book_id,
-    //                 name_book: book_name,
-    //                 isbn: book_isbn,
-    //                 author: author,
-    //                 publisher: publisher,
-    //                 time_release: time_release,
-    //                 pages_book: pages_book,
-    //                 language: language
-    //             },success: function(data){
-    //             alert("okay");
-    //             console.log(data);
-    //             },
-    //             error: function(){
-    //                 alert("failure From php side!!! ");
-    //             }
-    //         });
-    // }
     $("#btn-edtbook").click(function(e) {
         e.preventDefault();
 
@@ -380,7 +361,7 @@
         let time_release = $('#timerelease-book').val();
         let pages_book = $('#pages-book').val();
         let language = $('#language-book').val();
-        let img_book = $('#img-book').val() ;
+        let img_book = $('#image-book').val() ;
 
         let form = new FormData($("#form-edt")[0]);
         // let replace_name_img = img_book.replace("C:\\fakepath\\","");
@@ -452,6 +433,16 @@
                 document.getElementById('b-timerelease').innerHTML = data.time_release;
                 document.getElementById('b-pagesbook').innerHTML = data.pages_book;
                 document.getElementById('b-language').innerHTML = data.language;
+                if(!data.image_book )
+                {
+                    document.getElementById('b-img').src =  '/images/default.jpeg';
+                }else{
+                document.getElementById('b-img').src =  '/images/'+data.image_book;
+            }
+                // let create_img = document.createElement("img");
+                // create_img.src = '/images/'+data.image_book;
+                // let div_img = document.getElementById('b-imgbok');
+                // div_img.appendChild(create_img);
             }
         });
     }
