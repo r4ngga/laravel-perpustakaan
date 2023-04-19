@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
         // Route::post('/book/changebook/{book}', [Admin\BooksController::class, 'update']);
         Route::post('/book/delete', [Admin\BooksController::class, 'confirmdelete'])->name('book.delete');
         Route::get('fetchbook', [Admin\BooksController::class, 'fetchIndex'])->name('book.fetch-index');
+        Route::get('fetchedit/{id}', [Admin\BooksController::class, 'fetchEdit'])->name('book.fetch-edit');
 
         Route::get('borrowedbook', [Admin\BorrowsController::class, 'borrowed_book'])->name('borrowedbook');
         Route::post('borrowedbook', [Admin\BorrowsController::class, 'store'])->name('borrowedbook.store');

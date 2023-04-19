@@ -106,7 +106,8 @@
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                           </svg> </a> --}}
-                        <a onclick="getEdtBook({{ $bk->id_book }},'{{$bk->name_book }}', '{{ $bk->isbn }}','{{$bk->author}}','{{$bk->publisher}}', '{{$bk->time_release}}','{{$bk->pages_book}}','{{$bk->language}}', '{{ $bk->image_book ?? 'default.jpeg'}}')" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i> </a>
+                        {{-- <a onclick="getEdtBook({{ $bk->id_book }},'{{$bk->name_book }}', '{{ $bk->isbn }}','{{$bk->author}}','{{$bk->publisher}}', '{{$bk->time_release}}','{{$bk->pages_book}}','{{$bk->language}}', '{{ $bk->image_book ?? 'default.jpeg'}}')" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i> </a> --}}
+                        <a onclick="fetchEdit({{ $bk->id_book }})" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info"> <i class="fas fa-edit"></i> </a>
                         <a href="{{$bk->id_book}}/#ComfirmDeleteModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteModal{{$bk->id_book}}"> <i class="far fa-trash-alt"></i> </a>
                         <a onclick="fetchShowBook({{ $bk->id_book }})" data-toggle="modal" data-target="#showbook" class="btn btn-sm btn-warning"><i class="fas fa-eye" aria-hidden="true"></i></a>
                     </td>
@@ -205,7 +206,7 @@
                 <div class="form-group ">
                     <label for="forimg">Image Cover Book </label>
                     <img src="" id="img-book" class="mini-img-cover" alt="" style="margin-top: 2px; margin-bottom: 4px;">
-                    <input type="file" name="image_book" id="image-book" class="form-control mt-2">
+                    <input type="file" name="image_book" id="image-book" onchange="previewImage(event);" class="form-control mt-2">
                 </div>
                 <button type="submit" id="btn-edtbook" class="btn btn-primary">Confirm</button>
             </form>
@@ -304,20 +305,65 @@
         document.getElementById('pages-book').value = pages;
         document.getElementById('language-book').value = lang;
 
-    // if(img_book == 'default.jpeg')
-    // {
-    //     document.getElementById('img-book').src = "/images/default.jpeg";
-    // }else{
-    //     document.getElementById('img-book').src = "/images/"+img_book;
-    // }
+    }
 
+    const previewImage = (event) => { //untuk preview image ketika edit
+        /**
+       * Get the selected files.
+       */
+      const imageFiles = event.target.files;
+      /**
+       * Count the number of files selected.
+       */
+      const imageFilesLength = imageFiles.length;
+      /**
+       * If at least one image is selected, then proceed to display the preview.
+       */
+      /**
+       * If at least one image is selected, then proceed to display the preview.
+       */
+      if (imageFilesLength > 0) {
+          /**
+           * Get the image path.
+           */
+          const imageSrc = URL.createObjectURL(imageFiles[0]);
+          /**
+           * Select the image preview element.
+           */
+          const imagePreviewElement = document.querySelector("#img-book");
+          /**
+           * Assign the path to the image preview element.
+           */
+          imagePreviewElement.src = imageSrc;
+          /**
+           * Show the element by changing the display value to "block".
+           */
+          imagePreviewElement.style.display = "block";
+      }
+    };
 
-        // if(click){
-        //     // document.getElementById("btn-edtbook").onclick = function() {
-        //         editApi(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language);
-        //     // };
-        // }
+    function fetchEdit(id)
+    {
+        $.ajax({
+            type: 'GET',
+            url: '/fetchedit/'+id,
+            processdata: false,
+            // type: 'JSON',
+            success:function(data){
+                console.log(data);
+                document.getElementById('id-book').value = data.id_book;
+                document.getElementById('name-book').value = data.name_book;
+                document.getElementById('author-book').value = data.author;
+                document.getElementById('isbn-book').value = data.isbn;
+                document.getElementById('publisher-book').value = data.publisher;
+                document.getElementById('timerelease-book').value = data.time_release;
+                document.getElementById('pages-book').value = data.pages_book;
+                document.getElementById('language-book').value = data.language;
+                document.getElementById('img-book').src = data.image_book;
+                document.getElementById('img-book').value = "";
 
+            }
+        });
     }
 
     function editApi(book_id, book_name, book_isbn, author, publisher, time_release, pages_book, language){

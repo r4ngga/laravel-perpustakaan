@@ -56,6 +56,28 @@ class BooksController extends Controller
         return response()->json(['html' => $html]);
     }
 
+    public function fetchEdit($id)
+    {
+        $book = Book::findOrFail($id);
+        if($book->image_book){
+        $image_book = '/images/'.$book->image_book;
+        }else{
+            $image_book = '/images/default.jpeg';
+        }
+        // $data = ;
+        return response()->json( array(
+            'id_book' => $book->id_book,
+            'isbn' => $book->isbn,
+            'name_book' => $book->name_book,
+            'author' => $book->author,
+            'publisher' => $book->publisher,
+            'time_release' => $book->time_release,
+            'pages_book' => $book->pages_book,
+            'language' => $book->language,
+            'image_book' => $image_book
+        ));
+    }
+
     public function create()
     {
         return view('book.add_book');
