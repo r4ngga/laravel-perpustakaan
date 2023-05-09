@@ -2,6 +2,18 @@
 
 @section('title','Add New Book')
 
+@section('style')
+<style>
+    .mini-img-cover{
+        max-width: 100px;
+        width: 100%;
+        max-height: 100px;
+        height: 100%;
+        margin: 4px;
+    }
+</style>
+@endsection
+
 @section('container')
 <div class="container mt-3 mb-5">
 
@@ -81,10 +93,15 @@
                         </div>
                         <div class="form-group">
                             <label for="image_book">Book Cover </label>
-                            <input type="file" class="form-control-file @error('image_book') is-invalid @enderror" id="image_book" name="image_book">
+                            <input type="file" onchange="prevImage(event);" class="form-control-file @error('image_book') is-invalid @enderror" id="image_book" name="image_book">
                         @error('image_book')
                             <div class="invalid-feedback">{{$message}}</div>
                         @enderror
+                            <div class="row">
+                                <div class="col">
+                                    <img id="cover-book" src="" class="mini-img-cover" style="display: none;" alt="">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="bookcover">Book Cover tidak perlu diupload tidak masalah</label>
@@ -97,3 +114,42 @@
     </div>
 </div>
 @endsection()
+
+@section('scripts')
+<script>
+    const prevImage = (event) => { //untuk preview image ketika edit
+        /**
+       * Get the selected files.
+       */
+      const imageFiles = event.target.files;
+      /**
+       * Count the number of files selected.
+       */
+      const imageFilesLength = imageFiles.length;
+      /**
+       * If at least one image is selected, then proceed to display the preview.
+       */
+      /**
+       * If at least one image is selected, then proceed to display the preview.
+       */
+      if (imageFilesLength > 0) {
+          /**
+           * Get the image path.
+           */
+          const imageSrc = URL.createObjectURL(imageFiles[0]);
+          /**
+           * Select the image preview element.
+           */
+          const imagePreviewElement = document.querySelector("#cover-book");
+          /**
+           * Assign the path to the image preview element.
+           */
+          imagePreviewElement.src = imageSrc;
+          /**
+           * Show the element by changing the display value to "block".
+           */
+          imagePreviewElement.style.display = "block";
+      }
+    };
+</script>
+@endsection

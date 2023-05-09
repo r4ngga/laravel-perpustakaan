@@ -94,6 +94,6 @@ class RequestsController extends Controller
             ->where('book_requests.id_user', auth()->user()->id_user)
             ->get();
 
-        return view('user.info_request', ['req' => $req]);
+        return view('user.info_request', compact('req'));
     }
 }

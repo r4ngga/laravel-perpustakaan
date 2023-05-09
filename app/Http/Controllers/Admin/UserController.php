@@ -94,6 +94,7 @@ class UserController extends Controller
      */
     public function edit()
     {
+        $user = Auth::user();
         return view('setting');
     }
 
@@ -148,6 +149,12 @@ class UserController extends Controller
 
     public function fetchShow($id){
         $user = User::findOrFail($id);
+
+        return response()->json($user);
+    }
+
+    public function fetchEdit($id){
+        $user = User::where('id_user', $id)->where('role', 2)->first();
 
         return response()->json($user);
     }
