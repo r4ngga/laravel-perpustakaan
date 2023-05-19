@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Book;
+use Carbon\Carbon;
 use File;
 use Illuminate\Support\Facades\Auth;
 
@@ -106,6 +107,9 @@ class BooksController extends Controller
             $request->isbn = '-';
         }
 
+        $user = Auth::user();
+        $now = Carbon::now();
+
         $book = new Book();
         $book->name_book = $request->name_book;
         $book->author = $request->author;
@@ -126,6 +130,23 @@ class BooksController extends Controller
         //     'image_book' => $imgName,
         //     'isbn' =>  $request->isbn,
         // ]);
+
+        $last_book = Book::find($book->id_book);
+
+        //create log
+        //$logs = new Log();
+        //$logs->user_id = $user->user_id;
+        //$logs->action = 'POST';
+        //$logs->description = 'add a new book';
+        //$logs->role = $user->role;
+        //$logs->log_time = $now;
+        //$logs->data_old = '';
+        //$logs->data_new = json_encode($last_book) ;
+        // $data_ma_items = MaintenanceItem::find($ma_items->id);
+        // //audittrails
+        // Helper::doAuditTrails(Auth::user()->id, "create maintenance items", "-", json_encode($data_ma_items));
+
+        //$logs->save();
     return redirect('/book')->with('notify', 'Data a new book successfully insert !');
     }
 
@@ -166,6 +187,7 @@ class BooksController extends Controller
             $request->isbn = '-';
         }
 
+        // $old_book = Book::where('id_book', $id)->first();
         $book = Book::where('id_book', $id)->first();
         $oldImg = '';
         if($book->image_book){
@@ -201,14 +223,37 @@ class BooksController extends Controller
 
         // return redirect('/book')->with('notify', 'Data a book successfully change !');
         //return redirect()->back()->with(['notify' => 'Data a book successfully change !']);
+            $last_book = Book::find($book->id_book);
+        $user = Auth::user();
+        $now = Carbon::now();
+         //$logs->user_id = $user->user_id;
+        //$logs->action = 'PUT';
+        //$logs->description = 'update a book';
+        //$logs->role = $user->role;
+        //$logs->log_time = $now;
+        //$logs->data_old = json_encode($old_book);
+        //$logs->data_new = json_encode($last_book);
+        //$logs->save();
 
         return response()->json(['notify' => 'success', 'data' => 'Data a book successfully change !']);
     }
 
     public function destroy($id)
     {
+        $old_book = Book::find($id);
        $delete_book = Book::findOrFaill($id);
        $delete_book->destroy();
+
+       $user = Auth::user();
+       $now = Carbon::now();
+        //$logs->user_id = $user->user_id;
+        //$logs->action = 'DELETE';
+        //$logs->description = 'delete a book';
+        //$logs->role = $user->role;
+        //$logs->log_time = $now;
+        //$logs->data_old = json_encode($old_book);
+        //$logs->data_new = '';
+        //$logs->save();
 
        return redirect('/book')->with('notify', 'Data a book successfully delete !');
     }
@@ -217,7 +262,18 @@ class BooksController extends Controller
     {
         $cekpassword = $request->validation;
         if ("delete" == $cekpassword || "Delete" == $cekpassword) {
+            $old_book = Book::find($id);
             Book::destroy($id);
+            $user = Auth::user();
+            $now = Carbon::now();
+             //$logs->user_id = $user->user_id;
+             //$logs->action = 'DELETE';
+             //$logs->description = 'delete a book';
+             //$logs->role = $user->role;
+             //$logs->log_time = $now;
+             //$logs->data_old = json_encode($old_book);
+             //$logs->data_new = '';
+             //$logs->save();
             return redirect('/book')->with('notify', 'Data a book successfully delete !');
         } else {
             return redirect('/book')->with('notify', 'Failed delete data a book');

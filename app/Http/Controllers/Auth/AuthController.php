@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Book;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -33,10 +34,29 @@ class AuthController extends Controller
         // if (!$cek) {
         //     return redirect('login')->with('Field null');
         // }
+        $now = Carbon::now();
         if (Auth::attempt($request->only('email', 'password'))) {
             if (auth()->user()->role == 2) {
+                //create log
+                $user = Auth::user();
+                //$logs = new Log();
+                 //$logs->user_id = $user->user_id;
+                //$logs->action = 'POST';
+                //$logs->description = 'login system';
+                //$logs->role = $user->role;
+                //$logs->log_time = $now;
+                //$logs->save();
                 return redirect('/dashboard'); //user dashboard
             } elseif (auth()->user()->role == 1) {
+                //create log
+                $admn = Auth::user();
+                //$logs = new Log();
+                 //$logs->user_id = $admn->user_id;
+                //$logs->action = 'POST';
+                //$logs->description = 'login system';
+                //$logs->role = $user->role;
+                //$logs->log_time = $now;
+                //$logs->save();
                 return redirect('/admin-dashboard'); //admin dashboard
             } else {
                 return redirect('/login')->with('notify', 'You don"t have role');
@@ -54,6 +74,18 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $userAuth = Auth::user();
+        $now = Carbon::now();
+        // create a logs
+        //$logs = new Log():
+        //$logs->user_id = $userAuth->user_id;
+        //$logs->action = 'POST';
+        //$logs->description = 'logout';
+        //$logs->log_time = $now;
+        //$logs->role = $userAuth->role;
+        //$logs->data_old = '';
+        //$logs->data_new = '';
+        //$logs->save();
         $request->session()->flush();
         Auth::logout();
         return redirect('/login')->with('notify', 'Success Logout');
@@ -75,6 +107,19 @@ class AuthController extends Controller
             ->update([
                 'password' => bcrypt($request['password'])
             ]);
+
+        // create a logs
+         $now = Carbon::now();
+        // create a logs
+        //$logs = new Log():
+        //$logs->user_id = $user->user_id;
+        //$logs->action = 'POST';
+        //$logs->description = 'register a new user';
+        //$logs->log_time = $now;
+        //$logs->data_old = '';
+        //$logs->data_new = json_encode($get_last_user);
+        //$logs->role = $user->role;
+        //$logs->save();
         return redirect('changepassword')->with('notify', 'Success change your password');
     }
 
@@ -133,7 +178,7 @@ class AuthController extends Controller
             return redirect()->back()->withErrors('Nomor telepon sudah digunakan')->withInput();
         }
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request['password']),
@@ -142,6 +187,20 @@ class AuthController extends Controller
             'gender' => $request->gender,
             'role' => 2, //2 untuk client
         ]);
+
+        $lastUser = $user->id;
+        $get_last_user = User::find($lastUser);
+        $now = Carbon::now();
+        // create a logs
+        //$logs = new Log():
+        //$logs->user_id = $user->user_id;
+        //$logs->action = 'POST';
+        //$logs->description = 'register a new user';
+        //$logs->log_time = $now;
+        //$logs->data_old = '';
+        //$logs->data_new = json_encode($get_last_user);
+        //$logs->role = $user->role;
+        //$logs->save();
 
         if($validate){
             return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');

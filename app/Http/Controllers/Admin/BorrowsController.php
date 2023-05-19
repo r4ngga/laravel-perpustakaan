@@ -12,6 +12,7 @@ use App\Detail_Book_Loan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Symfony\Component\Console\Input\Input as InputInput;
 
 class BorrowsController extends Controller
@@ -75,6 +76,18 @@ class BorrowsController extends Controller
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
+            // create a logs
+            $user = Auth::user();
+            $now = Carbon::now();
+            //$logs = new Log():
+            //$logs->user_id = $userAuth->user_id;
+            //$logs->action = 'POST';
+            //$logs->activity = 'insert detail borrows a book';
+            //$logs->log_time = $now;
+            //$logs->data_old = '';
+            //$logs->data_new = '';
+            //$logs->role = $userAuth->role;
+            //$logs->save();
         }
         // $sisastok = $request->stok;
         // $count_book = count($request->id_book);
@@ -82,6 +95,19 @@ class BorrowsController extends Controller
         //     DB::table('books')->where('id_book', [$request->id_book[$x]])
         //         ->update(['stok' => $request->stok[$x]]);
         // }
+
+        // create a logs
+        $user = Auth::user();
+        $now = Carbon::now();
+        //$logs = new Log():
+        //$logs->user_id = $userAuth->user_id;
+        //$logs->action = 'POST';
+        //$logs->activity = 'insert borrows a book';
+        //$logs->log_time = $now;
+        //$logs->data_old = '';
+        //$logs->data_new = '';
+        //$logs->role = $userAuth->role;
+        //$logs->save();
 
         return redirect('/borrowedbook')->with('notify', 'Successfully borrow a books !');
     }
