@@ -13,6 +13,9 @@ class LogController extends Controller
 {
     public function index()
     {
+        $logs = Log::all()->orderBy('desc');
+        $countLogs = count($logs);
 
+        return view('logs.index', compact('logs'));
     }
 }
