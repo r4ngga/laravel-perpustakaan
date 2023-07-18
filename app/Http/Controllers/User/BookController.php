@@ -98,49 +98,51 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
-    {
-        $request->validate([
-            'name_book' => 'required',
-            'author' => 'required',
-            'publisher' => 'required',
-            'time_release' => 'required|numeric',
-            'pages_book' => 'required|numeric',
-            'language' => 'required',
-            'image_book' => 'mimes:jpeg,png,jpg,gif,svg',
-        ]);
-        $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
-        $request->image_book->move(public_path('images'), $imgName);
-        if ($request->isbn == null) {
-            $request->isbn = '-';
-        }
-        Book::where('id_book', $book->id_book)
-            ->update([
-                'name_book' => $request->name_book,
-                'author' => $request->author,
-                'publisher' => $request->publisher,
-                'time_release' => $request->time_release,
-                'pages_book' => $request->pages_book,
-                'language' => $request->language,
-                'image_book' => $imgName,
-                'isbn' =>  $request->isbn,
-            ]);
-        return redirect('/book')->with('notify', 'Data a book successfully change !');
-    }
 
-    public function confirmdelete(Request $request, Book $book)
-    {
-        // $validate =  $request->validate([
-        //     'password' => 'required',
-        // ]);
-        $cekpassword = $request->validation;
-        if ("delete" == $cekpassword || "Delete" == $cekpassword) {
-            Book::destroy($book->id_book);
-            return redirect('/book')->with('notify', 'Data a book successfully delete !');
-        } else {
-            return redirect('/book')->with('notify', 'Failed delete data a book');
-        }
-    }
+     //move to folder admin
+    // public function update(Request $request, Book $book)
+    // {
+    //     $request->validate([
+    //         'name_book' => 'required',
+    //         'author' => 'required',
+    //         'publisher' => 'required',
+    //         'time_release' => 'required|numeric',
+    //         'pages_book' => 'required|numeric',
+    //         'language' => 'required',
+    //         'image_book' => 'mimes:jpeg,png,jpg,gif,svg',
+    //     ]);
+    //     $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
+    //     $request->image_book->move(public_path('images'), $imgName);
+    //     if ($request->isbn == null) {
+    //         $request->isbn = '-';
+    //     }
+    //     Book::where('id_book', $book->id_book)
+    //         ->update([
+    //             'name_book' => $request->name_book,
+    //             'author' => $request->author,
+    //             'publisher' => $request->publisher,
+    //             'time_release' => $request->time_release,
+    //             'pages_book' => $request->pages_book,
+    //             'language' => $request->language,
+    //             'image_book' => $imgName,
+    //             'isbn' =>  $request->isbn,
+    //         ]);
+    //     return redirect('/book')->with('notify', 'Data a book successfully change !');
+    // }
+
+    // public function confirmdelete(Request $request, Book $book)
+    // {
+    //     // $validate =  $request->validate([
+    //     //     'password' => 'required',
+    //     // ]);
+    //     $cekpassword = $request->validation;
+    //     if ("delete" == $cekpassword || "Delete" == $cekpassword) {
+    //         Book::destroy($book->id_book);
+    //         return redirect('/book')->with('notify', 'Data a book successfully delete !');
+    //     } else {
+    //         return redirect('/book')->with('notify', 'Failed delete data a book');
+    //     }
+    // }
     // {{auth()->user()->name}}
 
 

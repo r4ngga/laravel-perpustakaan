@@ -26,33 +26,36 @@ class UserController extends Controller
         return view('setting');
     }
 
-    public function fetchEdit($id){
-        $users = User::findOrfail($id);
-        $json_encode = json_encode($users);
+    //move to admin
+    // public function fetchEdit($id){
+    //     $users = User::findOrfail($id);
+    //     $json_encode = json_encode($users);
 
-        return $json_encode;
-    }
+    //     return $json_encode;
+    // } ///move to admin
 
-    public function update(Request $request){
-        $request->validate([
-            'name' => 'required',
-            'password' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-            'phone_number' => 'required',
-            'gender' => 'required',
-        ]);
+    //move to admin
+    // public function update(Request $request){
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'password' => 'required',
+    //         'email' => 'required',
+    //         'address' => 'required',
+    //         'phone_number' => 'required',
+    //         'gender' => 'required',
+    //     ]);
 
-        $user = User::where('id_user', auth()->user()->id_user)->first();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->address = $request->address;
-        $user->phone_number = $request->phone_number;
-        $user->gender = $request->gender;
-        $user->save();
+    //     $user = User::where('id_user', auth()->user()->id_user)->first();
+    //     $user->name = $request->name;
+    //     $user->email = $request->email;
+    //     $user->address = $request->address;
+    //     $user->phone_number = $request->phone_number;
+    //     $user->gender = $request->gender;
+    //     $user->save();
 
-        return redirect()->back()->with('notify', 'Success change your data !');
-    }
+    //     return redirect()->back()->with('notify', 'Success change your data !');
+    // }
+    //move to admin
 
     public function requestbook()
     {

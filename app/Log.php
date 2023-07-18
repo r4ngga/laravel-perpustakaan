@@ -12,4 +12,7 @@ class Log extends Model
        //, 'description'
     ];
 
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id_user');
+    } //user_id -> id user in logs, id_user -> id user in tb users
 }

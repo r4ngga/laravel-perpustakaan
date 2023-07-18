@@ -55,6 +55,15 @@ class RequestsController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
+        //$logs = new Log();
+        //$logs->user_id = $user->user_id;
+       //$logs->action = 'POST';
+        //$logs->description = 'login system';
+        //$logs->role = $user->role;
+        //$logs->log_time = $now;
+        //$logs->save();
+
+
         return redirect('/requestbook')->with('notify', 'Successfully request a books, please wait your request accept by admin !');
     }
 
