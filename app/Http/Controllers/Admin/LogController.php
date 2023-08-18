@@ -18,4 +18,11 @@ class LogController extends Controller
 
         return view('logs.index', compact('logs'));
     }
+
+    public function fetchDetail($id)
+    {
+        $log = Log::findOrFail($id);
+
+        return json_decode($log, true);
+    }
 }

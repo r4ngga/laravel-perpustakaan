@@ -44,6 +44,8 @@ class AuthController extends Controller
                  $logs->user_id = $user->id_user;
                 $logs->action = 'POST';
                 $logs->description = 'login system';
+                $logs->data_old = '-';
+                $logs->data_new = '-';
                 $logs->role = $user->role;
                 $logs->log_time = $now;
                 $logs->save();
@@ -56,6 +58,8 @@ class AuthController extends Controller
                 $logs->user_id = $admn->id_user;
                 $logs->action = 'POST';
                 $logs->description = 'login system';
+                $logs->data_old = '-';
+                $logs->data_new = '-';
                 $logs->role = $admn->role;
                 $logs->log_time = $now;
                 $logs->save();
@@ -85,8 +89,8 @@ class AuthController extends Controller
         $logs->description = 'logout from system';
         $logs->log_time = $now;
         $logs->role = $userAuth->role;
-        // $logs->data_old = '';
-        // $logs->data_new = '';
+        $logs->data_old = '-';
+        $logs->data_new = '-';
         $logs->save();
         $request->session()->flush();
         Auth::logout();
@@ -201,7 +205,7 @@ class AuthController extends Controller
         $logs->action = 'POST';
         $logs->description = 'register a new user';
         $logs->log_time = $now;
-        $logs->data_old = '';
+        $logs->data_old = '-';
         $logs->data_new = json_encode($get_last_user);
         $logs->role = $user->role;
         $logs->save();

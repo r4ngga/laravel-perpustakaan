@@ -83,6 +83,9 @@ Route::group(['middleware' => ['auth']], function () {
         // Route::get('/users', [Admin\UserController::class, 'show'])->name('users.show');
         // Route::get('/users/{id}', [Admin\UserController::class, 'fetchEdit'])->name('users.edit');
         Route::post('users/delete', [UserController::class, 'destroy'])->name('users.delete');
+
+        //logs
+        //Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {

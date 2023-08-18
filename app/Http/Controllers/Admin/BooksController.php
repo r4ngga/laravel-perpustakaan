@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Book;
+use App\Log;
 use Carbon\Carbon;
 use File;
 use Illuminate\Support\Facades\Auth;
@@ -120,33 +121,24 @@ class BooksController extends Controller
         $book->isbn = $request->isbn;
         $book->image_book = !empty($request->image_book) ? $imgName : null;
         $book->save();
-        // Book::create([
-        //     'name_book' => $request->name_book,
-        //     'author' => $request->author,
-        //     'publisher' => $request->publisher,
-        //     'time_release' => $request->time_release,
-        //     'pages_book' => $request->pages_book,
-        //     'language' => $request->language,
-        //     'image_book' => $imgName,
-        //     'isbn' =>  $request->isbn,
-        // ]);
 
         $last_book = Book::find($book->id_book);
 
         //create log
-        //$logs = new Log();
-        //$logs->user_id = $user->user_id;
-        //$logs->action = 'POST';
-        //$logs->description = 'add a new book';
-        //$logs->role = $user->role;
-        //$logs->log_time = $now;
-        //$logs->data_old = '';
-        //$logs->data_new = json_encode($last_book) ;
+        $logs = new Log();
+        $logs->user_id = $user->user_id;
+        $logs->action = 'POST';
+        $logs->description = 'add a new book';
+        $logs->role = $user->role;
+        $logs->log_time = $now;
+        $logs->data_old = '-';
+        $logs->data_new = json_encode($last_book) ;
+        $logs->save();
         // $data_ma_items = MaintenanceItem::find($ma_items->id);
         // //audittrails
         // Helper::doAuditTrails(Auth::user()->id, "create maintenance items", "-", json_encode($data_ma_items));
 
-        //$logs->save();
+        $logs->save();
     return redirect('/book')->with('notify', 'Data a new book successfully insert !');
     }
 
@@ -252,7 +244,7 @@ class BooksController extends Controller
         //$logs->role = $user->role;
         //$logs->log_time = $now;
         //$logs->data_old = json_encode($old_book);
-        //$logs->data_new = '';
+        //$logs->data_new = '-';
         //$logs->save();
 
        return redirect('/book')->with('notify', 'Data a book successfully delete !');
@@ -272,7 +264,7 @@ class BooksController extends Controller
              //$logs->role = $user->role;
              //$logs->log_time = $now;
              //$logs->data_old = json_encode($old_book);
-             //$logs->data_new = '';
+             //$logs->data_new = '-';
              //$logs->save();
             return redirect('/book')->with('notify', 'Data a book successfully delete !');
         } else {
