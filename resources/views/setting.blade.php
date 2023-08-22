@@ -27,7 +27,7 @@
         <p><h5> Change Your Data</h5>  <a href="{{('/changepassword')}}" class="btn btn-info">Change Password</a></p>
             <div class="card m-4">
                 <div class="card-body">
-                  <form method="POST" action="{{('/setting')}}">
+                  <form method="POST" action="{{('/setting')}}" enctype="multipart/form-data">
                   @csrf
                         <div class="form-group" hidden>
                             <label for="iduser">Id User </label>

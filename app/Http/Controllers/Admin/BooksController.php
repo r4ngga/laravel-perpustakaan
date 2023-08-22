@@ -88,7 +88,6 @@ class BooksController extends Controller
     public function store(Request $request)
     {
         dd($request->all());
-        // $validate = '';
         $validateData = $request->validate([
             'name_book' => 'required',
             'author' => 'required',
@@ -168,6 +167,8 @@ class BooksController extends Controller
             // 'image_book' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
 
+        $old_book = Book::where('id_book', $id)->first();
+
         if($request->image_book){
             // $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
             $setoriname = $request->image_book->getClientOriginalName() ;
@@ -215,17 +216,18 @@ class BooksController extends Controller
 
         // return redirect('/book')->with('notify', 'Data a book successfully change !');
         //return redirect()->back()->with(['notify' => 'Data a book successfully change !']);
-            $last_book = Book::find($book->id_book);
+        $last_book = Book::find($book->id_book);
         $user = Auth::user();
         $now = Carbon::now();
-         //$logs->user_id = $user->user_id;
-        //$logs->action = 'PUT';
-        //$logs->description = 'update a book';
-        //$logs->role = $user->role;
-        //$logs->log_time = $now;
-        //$logs->data_old = json_encode($old_book);
-        //$logs->data_new = json_encode($last_book);
-        //$logs->save();
+        $logs = new Log();
+         $logs->user_id = $user->user_id;
+        $logs->action = 'PUT';
+        $logs->description = 'update a book';
+        $logs->role = $user->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($old_book);
+        $logs->data_new = json_encode($last_book);
+        $logs->save();
 
         return response()->json(['notify' => 'success', 'data' => 'Data a book successfully change !']);
     }

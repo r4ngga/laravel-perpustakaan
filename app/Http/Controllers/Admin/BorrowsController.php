@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\User;
 use App\Book;
+use App\Log;
 use Illuminate\Support\Facades\DB;
 use App\Book_Borrow;
 use App\Detail_Book_Loan;
@@ -73,9 +74,12 @@ class BorrowsController extends Controller
             DB::table('detail_book_loans')->insert([
                 'code_borrow' => $value,
                 'id_book' => $idbook[$code],
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                // 'created_at' => date('Y-m-d H:i:s'),
+                // 'updated_at' => date('Y-m-d H:i:s'),
             ]);
+            $detail_book_loans = Detail_Book_Loan::where('code_borrow', $value)->first();
             // create a logs
             $user = Auth::user();
             $now = Carbon::now();
@@ -84,8 +88,8 @@ class BorrowsController extends Controller
             //$logs->action = 'POST';
             //$logs->activity = 'insert detail borrows a book';
             //$logs->log_time = $now;
-            //$logs->data_old = '';
-            //$logs->data_new = '';
+            //$logs->data_old = '-';
+            //$logs->data_new = '-';
             //$logs->role = $userAuth->role;
             //$logs->save();
         }
@@ -104,8 +108,8 @@ class BorrowsController extends Controller
         //$logs->action = 'POST';
         //$logs->activity = 'insert borrows a book';
         //$logs->log_time = $now;
-        //$logs->data_old = '';
-        //$logs->data_new = '';
+        //$logs->data_old = '-';
+        //$logs->data_new = '-';
         //$logs->role = $userAuth->role;
         //$logs->save();
 

@@ -91,6 +91,10 @@
                     <li class="{{ request()->is('reportrequestbook') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{('report-request-book')}}" >Report Request</a>
                     </li>
+
+                    {{-- <li class="{{ request()->is('logs') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ 'logs' }}">Logs</a>
+                    </li> --}}
                     @endif
                     <li class="{{ request()->is('setting') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{('/setting')}}">Setting</a>
