@@ -240,14 +240,18 @@ class BooksController extends Controller
 
        $user = Auth::user();
        $now = Carbon::now();
-        //$logs->user_id = $user->user_id;
-        //$logs->action = 'DELETE';
-        //$logs->description = 'delete a book';
-        //$logs->role = $user->role;
-        //$logs->log_time = $now;
-        //$logs->data_old = json_encode($old_book);
-        //$logs->data_new = '-';
-        //$logs->save();
+
+       //create log delete book
+
+       $logs = new Log();
+        $logs->user_id = $user->user_id;
+        $logs->action = 'DELETE';
+        $logs->description = 'delete a book';
+        $logs->role = $user->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($old_book);
+        $logs->data_new = '-';
+        $logs->save();
 
        return redirect('/book')->with('notify', 'Data a book successfully delete !');
     }
@@ -260,14 +264,19 @@ class BooksController extends Controller
             Book::destroy($id);
             $user = Auth::user();
             $now = Carbon::now();
-             //$logs->user_id = $user->user_id;
-             //$logs->action = 'DELETE';
-             //$logs->description = 'delete a book';
-             //$logs->role = $user->role;
-             //$logs->log_time = $now;
-             //$logs->data_old = json_encode($old_book);
-             //$logs->data_new = '-';
-             //$logs->save();
+
+            //create log delete book
+
+             $logs = new Log();
+             $logs->user_id = $user->user_id;
+             $logs->action = 'DELETE';
+             $logs->description = 'delete a book';
+             $logs->role = $user->role;
+             $logs->log_time = $now;
+             $logs->data_old = json_encode($old_book);
+             $logs->data_new = '-';
+             $logs->save();
+             
             return redirect('/book')->with('notify', 'Data a book successfully delete !');
         } else {
             return redirect('/book')->with('notify', 'Failed delete data a book');

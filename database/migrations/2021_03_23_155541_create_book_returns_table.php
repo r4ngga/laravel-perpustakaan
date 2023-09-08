@@ -15,7 +15,7 @@ class CreateBookReturnsTable extends Migration
     {
         Schema::create('book_returns', function (Blueprint $table) {
             $table->id();
-            $table->bigIncrements('number_return');
+            $table->bigInteger('number_return');
             $table->string('code_return', 20)->nullable();
             $table->string('code_borrow', 20)->nullable();
             $table->unsignedBigInteger('id_user');

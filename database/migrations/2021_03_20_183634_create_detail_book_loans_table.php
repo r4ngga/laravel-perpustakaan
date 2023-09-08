@@ -15,13 +15,13 @@ class CreateDetailBookLoansTable extends Migration
     {
         Schema::create('detail_book_loans', function (Blueprint $table) {
             $table->id();
-            $table->bigIncrements('number_borrow');
+            $table->bigInteger('number_borrow');
             // $table->unsignedS('code_borrowed');
             $table->string('code_borrow', 20)->nullable();
             $table->unsignedInteger('borrow_id')->index('fk_book_borrows_detail_book_loans_01');
             $table->unsignedBigInteger('id_book');
             $table->foreign('id_book')->references('id_book')->on('books');
-            $table->integer('qty');
+            $table->integer('qty')->nullable();
             $table->timestamps();
         });
     }

@@ -157,4 +157,22 @@ class BookController extends Controller
         Book::destroy($book->id_book);
         return redirect('/book')->with('notify', 'Data a book successfully delete !');
     }
+
+      /**
+     * Search the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $book = Book::where('name_book', $request->search)
+                    ->where('author', '%LIKE%', $request->search)
+                    ->where('publisher', '%LIKE%', $request->search)
+                    ->where('time_release', '%LIKE%', $request->search)
+                    ->where('pages_book', '%LIKE%', $request->search)
+                    ->where('language', '%LIKE%', $request->search)->get();
+        dd($book);
+
+    }
 }

@@ -15,7 +15,7 @@ class CreateDetailBookEntersTable extends Migration
     {
         Schema::create('detail_book_enters', function (Blueprint $table) {
             $table->id();
-            $table->bigIncrements('number_returns');
+            $table->bigInteger('number_returns');
             $table->string('code_return', 20)->nullable();
             $table->unsignedBigInteger('id_book');
             $table->foreign('id_book')->references('id_book')->on('books');

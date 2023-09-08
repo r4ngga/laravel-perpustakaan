@@ -16,6 +16,6 @@ class Book extends Model
 
     public function detailbookloan()
     {
-        return $this->belongsTo(Detail_Book_Loan::class, '', '');
+        return $this->belongsTo(Detail_Book_Loan::class, 'id_book', 'id_book');
     }
 }
