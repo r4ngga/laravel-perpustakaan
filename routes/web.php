@@ -85,7 +85,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('users/delete', [UserController::class, 'destroy'])->name('users.delete');
 
         //logs
-        //Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
+        Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
         //Route::get('logs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.detail');
     });
 

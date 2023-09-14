@@ -51,7 +51,7 @@
                 </div> --}}
                 <div class="col col-lg-6 pt-1">
                     <div class="card card-total">
-                        <h5>Total Users {{ $countLogs ?? 0 }}</h5>
+                        <h5>Total Logs {{ $countLogs ?? 0 }}</h5>
                     </div>
                 </div>
             </div>
@@ -81,8 +81,8 @@
                 <tbody>
                 @foreach($logs as $log)
                   <tr>
-                    <th scope="row">{{$log->id_user}}</th>
-                    <td>{{$log->activity ?? ''}}</td>
+                    <th scope="row">{{$log->id}}</th>
+                    <td>{{$log->description ?? ''}}</td>
                     <td>{{$log->action ?? ''}}</td>
                     <td>{{$log->description ?? ''}}</td>
                     <td>{{$log->role ?? ''}}</td>
@@ -92,7 +92,7 @@
                     <td>
                         {{-- <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button> --}}
                         {{-- <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a> --}}
-                        <a href="" data-toggle="modal" data-target="#showlog" class="btn btn-sm btn-warning">Show</a>
+                        <a href="" data-toggle="modal" data-target="#showlog" class="btn btn-sm btn-primary">Show</a>
                     </td>
                   </tr>
                   @endforeach

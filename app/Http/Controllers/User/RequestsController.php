@@ -7,6 +7,8 @@ use App\Book;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Log;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class RequestsController extends Controller
@@ -45,23 +47,28 @@ class RequestsController extends Controller
             'id_book' => 'required',
             'time_request' => 'required',
         ]);
-        DB::table('book_requests')->insert([
+        $request_book = DB::table('book_requests')->insert([
             'code_request' => $request->code_request,
             'id_user' => $request->id_user,
             'id_book' => $request->id_book,
             'time_request' => $request->time_request,
             'status_request' => "request pending",
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
-        //$logs = new Log();
-        //$logs->user_id = $user->user_id;
-       //$logs->action = 'POST';
-        //$logs->description = 'login system';
-        //$logs->role = $user->role;
-        //$logs->log_time = $now;
-        //$logs->save();
+        $user = User::where('id_user', $request->id_user)->first();
+        $now = Carbon::now();
+
+        $logs = new Log();
+        $logs->user_id = $request->user_id;
+       $logs->action = 'POST';
+        $logs->description = 'login system';
+        $logs->role = $user->role;
+        $logs->data_old = "-";
+        $logs->data_new = json_encode($request_book);
+        $logs->log_time = $now;
+        $logs->save();
 
 
         return redirect('/requestbook')->with('notify', 'Successfully request a books, please wait your request accept by admin !');
