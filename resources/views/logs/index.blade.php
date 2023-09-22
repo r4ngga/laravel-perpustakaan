@@ -6,12 +6,12 @@
      .card-total{
         position: absolute;
         /* right: 100%; */
-        left: 65%;
+        left: 85%;
         background: #D0D0D0;
         color: black;
         size: 5em;
-        width: 100%;
-        height: 100%;
+        width: 150px;
+        height: 50px;
         max-width: 10em;
         text-align: center;
         justify-content: space-around;
@@ -20,6 +20,12 @@
 
     .position-col{
         right: 100%;
+        position: absolute;
+        float: right;
+    }
+
+    .row-card-logs{
+      height: 50px;
     }
 </style>
 @endsection
@@ -43,18 +49,18 @@
         <div class="col">
             <h3> All History Logs System</h3>
 
-            <div class="row mb-4">
+            <div class="row row-card-logs mb-4">
                 {{-- <div class="col col-lg-6">
                     <a href="#" data-toggle="modal" data-target="#insert-user" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                         <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
                       </svg> Insert a new user</a>
                 </div> --}}
-                <div class="col col-lg-6 pt-1">
-                    <div class="card card-total">
+                <div class="col pt-1">
+                    <div class="card card-total position-col">
                         <h5>Total Logs {{ $countLogs ?? 0 }}</h5>
                     </div>
                 </div>
-            </div>
+            </div>            
 
             @if(session('notify'))
             <div class="alert alert-success my-2" role="alert">
@@ -92,14 +98,14 @@
                     <td>
                         {{-- <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button> --}}
                         {{-- <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a> --}}
-                        <a href="" data-toggle="modal" data-target="#showlog" class="btn btn-sm btn-primary">Show</a>
+                        <a href="javascript:void();" onclick="fetchLogDetail({{$log->id}})" data-toggle="modal" data-target="#showlog" class="btn btn-sm btn-primary">Show</a>
                     </td>
                   </tr>
                   @endforeach
 
                 </tbody>
               </table>
-        </div>
+        </>
     </div>
 </div>
 
@@ -116,7 +122,7 @@
         <div class="modal-body m-2">
             <div class="card">
               <div class="card-header">
-                <h5 id="titlecard"></h4>
+                <h5 id="l-titlecard">Logs</h4>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -180,12 +186,22 @@
 
     function fetchLogDetail(id)
     {
+      console.log(id);
         $.ajax({
             type: 'GET',
             url: '/logs/'+id,
             processdata: false,
             success:function(data){
                 console.log(data);
+                // document.getElementById('titlecard').innerHTML = data.name_book;
+                document.getElementById('l-name').innerHTML = data.description;
+                document.getElementById('l-action').innerHTML = data.action;
+                document.getElementById('l-description').innerHTML = data.description;
+                document.getElementById('l-role').innerHTML = data.role;
+                document.getElementById('l-time').innerHTML = data.log_time;
+                document.getElementById('l-data-old').innerHTML = data.data_old;
+                document.getElementById('l-data-new').innerHTML = data.data_new;
+                document.getElementById('l-create').innerHTML = data.created_at;
             }
         });
     }

@@ -22,7 +22,24 @@ class LogController extends Controller
     public function fetchDetail($id)
     {
         $log = Log::findOrFail($id);
+        $role = ($log->role == 1)? 'admin' : 'user';
+        $data = array(
+            'id' => $log->id,
+            'action' => $log->action,
+            'description' => $log->description,
+            'role' => $log->role,
+            'log_time' => $log->log_time,
+            'data_old' => $log->data_old,
+            'data_new' => $log->data_new,
+            'created_at' => $log->created_at,
+        );
+        // dd($data);
 
         return json_decode($log, true);
+    }
+
+    public function checkLogs($id)
+    {
+
     }
 }
