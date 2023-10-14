@@ -33,7 +33,8 @@
                   <i class="fa-solid fa-user fa-2x" aria-hidden="true"></i>
                 </div>
                 <div class="col">
-                    {{ $countuser ?? '-' }}
+                    <h5 id="user-count"> </h5>
+                    {{-- {{ $countuser ?? '-' }} --}}
                   {{-- count all user --}}
                 </div>
               </div>
@@ -52,7 +53,8 @@
                  <i class="fa-solid fa-book fa-2x"></i>
                 </div>
                 <div class="col">
-                    {{ $countbook ?? '-' }}
+                    {{-- {{ $countbook ?? '-' }} --}}
+                    <h5 id="book-count"> </h5>
                   {{-- count all book --}}
                 </div>
               </div>
@@ -70,6 +72,17 @@
                </div>
                <div class="card-body">
                   {{-- count borrow a book --}}
+                  <div class="row">
+                    <div class="col">
+                      {{-- icon --}}
+                     <i class="fa-solid fa-book fa-2x"></i>
+                    </div>
+                    <div class="col">
+                        {{-- {{ $countbook ?? '-' }} --}}
+                        <h5 id="borrow-count"> </h5>
+                      {{-- count all book --}}
+                    </div>
+                  </div>
                </div>
             </div>
         </div>
@@ -96,7 +109,7 @@
 @section('scripts')
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script> --}}
-<script>
+<script type="text/javascript">
 $(document).ready(function() {
         var ctx = $("#chartjs-pie");
         var myLineChart = new Chart(ctx, {
@@ -115,6 +128,39 @@ $(document).ready(function() {
                 }
             }
         });
+
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('count-book') }}',
+            context: document.body,
+            processdata: false,
+            success: function(data) {
+              // $(this).addClass("done");
+              // console.log('success count book');
+              document.getElementById('book-count').innerHTML = data.count_book;
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('count-user') }}',
+            processdata: false,
+            success: function(data) {
+              //  console.log('success count user');
+               document.getElementById('user-count').innerHTML = data.count_user;
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('count-borrow') }}',
+            processdata: false,
+            success: function(data) {
+                // console.log('success count borrow');
+                document.getElementById('borrow-count').innerHTML = data.count_borrow;
+            }
+        });
+        
     });
 </script>
 

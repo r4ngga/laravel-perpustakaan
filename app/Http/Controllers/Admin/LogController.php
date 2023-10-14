@@ -38,8 +38,34 @@ class LogController extends Controller
         return json_decode($log, true);
     }
 
-    public function checkLogs($id)
+    public function checkLogs(Request $request)
     {
+        $role = $request->role;
 
+        $rlogs = Log::where('role', $role)->get();
+
+        foreach($rlogs as $rl){
+            $data = array(
+                'id' => $rl->id,
+                'action' => $rl->description,
+                'description' => $rl->description,
+                'role' => $rl->role,
+                'log_time' => $rl->log_time,
+                'data_old' => $rl->data_old,
+                'data_new' => $rl->data_new,
+                'created_at' => $rl->created_at,
+            );
+        }
+        
+        // $data = array(
+        //     'status' => 'success',
+        // );
+
+        return response()->json($data);
+    }
+
+    public function fetchByRole( Request $request)
+    {
+        $role = $request->role;
     }
 }

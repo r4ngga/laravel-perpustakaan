@@ -203,17 +203,6 @@ class BooksController extends Controller
 
         $book->save();
 
-        // Book::where('id', $id)->update([
-        //     'name_book' => $request->name_book,
-        //     'author' => $request->author,
-        //     'publisher' => $request->publisher,
-        //     'time_release' => $request->time_release,
-        //     'pages_book' => $request->pages_book,
-        //     'language' => $request->language,
-        //     'image_book' => $imgName,
-        //     'isbn' =>  $request->isbn,
-        // ]);
-
         // return redirect('/book')->with('notify', 'Data a book successfully change !');
         //return redirect()->back()->with(['notify' => 'Data a book successfully change !']);
         $last_book = Book::find($book->id_book);

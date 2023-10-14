@@ -50,6 +50,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatepassword']);
     Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('admin-dashboard', [Admin\AdminController::class, 'index'])->name('admin');
+        Route::get('count-book', [Admin\AdminController::class, 'countBook'])->name('count-book');
+        Route::get('count-user', [Admin\AdminController::class, 'countUser'])->name('count-user');
+        Route::get('count-borrow', [Admin\AdminController::class, 'borrowBook'])->name('count-borrow');
         Route::get('book', [Admin\BooksController::class, 'index'])->name('book');     
         Route::get('book/create', [Admin\BooksController::class, 'create'])->name('book.create');   
         Route::get('book/{id}', [Admin\BooksController::class, 'show'])->name('book.show');
@@ -88,6 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
         //logs
         Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
         Route::get('logs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.detail');
+        //Route::get('check-logs', [Admin\LogController::class, 'checkLogs'])->name('logs.check-logs');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {

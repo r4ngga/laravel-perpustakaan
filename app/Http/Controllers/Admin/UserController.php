@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Book;
+use App\Log;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -67,6 +69,21 @@ class UserController extends Controller
         //     'gender' => $request->gender,
         //     'role' => 2, //2 untuk client
         // ]);
+
+        $auth = Auth::user();
+        $now = Carbon::now();
+
+        //create a logs
+        $logs = new Log();
+        $logs->name = $request->name;
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'POST';
+        $logs->description = 'add a new user';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = '-';
+        $logs->data_new = json_encode($user);
+        $logs->save();
 
         if ($validate) {
             return redirect('/users')->with('notify', 'Data a new user successfully insert !!');

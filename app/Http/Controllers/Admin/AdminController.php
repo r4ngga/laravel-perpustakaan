@@ -23,4 +23,29 @@ class AdminController extends Controller
         // dd($countbook, $countuser, $users);
         return view('admin.index', compact('users', 'books', 'countbook', 'countuser'));
     }
+
+    public function countBook()
+    {
+        $books = Book::all();
+        $countbook = $books->count();
+
+        return response()->json(['count_book' => $countbook]);
+        
+    }
+
+    public function countUser()
+    {
+        $users = User::where('role', 2)->get();
+        $countuser = $users->count();
+
+        return response()->json(['count_user' => $countuser]);
+    }
+
+    public function borrowBook()
+    {
+        $borrws = Book_Borrow::all();
+        $countborrows = $borrws->count();
+
+        return response()->json(['count_borrow' => $countborrows]);
+    }
 }
