@@ -124,6 +124,8 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
         $lastUser = User::findOrFail($request->id_user);
         $lastUserPassword = $lastUser->password;
         $request->validate([
@@ -143,6 +145,17 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $user->password = !empty($request->password) ? bcrypt($request['password']) : $lastUserPassword;
         $user->save();
+
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->id_user;
+        $logs->action = 'PUT';
+        $logs->description = 'update a user';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($lastUser);
+        $logs->data_new = json_encode($user);
+        $logs->save();
 
         return redirect()->back()->with('notify', 'Success Change data user');
     }

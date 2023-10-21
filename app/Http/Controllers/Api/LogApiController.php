@@ -133,7 +133,7 @@ class LogApiController extends Controller
             $log = array(
                 'status' => false,
                 'code' => 404,
-                'message' => 'not found',
+                'message' => 'failled, not found',
                 'counts' => 0,
             );
         }
@@ -177,7 +177,7 @@ class LogApiController extends Controller
             $data = array(
                 'status' => true,
                 'code' => 200,
-                'message' => 'faill',
+                'message' => 'failled, not found',
                 'counts' => 0,
             );
         }

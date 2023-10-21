@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center pb-4">
         <div class="col">
             <h3> All History Logs System</h3>
 
@@ -74,12 +74,9 @@
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Activity</th>
                     <th scope="col">Type Action</th>
                     <th scope="col">Description</th>
                     <th scope="col">Role</th>
-                    {{-- <th scope="col">Data Old</th>
-                    <th scope="col">Data New</th> --}}
                     <th scope="col">Log Time</th>
                     <th scope="col" style="text-align: center">Act</th>
                   </tr>
@@ -88,15 +85,11 @@
                 @foreach($logs as $log)
                   <tr>
                     <th scope="row">{{$log->id}}</th>
-                    <td>{{$log->description ?? ''}}</td>
                     <td>{{$log->action ?? ''}}</td>
                     <td>{{$log->description ?? ''}}</td>
-                    <td>{{$log->role ?? ''}}</td>
-                    {{-- <td>{{$log->data_old ?? ''}}</td>
-                    <td>{{$log->data_new ?? ''}}</td> --}}
+                    <td>{{isset($log->role) ? 'Admin' : 'User' ?? ''}}</td>
                     <td>{{$log->log_time ?? ''}}</td>
                     <td>
-                        {{-- <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button> --}}
                         {{-- <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a> --}}
                         <a href="javascript:void();" onclick="fetchLogDetail({{$log->id}})" data-toggle="modal" data-target="#showlog" class="btn btn-sm btn-primary">Show</a>
                     </td>
@@ -105,7 +98,7 @@
 
                 </tbody>
               </table>
-        </>
+        
     </div>
 </div>
 

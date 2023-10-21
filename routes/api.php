@@ -28,6 +28,8 @@ Route::group(['namespace' => 'Api'], function() {
     Route::get('logs-roles', 'LogApiController@fetchLogsRole');
     //Route::get('logs-action', 'LogApiController@fetchLogsByAction');
 
-    //rooms
-    // Route::get('rooms', '');
+    //books
+    // Route::get('books', 'BookApiController@getBooks');
+    //Route::get('books/{id}', 'BookApiController@fetchGetBooks');
+    //Route::get('books-search', 'BookApiController@fetchBySearch');
 });

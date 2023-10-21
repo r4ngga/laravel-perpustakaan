@@ -27,7 +27,7 @@ class LogController extends Controller
             'id' => $log->id,
             'action' => $log->action,
             'description' => $log->description,
-            'role' => $log->role,
+            'role' => $role,
             'log_time' => $log->log_time,
             'data_old' => $log->data_old,
             'data_new' => $log->data_new,
@@ -35,7 +35,8 @@ class LogController extends Controller
         );
         // dd($data);
 
-        return json_decode($log, true);
+        // return json_decode($data, true);
+        return response()->json($data);
     }
 
     public function checkLogs(Request $request)
@@ -49,7 +50,7 @@ class LogController extends Controller
                 'id' => $rl->id,
                 'action' => $rl->description,
                 'description' => $rl->description,
-                'role' => $rl->role,
+                'role' => $rlogs,
                 'log_time' => $rl->log_time,
                 'data_old' => $rl->data_old,
                 'data_new' => $rl->data_new,
