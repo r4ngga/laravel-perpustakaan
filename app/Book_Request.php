@@ -8,6 +8,7 @@ class Book_Request extends Model
 {
     protected $table = 'book_requests';
     protected $guard = [];
+    protected $fillable = ['id_user', 'id_book', 'time_request', 'status_request']; 
 
     public function book()
     {

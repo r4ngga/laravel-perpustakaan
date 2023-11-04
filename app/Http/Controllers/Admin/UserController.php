@@ -168,8 +168,22 @@ class UserController extends Controller
      */
     public function destroy(Request $request, User $user)
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
         $cekvalidation = $request->validation;
         if ("delete" == $cekvalidation || "Delete" == $cekvalidation) {
+            $lastUser = User::where('id_user', $user->id_user)->first();
+            //create a logs
+            $logs = new Log();
+            $logs->user_id = $auth->id_user;
+            $logs->action = 'PUT';
+            $logs->description = 'update a user';
+            $logs->role = $auth->role;
+            $logs->log_time = $now;
+            $logs->data_old = json_encode($lastUser);
+            $logs->data_new = '';
+            $logs->save();
+
             User::destroy($user->id_user);
             return redirect('/user')->with('notify', 'Data account user successfully delete !');
         } else {

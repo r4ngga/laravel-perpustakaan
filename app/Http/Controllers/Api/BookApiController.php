@@ -94,6 +94,9 @@ class BookApiController extends Controller
         return response()->json($data);
     }
 
-    public function fetchBySearch()
-    {}
+    public function fetchBySearch(Request $request)
+    {
+        $inpt_req = $request->search;
+        
+    }
 }

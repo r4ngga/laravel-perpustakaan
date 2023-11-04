@@ -32,11 +32,13 @@ class RequestsController extends Controller
         return view('transaction.request_book', ['book' => $book]);
     }
 
-    public function requestbook(Book $book)
+    public function requestbook($id)
     {
         // $book = Book::all();
-        $set_value = Str::random(7);
-        return view('transaction.applyrequest_book', compact('book'), ['set_value' => $set_value]);
+        $book = Book::where('id_book', $id)->first();
+        // $set_value = Str::random(7);
+        $set_value = $this->generateRandomString(10);
+        return view('transaction.applyrequest_book', compact('book', 'set_value'));
     }
 
     public function store(Request $request)
@@ -62,8 +64,8 @@ class RequestsController extends Controller
 
         $logs = new Log();
         $logs->user_id = $request->user_id;
-       $logs->action = 'POST';
-        $logs->description = 'login system';
+        $logs->action = 'POST';
+        $logs->description = 'request borrow a book';
         $logs->role = $user->role;
         $logs->data_old = "-";
         $logs->data_new = json_encode($request_book);
@@ -112,4 +114,16 @@ class RequestsController extends Controller
 
         return view('user.info_request', compact('req'));
     }
+
+    private function generateRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
 }
