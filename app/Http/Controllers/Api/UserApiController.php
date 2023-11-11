@@ -52,6 +52,36 @@ class UserApiController extends Controller
 
         $countuser = count($user);
 
-        return response()->json($user, $countuser);
+        if($countuser > 0 )
+        {
+            foreach($user as $usr){
+                $data = array(
+                    'id_user' => $usr->id_user,
+                    'name' => $usr->name,
+                    'email' => $usr->email,
+                    'phone_number' => $usr->phone_number,
+                    'address' => $usr->address,
+                    'gender' => $usr->gender,
+                    'created_at' => $usr->created_at
+                );
+
+                $datauser = array(
+                    'status' => true,
+                    'code' => 200,
+                    'message' => 'success. detail data found',
+                    'counts' => $countuser,
+                    'data' => $data
+                );
+            }
+        }else{
+            $datauser = array(
+                'status' => false,
+                'code' => 404,
+                'message' => 'detail data user not found',
+                'counts' => 0,
+            );
+        }
+
+        return response()->json($datauser);
     }
 }

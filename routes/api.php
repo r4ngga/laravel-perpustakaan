@@ -29,7 +29,7 @@ Route::group(['namespace' => 'Api'], function() {
     //Route::get('logs-action', 'LogApiController@fetchLogsByAction');
 
     //books
-    // Route::get('books', 'BookApiController@getBooks');
+    Route::get('books', 'BookApiController@getBooks');
     //Route::get('books/{id}', 'BookApiController@fetchGetBooks');
-    //Route::get('books-search', 'BookApiController@fetchBySearch');
+    Route::get('books-search', 'BookApiController@fetchBySearch');
 });

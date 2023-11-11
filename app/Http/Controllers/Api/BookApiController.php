@@ -97,6 +97,45 @@ class BookApiController extends Controller
     public function fetchBySearch(Request $request)
     {
         $inpt_req = $request->search;
+
+        $books = Book::where('id_book', $inpt_req)
+                      ->orWhere('name_book', 'LIKE', '%'.$inpt_req.'%')
+                      ->orWhere('author', 'LIKE', '%'.$inpt_req.'%')
+                      ->orWhere('publisher', 'LIKE', '%'.$inpt_req.'%')
+                      ->orWhere('time_release', 'LIKE', '%'.$inpt_req.'%')
+                      ->orWhere('language', 'LIKE', '%'.$inpt_req.'%')
+                      ->get();
+        
+        $countsearch = count($books);
+        if($countsearch > 0){
+            foreach($books as $bk)
+            {
+                $data = array(
+                    'id_book' => $bk->id_book,
+                    'name_book' => $bk->name_book,
+                    'author' => $bk->author,
+                    'publisher' => $bk->publisher,
+                    'time_release' => $bk->time_release,
+                    'pages_book' => $bk->pages_book,
+                    'language' => $bk->language,
+                    'isbn' => $bk->isbn,
+                    'image' => '',
+                );
+            }
+
+            $book = array(
+                'status' => true,
+                'code' => 200,
+                'message' => 'success search by input',
+                'counts' => $countsearch,
+                'data' => $data,
+            );
+        }else{
+            $book = array();
+        }
+        dd($books);
+
+        return response()->json($books);
         
     }
 }

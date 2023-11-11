@@ -51,7 +51,7 @@
                         <td>{{$rq->name_book}}</td>
                         <td>{{$rq->time_request}}</td>
                         <td>{{$rq->status_request}}</td>
-                        <td><a href="{{$rq->code_request}}/#ChangeDataRequestBook" class="btn btn-info" data-toggle="modal" data-target="#ChangeDataRequestBook{{$rq->code_request}}">Change</a></td>
+                        <td><a href="{{$rq->code_request}}/#ChangeDataRequestBook" class="btn btn-info" data-toggle="modal" data-target="#ChangeDataRequestBook">Change</a></td>
                     </tr>
                     @endif
                 @endforeach
@@ -61,8 +61,8 @@
     </div>
 </div>
 
-@foreach($req as $rq)
-<div class="modal fade" id="ChangeDataRequestBook{{$rq->code_request}}" tabindex="-1">
+{{-- @foreach($req as $rq) --}}
+<div class="modal fade" id="ChangeDataRequestBook" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -76,8 +76,11 @@
                   @csrf
                   <div class="form-group">
                       <label for="">Code Request</label>
-                      <input type="text" class="form-control" id="code_request" name="code_request" value="{{$rq->code_request}}" readonly>
+                      <input type="text" class="form-control" id="code_request" name="code_request" value="" readonly>
                   </div>
+
+                  <input type="hidden" name="" id="req-iduser">
+                  <input type="hidden" name="" id="req-idbook">
 
                   <div class="form-group">
                         <label for="exampleFormControlSelect1">Change Status</label>
@@ -98,6 +101,22 @@
           </div>
         </div>
 </div>
-@endforeach
+{{-- @endforeach --}}
 
 @endsection()
+
+@section('scripts')
+<script>
+    function getEdtReq(cdreq, iduser, $idbook){
+      let cd_req = cdreq;
+      let id_usr = iduser;
+      let id_bk = idbook;
+      console.log(cd_req, id_bk, id_usr);
+
+      document.getElementById('code_request').value = cd_req;
+      document.getElementById('req-iduser').value = id_usr;
+      document.getElementById('req-idbook').value = id_bk
+    }
+</script>
+  
+@endsection
