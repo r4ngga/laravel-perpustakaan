@@ -127,15 +127,20 @@ class BookApiController extends Controller
                 'status' => true,
                 'code' => 200,
                 'message' => 'success search by input',
-                'counts' => $countsearch,
+                'counts' => $countsearch,                                                                                                                                                                                                                                                                                                                                                                  
                 'data' => $data,
             );
         }else{
-            $book = array();
+            $book = array(
+                'status' => false,
+                'code' => 404,
+                'message' => 'failed search a books',
+                'counts' => 0,
+            );
         }
-        dd($books);
+        // dd($books);
 
-        return response()->json($books);
+        return response()->json($book);
         
     }
 }

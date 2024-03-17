@@ -30,7 +30,7 @@ class HistoryController extends Controller
         ->orderBy('book_borrows.time_borrow')
         ->orderBy('detail_book_loans.number_borrow')
         ->get();
-        return view('transaction.history', compact('req', 'borrow'));
+        return view('user.history.index', compact('req', 'borrow'));
     }
 
 }

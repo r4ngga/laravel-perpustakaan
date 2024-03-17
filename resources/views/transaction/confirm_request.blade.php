@@ -72,7 +72,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="/requestedbook" method="POST">
+              <form id="form-act-request" action="/requestedbook" method="POST">
                   @csrf
                   <div class="form-group">
                       <label for="">Code Request</label>
@@ -107,7 +107,7 @@
 
 @section('scripts')
 <script>
-    function getEdtReq(cdreq, iduser, $idbook){
+    function getEdtReq(cdreq, iduser, idbook){
       let cd_req = cdreq;
       let id_usr = iduser;
       let id_bk = idbook;
@@ -117,6 +117,18 @@
       document.getElementById('req-iduser').value = id_usr;
       document.getElementById('req-idbook').value = id_bk
     }
+
+    // function updateReq(){
+
+    //   $.ajax({
+    //     type: 'PUT',
+    //     enctype: 'multipart/form-data',
+    //     url: '/requestedbook',
+    //     headers: {
+    //       'X-CSRF-Token': '{{ csrf_token() }}',
+    //     },
+    //   });
+    // }
 </script>
   
 @endsection

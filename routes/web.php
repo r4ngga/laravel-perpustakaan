@@ -31,7 +31,7 @@ Route::get('/login', [Authentication\AuthController::class, 'index'])->name('log
 Route::post('/login', [Authentication\AuthController::class, 'login'])->middleware('guest');
 Route::get('/home', [Authentication\AuthController::class, 'home'])->name('home');
 Route::get('/register', [Authentication\AuthController::class, 'create'])->middleware('guest'); //page for show register
-Route::post('/register', [Admin\UserController::class, 'store'])->middleware('guest'); //for proccess register action
+Route::post('/register', [Authentication\AuthController::class, 'register'])->name('regist'); //for proccess register action
 
 Route::post('validation-phone-number', [Authentication\AuthController::class, 'validationPhoneNumber'])->name('validation-phone'); //checking phone_number
 Route::post('validation-email', [Authentication\AuthController::class, 'validationEmail'])->name('validation-email'); //checking email

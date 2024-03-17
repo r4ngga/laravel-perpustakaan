@@ -47,7 +47,11 @@
                         <td>{{$br->time_borrow}}</td>
                         <td>{{$br->time_return}}</td>
                         <td>{{$br->status}}</td>
-                        <td><a href="{{$br->code_borrow}}/#ChangeDataBorrowBook" class="btn btn-info" data-toggle="modal" data-target="#ChangeDataBorrowBook{{$br->code_borrow}}">Change</a></td>
+                        <td>
+                          <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#ChangeDataBorrowBook">
+                            Change
+                          </a>
+                        </td>
                     </tr>
                     @endif
                 @endforeach
@@ -57,8 +61,8 @@
     </div>
 </div>
 
-@foreach($borrow as $br)
-<div class="modal fade" id="ChangeDataBorrowBook{{$br->code_borrow}}" tabindex="-1">
+{{-- @foreach($borrow as $br) --}}
+<div class="modal fade" id="ChangeDataBorrowBook" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -72,8 +76,11 @@
                   @csrf
                   <div class="form-group">
                       <label for="">Code Borrow</label>
-                      <input type="text" class="form-control" id="code_borrow" name="code_borrow" value="{{$br->code_borrow}}" readonly>
+                      <input type="text" class="form-control" id="code_borrow" name="code_borrow" value="" readonly>
                   </div>
+
+                  <input type="hidden" name="" id="br-iduser">
+                  <input type="hidden" name="" id="br-idbook">
 
                   <div class="form-group">
                         <label for="exampleFormControlSelect1">Change Status</label>
@@ -93,6 +100,22 @@
           </div>
         </div>
 </div>
-@endforeach
+{{-- @endforeach --}}
 
 @endsection()
+
+@section('scripts')
+  <script>
+    function getEdtBr(cdbr, iduser, idbk)
+    {
+      let code_borrow = cdbr;
+      let id_user = iduser;
+      let id_book = idbk;
+      console.log(code_borrow, id_user, id_book);
+
+      document.getElementById('code_borrow').value = code_borrow;
+      document.getElementById('br-iduser').value = id_user;
+      document.getElementById('br-idbook').value = id_book;
+    }
+  </script>
+@endsection

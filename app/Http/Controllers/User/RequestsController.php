@@ -23,13 +23,13 @@ class RequestsController extends Controller
             ->orderBy('book_requests.time_request')
             ->orderBy('book_requests.id_user')
             ->get();
-        return view('report.report_request', ['req' => $req]);
+        return view('report.report_request', compact('req'));
     }
 
     public function requestallbook(){
         // $book = Book::all()->paginate(6);
         $book = Book::orderBy('created_at', 'desc')->paginate(6);
-        return view('transaction.request_book', ['book' => $book]);
+        return view('user.transaction.request_book', compact('book'));
     }
 
     public function requestbook($id)
@@ -76,19 +76,6 @@ class RequestsController extends Controller
         return redirect('/requestbook')->with('notify', 'Successfully request a books, please wait your request accept by admin !');
     }
 
-    // public function confirm() // -> to update in requestcontroller (admin)
-    // {
-    //     $req = DB::table('book_requests')
-    //         ->join('users', 'book_requests.id_user', '=', 'users.id_user')
-    //         ->join('books', 'book_requests.id_book', '=', 'books.id_book')
-    //         ->select('book_requests.*', 'users.*', 'books.*')
-    //         ->orderBy('book_requests.time_request')
-    //         ->orderBy('book_requests.id_user')
-    //         ->get();
-    //     // $req = DB::table('book_requests')->get();
-    //     return view('transaction.confirm_request', ['req' => $req]);
-    // }
-
     // public function change(Request $request) // -> to update in requestcontroller (admin)
     // {
     //     $validateData = $request->validate([
@@ -112,7 +99,7 @@ class RequestsController extends Controller
             ->where('book_requests.id_user', auth()->user()->id_user)
             ->get();
 
-        return view('user.info_request', compact('req'));
+        return view('user.transaction.info_request', compact('req'));
     }
 
     private function generateRandomString($length = 10)

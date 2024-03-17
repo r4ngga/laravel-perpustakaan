@@ -32,7 +32,7 @@ class BorrowsController extends Controller
         // $borrow = DB::table('book_borrow')->get();
 
         // return view('report.report_borrow', ['borrow' => $borrow]);
-        return view('report.report_borrow', compact('borrow'));
+        return view('admin.report.report_borrow', compact('borrow'));
     }
 
     public function borrowed_book()

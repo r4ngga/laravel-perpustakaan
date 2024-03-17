@@ -14,7 +14,7 @@
                     {{session('notify')}}
                 </div>
                 @endif
-            <form method="POST" action="{{url('register')}}">
+            <form method="POST" action="{{ route('regist') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                       <label for="Name">Name</label>

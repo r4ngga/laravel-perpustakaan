@@ -23,7 +23,7 @@ class RequestController extends Controller
             ->orderBy('book_requests.time_request')
             ->orderBy('book_requests.id_user')
             ->get();
-        return view('report.report_request', ['req' => $req]);
+        return view('admin.report.report_request', ['req' => $req]);
 
     }
 
