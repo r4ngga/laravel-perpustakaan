@@ -24,7 +24,8 @@ class UserController extends Controller
         $users = User::where('role', 2)->get();
         $countUser = User::where('role', 2)->get()->count();
         // dd($countUser->count());
-        return view('user.show_all', compact('users', 'countUser'));
+        // return view('user.show_all', compact('users', 'countUser'));
+        return view('admin.users.index', compact('users', 'countUser'));
     }
 
     public function requestbook()
@@ -60,16 +61,6 @@ class UserController extends Controller
         $user->role = 2; //untuk client atau user
         $user->save();
 
-        // User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => bcrypt($request['password']),
-        //     'address' => $request->address,
-        //     'phone_number' => $request->phone_number,
-        //     'gender' => $request->gender,
-        //     'role' => 2, //2 untuk client
-        // ]);
-
         $auth = Auth::user();
         $now = Carbon::now();
 
@@ -96,9 +87,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        $user = User::all();
+        $user = User::find($id);
         return view('user.show_all', ['user' => $user]);
     }
 
@@ -112,7 +103,7 @@ class UserController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        return view('setting');
+        return view('setting', compact('user'));
     }
 
     /**
@@ -122,7 +113,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $auth = Auth::user();
         $now = Carbon::now();
@@ -194,7 +185,23 @@ class UserController extends Controller
     public function fetchShow($id){
         $user = User::findOrFail($id);
 
-        return response()->json($user);
+        if($user->role == 2){
+            $role = 'client';
+        }else{
+            $role = 'admin';
+        }
+
+        $data = array(
+            'id' => $user->id_user,
+            'name' => $user->name,
+            'email' => $user->email,
+            'address' => $user->address,
+            'phone_number' => $user->phone_number,
+            'gender' => $user->gender,
+            'role' => $role,
+            'created_at' => $user->created_at,
+        );
+        return response()->json($data);
     }
 
     public function fetchEdit($id){
@@ -203,27 +210,4 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // public function history()
-    // {
-    //     $req = DB::table('book_requests')
-    //         ->join('users', 'book_requests.id_user', '=', 'users.id_user')
-    //         ->join('books', 'book_requests.id_book', '=', 'books.id_book')
-    //         ->select('book_requests.*', 'users.*', 'books.*')
-    //         ->where('book_requests.id_user', auth()->user()->id_user)
-    //         ->orderBy('book_requests.time_request')
-    //         ->orderBy('book_requests.id_user')
-    //         ->get();
-
-    //     $borrow = DB::table('book_borrows')
-    //         ->join('detail_book_loans', 'book_borrows.code_borrow', '=', 'detail_book_loans.code_borrow')
-    //         ->join('users', 'book_borrows.id_user', '=', 'users.id_user')
-    //         ->join('books', 'detail_book_loans.id_book', '=', 'books.id_book')
-    //         ->select('book_borrows.*', 'detail_book_loans.*', 'users.*', 'books.*')
-    //         ->where('book_borrows.id_user', auth()->user()->id_user)
-    //         ->orderBy('book_borrows.time_borrow')
-    //         ->orderBy('detail_book_loans.number_borrow')
-    //         ->get();
-
-    //     return view('transaction.history', compact('req', 'borrow'));
-    // }
 }

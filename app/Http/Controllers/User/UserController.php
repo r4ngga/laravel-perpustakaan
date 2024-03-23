@@ -64,8 +64,4 @@ class UserController extends Controller
         return view('transaction.request_book', ['book' => $book]);
     }
 
-    // public function history(){
-
-    //     return view('transaction.history', compact('req', 'borrow'));
-    // }
 }

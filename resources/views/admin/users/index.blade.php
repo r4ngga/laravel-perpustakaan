@@ -78,7 +78,7 @@
                 </thead>
                 <tbody>
                 @foreach($users as $usr)
-                    @if($usr->role == 2)
+                    {{-- @if($usr->role == 2) --}}
                   <tr>
                     <th scope="row">{{$usr->id_user}}</th>
                     <td>{{$usr->name}}</td>
@@ -88,11 +88,11 @@
                     {{-- <td>{{$usr->role}}</td> --}}
                     <td>
                         <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>
-                        <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a>
-                        <a href="" data-toggle="modal" data-target="" class="btn btn-sm btn-warning">Show</a>
+                        <a href="{{$usr->id_user}}/#ConfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ConfirmDeleteUserModal{{$usr->id_user}}">Delete</a>
+                        <button onclick="fetchShowUser({{ $usr->id_user }})" data-toggle="modal" data-target="#ShowUserModal" class="btn btn-sm btn-warning">Show</button>
                     </td>
                   </tr>
-                  @endif
+                  {{-- @endif --}}
                   @endforeach
 
                 </tbody>
@@ -102,7 +102,7 @@
 </div>
 
 {{-- @foreach($users as $usr) --}}
- <div class="modal fade" id="ComfirmDeleteUserModal" tabindex="-1">
+ <div class="modal fade" id="ConfirmDeleteUserModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -276,6 +276,59 @@
     </div>
 </div>
 
+<div class="modal fade" id="ShowUserModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Detail User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col">Id : </div>
+                    <div class="col"> <p id="u-show-id"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Name : </div>
+                    <div class="col"> <p id="u-show-name"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Address : </div>
+                    <div class="col"> <p id="u-show-address"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Phone Number : </div>
+                    <div class="col"> <p id="u-show-pn"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Email : </div>
+                    <div class="col"> <p id="u-show-email"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Role : </div>
+                    <div class="col"> <p id="u-show-role"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Gender : </div>
+                    <div class="col"> <p id="u-show-gender"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Created At : </div>
+                    <div class="col"> <p id="u-show-creat"></p></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 @endsection()
 
 @section('scripts')
@@ -392,8 +445,22 @@
     }
 
     function fetchShowUser(id){
-
-        // $.ajax({});
+        $.ajax({
+            type: 'GET',
+            url: 'users/'+id,
+            processdata: false,
+            success:function(data){
+                console.log(data);
+                document.getElementById('u-show-id').innerHTML = data.id;
+                document.getElementById('u-show-name').innerHTML = data.name;
+                document.getElementById('u-show-address').innerHTML = data.address;
+                document.getElementById('u-show-pn').innerHTML = data.phone_number;
+                document.getElementById('u-show-email').innerHTML = data.email;
+                document.getElementById('u-show-role').innerHTML = data.email;
+                document.getElementById('u-show-gender').innerHTML = data.gender;
+                document.getElementById('u-show-creat').innerHTML = data.created_at;
+            }
+        });
     }
 </script>
 @endsection

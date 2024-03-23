@@ -65,10 +65,10 @@ class AuthController extends Controller
                 $logs->save();
                 return redirect('/admin-dashboard'); //admin dashboard
             } else {
-                return redirect('/login')->with('notify', 'You don"t have role');
+                return redirect('/login')->with('error', 'You don"t have role');
             }
         } else {
-            return redirect('/login')->with('notify', 'Email or Password wrong');
+            return redirect('/login')->with('error', 'Email or Password wrong');
         }
     }
 

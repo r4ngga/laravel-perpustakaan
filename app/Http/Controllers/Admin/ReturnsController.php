@@ -20,7 +20,7 @@ class ReturnsController extends Controller
     {
         $borrowers = DB::table('book_borrows')
             ->get();
-        return view('transaction.returned_book', ['borrow' => $borrowers]);
+        return view('admin.transaction.returned_book', ['borrow' => $borrowers]);
     }
 
     public function store(Request $request)

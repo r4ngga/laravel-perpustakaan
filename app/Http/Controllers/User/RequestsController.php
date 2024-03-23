@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Log;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class RequestsController extends Controller
@@ -23,7 +24,7 @@ class RequestsController extends Controller
             ->orderBy('book_requests.time_request')
             ->orderBy('book_requests.id_user')
             ->get();
-        return view('report.report_request', compact('req'));
+        return view('user.transaction.report_request', compact('req'));
     }
 
     public function requestallbook(){
@@ -38,7 +39,7 @@ class RequestsController extends Controller
         $book = Book::where('id_book', $id)->first();
         // $set_value = Str::random(7);
         $set_value = $this->generateRandomString(10);
-        return view('transaction.applyrequest_book', compact('book', 'set_value'));
+        return view('user.transaction.applyrequest_book', compact('book', 'set_value'));
     }
 
     public function store(Request $request)
@@ -91,12 +92,12 @@ class RequestsController extends Controller
 
     public function show(User $user)
     {
-
+        $auth = Auth::user();
         $req = DB::table('book_requests')
             ->join('users', 'book_requests.id_user', '=', 'users.id_user')
             ->join('books', 'book_requests.id_book', '=', 'books.id_book')
             ->select('book_requests.*', 'users.*', 'books.*')
-            ->where('book_requests.id_user', auth()->user()->id_user)
+            ->where('book_requests.id_user', $auth->id_user)
             ->get();
 
         return view('user.transaction.info_request', compact('req'));

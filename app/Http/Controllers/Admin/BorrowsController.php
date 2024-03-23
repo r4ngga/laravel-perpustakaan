@@ -31,7 +31,6 @@ class BorrowsController extends Controller
             ->get();
         // $borrow = DB::table('book_borrow')->get();
 
-        // return view('report.report_borrow', ['borrow' => $borrow]);
         return view('admin.report.report_borrow', compact('borrow'));
     }
 
@@ -41,7 +40,7 @@ class BorrowsController extends Controller
         $book = Book::all();
         $user = User::where('role', 2)->get();
         // return view('transaction.borrowed_book', ['book' => $book, 'user' => $user, 'set_value' => $set_value]);
-        return view('transaction.borrowed_book', compact('book', 'user', 'set_value'));
+        return view('admin.transaction.borrowed_book', compact('book', 'user', 'set_value'));
     }
 
     public function store(Request $request, Book $book)

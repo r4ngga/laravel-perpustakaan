@@ -39,7 +39,7 @@ class RequestController extends Controller
         // $req = DB::table('book_requests')->get();
         // return view('transaction.confirm_request', ['req' => $req]);
 
-        return view('transaction.confirm_request', compact('req'));
+        return view('admin.transaction.confirm_request', compact('req'));
     }
 
     public function update(Request $request)

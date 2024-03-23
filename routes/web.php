@@ -82,8 +82,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
         Route::post('users', [Admin\UserController::class, 'store'])->name('users.store');
-        // Route::get('users/{id}', [Admin\UserController::class, 'fetchShow'])->name('users.show');
-        Route::post('users/update', [Admin\UserController::class, 'update'])->name('users.update');
+        Route::get('users/{id}', [Admin\UserController::class, 'fetchShow'])->name('users.show');
+        Route::post('users/update/{id}', [Admin\UserController::class, 'update'])->name('users.update');
         // Route::get('/users', [Admin\UserController::class, 'show'])->name('users.show');
         // Route::get('/users/{id}', [Admin\UserController::class, 'fetchEdit'])->name('users.edit');
         Route::post('users/delete', [UserController::class, 'destroy'])->name('users.delete');

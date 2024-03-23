@@ -37,10 +37,13 @@
                 @if(session('notify'))
                     <div class="alert alert-success my-2" role="alert">
                         {{session('notify')}}
-                    </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>                    
                 @endif
                 <div class="card-body">
-                  <form method="POST" action="/book" enctype="multipart/form-data">
+                  <form method="POST" action="{{ route('book.store') }}" enctype="multipart/form-data">
                   @csrf
                         <div class="form-group">
                             <label for="isbn">ISBN </label>  <span style="color: red;">*</span>

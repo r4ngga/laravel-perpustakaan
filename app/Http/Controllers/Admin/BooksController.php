@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use File;
 use Illuminate\Support\Facades\Auth;
 
+
 class BooksController extends Controller
 {
     public function index()
@@ -18,7 +19,7 @@ class BooksController extends Controller
         $books = Book::all();
         $countBook = Book::count();
         // dd($countBook);
-        return view('book.index', compact('books', 'countBook'));
+        return view('admin.book.index', compact('books', 'countBook'));
     }
 
     public function fetchIndex(){
@@ -82,12 +83,12 @@ class BooksController extends Controller
 
     public function create()
     {
-        return view('book.add_book');
+        return view('admin.book.add_book');
     }
 
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $validateData = $request->validate([
             'name_book' => 'required',
             'author' => 'required',
@@ -125,7 +126,7 @@ class BooksController extends Controller
 
         //create log
         $logs = new Log();
-        $logs->user_id = $user->user_id;
+        $logs->user_id = $user->id_user;
         $logs->action = 'POST';
         $logs->description = 'add a new book';
         $logs->role = $user->role;
@@ -138,20 +139,23 @@ class BooksController extends Controller
         // Helper::doAuditTrails(Auth::user()->id, "create maintenance items", "-", json_encode($data_ma_items));
 
         $logs->save();
-    return redirect('/book')->with('notify', 'Data a new book successfully insert !');
+    // return redirect('books')->with('notify', 'Data a new book successfully insert !');
+
+    return redirect()->back()->with('notify', 'Data a new book successfully insert !');
     }
 
     public function show($id)
     {
         $book = Book::findOrfail($id);
 
-        return json_decode($book, true);
+        // return json_decode($book, true);
+        return response($book, true);
     }
 
     public function edit($id)
     {
         $book = Book::findOrFail($id);
-        return view('book.change_book', compact('book'));
+        return view('admin.book.change_book', compact('book'));
     }
 
     public function update(Request $request, $id)
@@ -203,7 +207,6 @@ class BooksController extends Controller
 
         $book->save();
 
-        // return redirect('/book')->with('notify', 'Data a book successfully change !');
         //return redirect()->back()->with(['notify' => 'Data a book successfully change !']);
         $last_book = Book::find($book->id_book);
         $user = Auth::user();
@@ -266,9 +269,11 @@ class BooksController extends Controller
              $logs->data_new = '-';
              $logs->save();
              
-            return redirect('/book')->with('notify', 'Data a book successfully delete !');
+            // return redirect('/book')->with('notify', 'Data a book successfully delete !');
+            return redirect()->back()->with('notify', 'Data a book successfully delete !');
         } else {
-            return redirect('/book')->with('notify', 'Failed delete data a book');
+            return redirect()->back()->with('notify', 'Failed delete data a book');
+            // return redirect('/book')->with('notify', 'Failed delete data a book');
         }
     }
 }

@@ -16,7 +16,7 @@ class LogController extends Controller
         $logs = Log::orderBy('created_at', 'desc')->get();
         $countLogs = count($logs);
 
-        return view('logs.index', compact('logs', 'countLogs'));
+        return view('admin.logs.index', compact('logs', 'countLogs'));
     }
 
     public function fetchDetail($id)
