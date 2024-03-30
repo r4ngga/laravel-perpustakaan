@@ -48,6 +48,6 @@ class ReturnsController extends Controller
         $log->data_old = json_encode($old_request);
         $log->data_new = json_encode($new_request);
         $log->save();
-        return redirect('/returnedbook')->with('notify', 'Successfully return a books !');
+        return redirect('returnedbook')->with('notify', 'Successfully return a books !');
     }
 }

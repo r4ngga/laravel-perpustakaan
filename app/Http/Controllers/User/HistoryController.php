@@ -12,11 +12,12 @@ use Illuminate\Support\Facades\Auth;
 class HistoryController extends Controller
 {
     public function index(){
+        $user = Auth::user();
         $req = DB::table('book_requests')
         ->join('users', 'book_requests.id_user', '=', 'users.id_user')
         ->join('books', 'book_requests.id_book', '=', 'books.id_book')
         ->select('book_requests.*', 'users.*', 'books.*')
-        ->where('book_requests.id_user', auth()->user()->id_user)
+        ->where('book_requests.id_user', $user->id_user)
         ->orderBy('book_requests.time_request')
         ->orderBy('book_requests.id_user')
         ->get();
@@ -26,7 +27,7 @@ class HistoryController extends Controller
         ->join('users', 'book_borrows.id_user', '=', 'users.id_user')
         ->join('books', 'detail_book_loans.id_book', '=', 'books.id_book')
         ->select('book_borrows.*', 'detail_book_loans.*', 'users.*', 'books.*')
-        ->where('book_borrows.id_user', auth()->user()->id_user)
+        ->where('book_borrows.id_user', $user->id_user)
         ->orderBy('book_borrows.time_borrow')
         ->orderBy('detail_book_loans.number_borrow')
         ->get();

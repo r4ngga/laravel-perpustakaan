@@ -17,25 +17,19 @@ class RequestsController extends Controller
 
     public function index()
     {
-        $req = DB::table('book_requests')
-            ->join('users', 'book_requests.id_user', '=', 'users.id_user')
-            ->join('books', 'book_requests.id_book', '=', 'books.id_book')
-            ->select('book_requests.*', 'users.*', 'books.*')
-            ->orderBy('book_requests.time_request')
-            ->orderBy('book_requests.id_user')
-            ->get();
-        return view('user.transaction.report_request', compact('req'));
+        $book = Book::orderBy('created_at', 'desc')->paginate(6);
+
+        return view('user.request_book.index', compact('book'));
     }
 
-    public function requestallbook(){
-        // $book = Book::all()->paginate(6);
-        $book = Book::orderBy('created_at', 'desc')->paginate(6);
-        return view('user.transaction.request_book', compact('book'));
-    }
+    // public function requestallbook(){
+    //     // $book = Book::all()->paginate(6);
+    //     $book = Book::orderBy('created_at', 'desc')->paginate(6);
+    //     return view('user.transaction.request_book', compact('book'));
+    // }
 
     public function requestbook($id)
     {
-        // $book = Book::all();
         $book = Book::where('id_book', $id)->first();
         // $set_value = Str::random(7);
         $set_value = $this->generateRandomString(10);

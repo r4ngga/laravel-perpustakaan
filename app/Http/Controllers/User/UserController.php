@@ -14,8 +14,6 @@ class UserController extends Controller
     public function index(){
         $user = Auth::user();
 
-        //getting count a request book
-
         return view('user.index', compact('user'));
     }
 
@@ -26,42 +24,49 @@ class UserController extends Controller
         return view('setting');
     }
 
-    //move to admin
-    // public function fetchEdit($id){
-    //     $users = User::findOrfail($id);
-    //     $json_encode = json_encode($users);
-
-    //     return $json_encode;
-    // } ///move to admin
-
-    //move to admin
-    // public function update(Request $request){
-    //     $request->validate([
-    //         'name' => 'required',
-    //         'password' => 'required',
-    //         'email' => 'required',
-    //         'address' => 'required',
-    //         'phone_number' => 'required',
-    //         'gender' => 'required',
-    //     ]);
-
-    //     $user = User::where('id_user', auth()->user()->id_user)->first();
-    //     $user->name = $request->name;
-    //     $user->email = $request->email;
-    //     $user->address = $request->address;
-    //     $user->phone_number = $request->phone_number;
-    //     $user->gender = $request->gender;
-    //     $user->save();
-
-    //     return redirect()->back()->with('notify', 'Success change your data !');
-    // }
-    //move to admin
-
-    public function requestbook()
+    public function fetchCountBook()
     {
-        // $book = Book::all()->paginate(6);
-        $book = Book::orderBy('created_at', 'desc')->paginate(6);
-        return view('transaction.request_book', ['book' => $book]);
+        $books = Book::all();
+        $countbook = count($books);
+
+        return response()->json($countbook);
+    }
+
+    public function fetchCountRequest()
+    {
+        $auth = Auth::user();
+        $req = DB::table('book_requests')
+        ->join('users', 'book_requests.id_user', '=', 'users.id_user')
+        ->join('books', 'book_requests.id_book', '=', 'books.id_book')
+        ->select('book_requests.*', 'users.*', 'books.*')
+        ->where('book_requests.id_user', $auth->id_user)
+        ->orderBy('book_requests.time_request')
+        ->orderBy('book_requests.id_user')
+        ->get();
+
+        $countrequest = count($req);
+
+        return response()->json($countrequest);
+        //
+    }
+
+    public function fetchCountBorrow()
+    {
+        //
+        $auth = Auth::user();
+        $borrow = DB::table('book_borrows')
+        ->join('detail_book_loans', 'book_borrows.code_borrow', '=', 'detail_book_loans.code_borrow')
+        ->join('users', 'book_borrows.id_user', '=', 'users.id_user')
+        ->join('books', 'detail_book_loans.id_book', '=', 'books.id_book')
+        ->select('book_borrows.*', 'detail_book_loans.*', 'users.*', 'books.*')
+        ->where('book_borrows.id_user', $auth->id_user)
+        ->orderBy('book_borrows.time_borrow')
+        ->orderBy('detail_book_loans.number_borrow')
+        ->get();
+
+        $countborrow = count($borrow);
+
+        return response()->json($countborrow);
     }
 
 }

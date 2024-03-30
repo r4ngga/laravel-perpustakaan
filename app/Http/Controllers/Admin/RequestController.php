@@ -37,7 +37,6 @@ class RequestController extends Controller
             ->orderBy('book_requests.id_user')
             ->get();
         // $req = DB::table('book_requests')->get();
-        // return view('transaction.confirm_request', ['req' => $req]);
 
         return view('admin.transaction.confirm_request', compact('req'));
     }

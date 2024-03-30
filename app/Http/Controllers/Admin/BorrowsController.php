@@ -43,7 +43,7 @@ class BorrowsController extends Controller
         return view('admin.transaction.borrowed_book', compact('book', 'user', 'set_value'));
     }
 
-    public function store(Request $request, Book $book)
+    public function store(Request $request)
     {
         $validateData = $request->validate([
             'code_borrowed' => 'required',
