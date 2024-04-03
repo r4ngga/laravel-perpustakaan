@@ -97,8 +97,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['cek_login:2']], function () {
         Route::get('/dashboard', [User\UserController::class, 'index'])->name('user');
         Route::get('book-count', [User\UserController::class, 'fetchCountBook'])->name('book-count');
-        //Route::get('request-count', [User\UserController::class, 'fetchCountRequest'])->name('request-count');
-       //Route::get('borrow-count', [User\UserController::class, 'fetchCountBorrow'])->name('borrow-count');
+        Route::get('request-count', [User\UserController::class, 'fetchCountRequest'])->name('request-count');
+        Route::get('borrow-count', [User\UserController::class, 'fetchCountBorrow'])->name('borrow-count');
         Route::get('books', [User\BookController::class, 'index'])->name('books');
 
         Route::get('/requestbook', [User\RequestsController::class, 'index'])->name('request-book');

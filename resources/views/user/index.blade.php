@@ -23,3 +23,39 @@
 </div>
 
 @endsection
+
+@section('scripts')
+<script type="text/javascript">
+$(document).ready(function() {
+
+  $.ajax({
+      type: 'GET',
+      url: '{{ route('book-count') }}',
+      processdata: false,
+      success: function(data){
+        console.log(data);
+      }
+  });
+
+  $.ajax({
+      type: 'GET',
+      url: '{{ route('request-count') }}',
+      processdata: false,
+      success: function(data){
+        console.log(data);
+      }
+  });
+
+  $.ajax({
+      type: 'GET',
+      url: '{{ route('borrow-count') }}',
+      processdata: false,
+      success: function(data)
+      {
+        console.log(data);
+      }
+  });
+
+});
+</script>  
+@endsection
