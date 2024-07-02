@@ -27,6 +27,12 @@
     .row-card-logs{
       height: 50px;
     }
+
+    ul{
+      list-style-type: none; 
+      margin: 0;
+      padding: 0; 
+    }
 </style>
 @endsection
 
@@ -119,36 +125,36 @@
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col"> Name Log : </div>
+                  <div class="col-sm-4"> Name Log : </div>
                   <div class="col"> <p id="l-name"></p> </div>
                 </div>
                 <div class="row">
-                  <div class="col"> Action : </div>
+                  <div class="col-sm-4"> Action : </div>
                   <div class="col"> <p id="l-action"></p> </div>
                 </div>
                 <div class="row">
-                  <div class="col"> Description : </div>
+                  <div class="col-sm-4"> Description : </div>
                   <div class="col"> <p id="l-description"></p></div>
                 </div>
                 <div class="row">
-                  <div class="col"> Role :</div>
+                  <div class="col-sm-4"> Role :</div>
                   <div class="col"> <p id="l-role"></p></div>
                 </div>
                 <div class="row">
-                   <div class="col"> Log Time :  </div>
+                   <div class="col-sm-4"> Log Time :  </div>
                    <div class="col"> <p id="l-time"></p></div>
                 </div>
                 <div class="row">
-                  <div class="col"> Data Old :</div>
+                  <div class="col-sm-4"> Data Old :</div>
                   <div class="col"> <p id="l-data-old"></p></div>
                 </div>
                 <div class="row">
-                  <div class="col"> Data New :</div>
+                  <div class="col-sm-4"> Data New :</div>
                   <div class="col"> <p id="l-data-new"></p> </div>
                 </div>
 
                 <div class="row">
-                    <div class="col"> Created at :</div>
+                    <div class="col-sm-4"> Created at :</div>
                     <div class="col"> <p id="l-create"></p></div>
                 </div>
               </div>
@@ -186,14 +192,53 @@
             processdata: false,
             success:function(data){
                 console.log(data);
-                // document.getElementById('titlecard').innerHTML = data.name_book;
+                console.log(data.data_new);
                 document.getElementById('l-name').innerHTML = data.description;
                 document.getElementById('l-action').innerHTML = data.action;
                 document.getElementById('l-description').innerHTML = data.description;
                 document.getElementById('l-role').innerHTML = data.role;
                 document.getElementById('l-time').innerHTML = data.log_time;
-                document.getElementById('l-data-old').innerHTML = data.data_old;
-                document.getElementById('l-data-new').innerHTML = data.data_new;
+                // document.getElementById('l-data-old').innerHTML = data.data_old;
+                // for(let c=0; c<=data.data_new; c++){
+                //   document.getElementById('l-data-new').innerHTML += c;
+                // }
+
+                // for (const key of Object.keys(data.data_new)) {
+                //     console.log(key, obj[key]);                    
+                //     element.appendChild(document.createElement('p').firstChild);
+                // }
+                // let objk = JSON.parse(data.data_new);
+                // console.log(objk.name, objk.email, objk.address, objk.phone_number, objk.gender);
+                if(data.data_new !== '-'){
+                  let objk = JSON.parse(data.data_new);
+                  let ojb = JSON.parse(data.data_old);
+                  console.log('found data');                  
+
+                  let newline = '<ul>';
+                    newline += '<li>id : ' + ojb.id_user + '</li>';
+                    newline += '<li>name : ' + ojb.name + '</li>';
+                    newline += '<li>email : ' + ojb.email + '</li>';
+                    newline += '<li>address : ' + ojb.address + '</li>';
+                    newline += '<li>gender : ' + ojb.gender + '</li>';
+                    newline += '<li>phone number : ' + ojb.phone_number + '</li>';
+                    newline += '</ul>';
+                    document.getElementById('l-data-old').innerHTML = newline;
+
+                  let barisbaru = '<ul> ';
+                    barisbaru += '<li>id : ' + objk.id_user + '</li>';
+                    barisbaru += '<li>name : ' + objk.name + '</li>';
+                    barisbaru += '<li>email : ' + objk.email + '</li>';
+                    barisbaru += '<li>address : ' + objk.address + '</li>';
+                    barisbaru += '<li>gender : ' + objk.gender + '</li>';
+                    barisbaru += '<li>phone number : ' + objk.phone_number + '</li>'
+                    barisbaru += '</ul>';
+                  document.getElementById('l-data-new').innerHTML = barisbaru;
+                //   // document.getElementById('l-data-new').innerHTML = objk.name;
+                }else{
+                  document.getElementById('l-data-old').innerHTML = '-';
+                  document.getElementById('l-data-new').innerHTML = '-';
+                }
+                // document.getElementById('l-data-new').innerHTML = data.data_new;
                 document.getElementById('l-create').innerHTML = data.created_at;
             }
         });

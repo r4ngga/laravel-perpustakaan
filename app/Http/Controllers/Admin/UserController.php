@@ -115,9 +115,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $auth = Auth::user();
         $now = Carbon::now();
-        $lastUser = User::findOrFail($request->id_user);
+        // $lastUser = User::findOrFail($request->id_user);
+        $lastUser = DB::table('users')->where('id_user', $id)->first();
         $lastUserPassword = $lastUser->password;
         $request->validate([
             'id_user' => 'required',

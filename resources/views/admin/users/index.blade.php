@@ -219,9 +219,10 @@
           </button>
         </div>
         <div class="modal-body m-2">
-            <form action="{{ route('users.update') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('post')
+            {{-- <form action="{{ route('users.update') }}" method="POST" enctype="multipart/form-data"> --}}
+            <form action="" method="" >
+                {{-- @csrf --}}
+                {{-- @method('post') --}}
                 {{-- @method('delete') --}}
                 {{-- <div class="form-group">
                             <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
@@ -247,11 +248,11 @@
                 <div class="form-group">
                     <label for="gender">Gender</label> <span style="color: red;">*</span>
                     <div class="form-check">
-                        <input type="radio" id="usr-man" name="gender" value="man" class="form-check-input" required>
+                        <input type="radio" id="user-gender" name="gender" value="man" class="form-check-input" required>
                         <label for="man">Man</label>
                       </div>
                       <div class="form-check">
-                        <input type="radio" id="usr-woman" name="gender" value="woman" class="form-check-input">
+                        <input type="radio" id="user-gender" name="gender" value="woman" class="form-check-input">
                         <label  for="woman">Woman</label>
                         {{-- @error('gender')
                         <div class="invalid-feedback">{{$message}}</div>
@@ -260,12 +261,12 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="usr-password" class="form-control">
+                    <input type="password" name="password" id="user-password" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Confirm</button>
+                <button id="btn-edt-usr" type="button" class="btn btn-primary">Confirm</button>
             </form>
 
         </div>
@@ -342,6 +343,39 @@
             btn_set.disabled = false;
         }
     });
+
+    // $(document).ready(function() {
+        $('#btn-edt-usr').click(function(event) {
+            event.preventDefault();
+
+            let usr_id =  $('#user-id').val();
+            let usr_name = $('#user-name').val();
+            let usr_email = $('#user-email').val();
+            let usr_phon = $('#user-phone').val();
+            let usr_addrs = $('#user-address').val();
+            // let usr_gender = document.querySelector('input[name="gender"]:checked').value();
+            let usr_gender = $('input[name="gender"]:checked').val();
+            let usr_pass = $('#user-password').val();
+            console.log(usr_id, usr_addrs, usr_email, usr_name, usr_phon);
+            $.ajax({
+                type: 'POST',
+                url: '/users/update/' + usr_id,
+                data: {
+                    _token:"{{ csrf_token() }}",
+                    id_user:usr_id,
+                    name:usr_name,
+                    email:usr_email,
+                    phone_number:usr_phon,
+                    address:usr_addrs,
+                    gender:usr_gender,
+                    password:usr_pass
+                },
+                success: function(dt){
+                    console.log(dt);
+                }
+            });
+        });
+    // });
 
     const getPhoneNumber = document.querySelector("#add_phone_number");
     const getEmail = document.querySelector("#add-email");

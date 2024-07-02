@@ -32,14 +32,14 @@
                     @csrf
                     <div class="form-group">
                       <label for="Email">Email address</label>
-                      <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
+                      <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Example@mail.com" name="email">
                     @error('email')
                       <div class="invalid-feedback">{{$message}}</div>
                     @enderror
                     </div>
                     <div class="form-group">
                       <label for="Password">Password</label>
-                      <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+                      <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password" name="password">
                     @error('password')
                       <div class="invalid-feedback">{{$message}}</div>
                     @enderror
