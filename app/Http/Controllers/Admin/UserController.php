@@ -28,11 +28,36 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'countUser'));
     }
 
-    public function requestbook()
+    public function fetchIndex()
     {
-        // $book = Book::all()->paginate(6);
-        $book = Book::orderBy('created_at', 'desc')->paginate(6);
-        return view('transaction.request_book', ['book' => $book]);
+        $users = User::where('role', 2)->get();
+        $html = '';
+        foreach($users as $user){
+            $html .= '<tr>';
+            $html .= '<td>'.$user->id_user ?? ''.'</td>';
+            $html .= '<td>'.$user->name ?? '-' .'</td>';
+            $html .= '<td>'.$user->email ?? ''.'</td>';
+            $html .= '<td>'.$user->phone_number ?? '' .'</td>';
+            // $html .= '<td>'.$user->publisher ?? '' .'</td>';
+            $html .= '<td>'; //act
+                $html .= '<button onclick="getEdit(`'. $user->id_user .'`, `'. $user->name .'`, `'. $user->email .'`, `'.$user->phone_number.'`, `'.$user->address.'`, `'. $user->gender .'`)" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>';
+
+                $html .= '<a href="#" onclick="confirmDeleteUser('.$user->id_user .')" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ConfirmDeleteUser">Delete</a>';
+
+                $html .= '<button onclick="fetchShowUser('. $user->id_user .')" data-toggle="modal" data-target="#ShowUserModal" class="btn btn-sm btn-warning">Show</button>';
+                
+            $html .= '</td>';
+            $html .= '</tr>';
+        }
+        // return response()->json($users);
+        return response()->json(['html' => $html]);
+    }
+
+    public function requestuser()
+    {
+        // $user = user::all()->paginate(6);
+        $user = user::orderBy('created_at', 'desc')->paginate(6);
+        return view('transaction.request_user', ['user' => $user]);
     }
 
     /**
@@ -48,16 +73,16 @@ class UserController extends Controller
             'email' => 'required',
             'address' => 'required',
             'phone_number' => 'required|numeric',
-            'gender' => 'required',
+            // 'gender' => 'required',
         ]);
 
-        $user = User::where('id_user', $request->id_user)->get();
+        $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = !empty($request->password) ?  bcrypt($request['password']) : null;
         $user->address = $request->address;
         $user->phone_number = $request->phone_number;
-        $user->gender = $request->gender;
+        $user->gender = $request->add_gender;
         $user->role = 2; //untuk client atau user
         $user->save();
 
@@ -66,8 +91,8 @@ class UserController extends Controller
 
         //create a logs
         $logs = new Log();
-        $logs->name = $request->name;
-        $logs->user_id = $auth->user_id;
+        // $logs->name = $request->name;
+        $logs->user_id = $auth->id_user;
         $logs->action = 'POST';
         $logs->description = 'add a new user';
         $logs->role = $auth->role;
@@ -150,7 +175,8 @@ class UserController extends Controller
         $logs->data_new = json_encode($user);
         $logs->save();
 
-        return redirect()->back()->with('notify', 'Success Change data user');
+        // return redirect()->back()->with('notify', 'Success Change data user');
+        return response()->json(['notify' => 'success', 'data' => 'Data a user successfully change !']);
     }
 
     /**
@@ -159,28 +185,29 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, User $user)
+    public function destroy(Request $request)
     {
         $auth = Auth::user();
         $now = Carbon::now();
         $cekvalidation = $request->validation;
         if ("delete" == $cekvalidation || "Delete" == $cekvalidation) {
-            $lastUser = User::where('id_user', $user->id_user)->first();
+            $lastUser = User::where('id_user', $request->id_user)->first();
             //create a logs
             $logs = new Log();
             $logs->user_id = $auth->id_user;
-            $logs->action = 'PUT';
-            $logs->description = 'update a user';
+            $logs->action = `DELETE`;
+            $logs->description = 'delete a user';
             $logs->role = $auth->role;
             $logs->log_time = $now;
             $logs->data_old = json_encode($lastUser);
-            $logs->data_new = '';
+            $logs->data_new = '-';
             $logs->save();
 
-            User::destroy($user->id_user);
-            return redirect('/user')->with('notify', 'Data account user successfully delete !');
+            User::destroy($request->id_user);
+            // return redirect('/user')->with('notify', 'Data account user successfully delete !');
+            return redirect()->back()->with('notify', 'Data account user successfully delete !');
         } else {
-            return redirect('/user')->with('notify', 'Failed delete data account user');
+            return redirect()->back()->with('notify', 'Failed dekete data account user');
         }
     }
 

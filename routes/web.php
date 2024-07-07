@@ -86,7 +86,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('users/update/{id}', [Admin\UserController::class, 'update'])->name('users.update');
         // Route::get('/users', [Admin\UserController::class, 'show'])->name('users.show');
         // Route::get('/users/{id}', [Admin\UserController::class, 'fetchEdit'])->name('users.edit');
-        Route::post('users/delete', [UserController::class, 'destroy'])->name('users.delete');
+        Route::post('users/delete', [Admin\UserController::class, 'destroy'])->name('users.delete');
+        Route::get('fetchuser', [Admin\UserController::class, 'fetchIndex'])->name('users.fetch-index');
 
         //logs
         Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');

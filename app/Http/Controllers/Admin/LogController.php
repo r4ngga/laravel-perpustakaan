@@ -25,6 +25,8 @@ class LogController extends Controller
         $role = ($log->role == 1)? 'admin' : 'user';
         $data = array(
             'id' => $log->id,
+            'name_user' => $log->user->name,
+            'user_id' =>$log->user->id_user,
             'action' => $log->action,
             'description' => $log->description,
             'role' => $role,

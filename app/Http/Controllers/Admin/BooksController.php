@@ -35,7 +35,7 @@ class BooksController extends Controller
             $html .= '<td>'.$book->author ?? '' .'</td>';
             $html .= '<td>'.$book->publisher ?? '' .'</td>';
             $html .= '<td>'; //act
-                $html .= '<a onclick="getEdtBook( '.$book->id_book.','.$book->name_book .', '. $book->isbn .','.$book->author.','.$book->publisher.', '.$book->time_release.','.$book->pages_book.','.$book->language.', '.$img_book .' )" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info mr-1">';
+                $html .= '<a onclick="getEdtBook( `'.$book->id_book.'`,`'.$book->name_book .'`, `'. $book->isbn .'`,`'.$book->author.'`,`'.$book->publisher.'`, `'.$book->time_release.'`,`'.$book->pages_book.'`,`'.$book->language.'`, `'.$img_book .'` )" data-toggle="modal" data-target="#editbook" class="btn btn-sm btn-info mr-1">';
                 $html .= '<svg class="svg-inline--fa fa-pen-to-square" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">';
                 $html .= '<path fill="currentColor" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"></path>';
                 // $html .= '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>';
@@ -139,7 +139,6 @@ class BooksController extends Controller
         // Helper::doAuditTrails(Auth::user()->id, "create maintenance items", "-", json_encode($data_ma_items));
 
         $logs->save();
-    // return redirect('books')->with('notify', 'Data a new book successfully insert !');
 
     return redirect()->back()->with('notify', 'Data a new book successfully insert !');
     }
@@ -148,8 +147,7 @@ class BooksController extends Controller
     {
         $book = Book::findOrfail($id);
 
-        // return json_decode($book, true);
-        return response($book, true);
+        return json_decode($book, true);
     }
 
     public function edit($id)
@@ -187,10 +185,12 @@ class BooksController extends Controller
         // $old_book = Book::where('id_book', $id)->first();
         $book = Book::where('id_book', $id)->first();
         $oldImg = '';
-        if($book->image_book){
-            $oldImg = '/images/'.$book->image_book;
-            unlink(public_path($oldImg));
-        }
+        if($request->image_book){
+            if($book->image_book){
+                $oldImg = '/images/'.$book->image_book;
+                unlink(public_path($oldImg));
+            }
+        }        
         // dd($oldImg);
 
         $book->name_book = $request->name_book;
@@ -212,7 +212,7 @@ class BooksController extends Controller
         $user = Auth::user();
         $now = Carbon::now();
         $logs = new Log();
-         $logs->user_id = $user->user_id;
+         $logs->user_id = $user->id_user;
         $logs->action = 'PUT';
         $logs->description = 'update a book';
         $logs->role = $user->role;
@@ -237,7 +237,7 @@ class BooksController extends Controller
 
        $logs = new Log();
         $logs->user_id = $user->user_id;
-        $logs->action = 'DELETE';
+        $logs->action = `DELETE`;
         $logs->description = 'delete a book';
         $logs->role = $user->role;
         $logs->log_time = $now;
@@ -245,7 +245,8 @@ class BooksController extends Controller
         $logs->data_new = '-';
         $logs->save();
 
-       return redirect('/book')->with('notify', 'Data a book successfully delete !');
+    //    return redirect('/book')->with('notify', 'Data a book successfully delete !');
+       return redirect()->back()->with('notify', 'Data a book successfully delete !');
     }
 
     public function confirmDelete(Request $request, $id)
@@ -261,7 +262,7 @@ class BooksController extends Controller
 
              $logs = new Log();
              $logs->user_id = $user->user_id;
-             $logs->action = 'DELETE';
+             $logs->action = `DELETE`;
              $logs->description = 'delete a book';
              $logs->role = $user->role;
              $logs->log_time = $now;
@@ -273,7 +274,6 @@ class BooksController extends Controller
             return redirect()->back()->with('notify', 'Data a book successfully delete !');
         } else {
             return redirect()->back()->with('notify', 'Failed delete data a book');
-            // return redirect('/book')->with('notify', 'Failed delete data a book');
         }
     }
 }

@@ -57,13 +57,19 @@
             </div>
 
             @if(session('notify'))
-            <div class="alert alert-success my-2" role="alert">
+            <div class="alert alert-success my-2" role="alert" >
                 {{session('notify')}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
              @endif
+
+             <div id="ntf-success" class="alert alert-success my-2" role="alert" style="display: none">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <table class="table table-bordered border-1 mb-2" id="tableUser">
                 <thead>
                   <tr>
@@ -76,7 +82,7 @@
                     <th scope="col" style="text-align: center">Act</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="row-table-user">
                 @foreach($users as $usr)
                     {{-- @if($usr->role == 2) --}}
                   <tr>
@@ -88,7 +94,7 @@
                     {{-- <td>{{$usr->role}}</td> --}}
                     <td>
                         <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>
-                        <a href="{{$usr->id_user}}/#ConfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ConfirmDeleteUserModal{{$usr->id_user}}">Delete</a>
+                        <a href="#" onclick="confirmDeleteUser({{$usr->id_user ?? ''}})" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ConfirmDeleteUser">Delete</a>
                         <button onclick="fetchShowUser({{ $usr->id_user }})" data-toggle="modal" data-target="#ShowUserModal" class="btn btn-sm btn-warning">Show</button>
                     </td>
                   </tr>
@@ -102,7 +108,7 @@
 </div>
 
 {{-- @foreach($users as $usr) --}}
- <div class="modal fade" id="ConfirmDeleteUserModal" tabindex="-1">
+ <div class="modal fade" id="ConfirmDeleteUser" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -145,9 +151,8 @@
           </button>
         </div>
         <div class="modal-body m-2">
-            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('users.store') }}" method="POST">
                 @csrf
-                @method('post')
                 {{-- @method('delete') --}}
                 {{-- <div class="form-group">
                             <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
@@ -180,25 +185,22 @@
                 <div class="form-group">
                     <label for="gender">Gender</label> <span style="color: red;">*</span>
                     <div class="form-check">
-                        <input type="radio" id="man" name="gender" value="man" class="form-check-input" required>
+                        <input type="radio" id="man" name="add_gender" value="man" class="form-check-input" required>
                         <label for="man">Man</label>
                       </div>
                       <div class="form-check">
-                        <input type="radio" id="woman" name="gender" value="woman" class="form-check-input">
-                        <label  for="woman">Woman</label>
-                        {{-- @error('gender')
-                        <div class="invalid-feedback">{{$message}}</div>
-                        @enderror --}}
+                        <input type="radio" id="woman" name="add_gender" value="woman" class="form-check-input">
+                        <label  for="woman">Woman</label>                        
                       </div>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">Password</label> <span style="color: red;">*</span>
                     <input type="password" name="password" id="password" class="form-control">
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
-                </div>
-                <button id="button-submit" type="submit"  class="btn btn-primary" disabled>Confirm</button>
+                </div> --}}
+                <button id="button-submit" type="submit"  class="btn btn-primary" >Confirm</button>
             </form>
 
         </div>
@@ -248,11 +250,11 @@
                 <div class="form-group">
                     <label for="gender">Gender</label> <span style="color: red;">*</span>
                     <div class="form-check">
-                        <input type="radio" id="user-gender" name="gender" value="man" class="form-check-input" required>
+                        <input type="radio" id="user-gender-man" name="gender" value="man" class="form-check-input" required>
                         <label for="man">Man</label>
                       </div>
                       <div class="form-check">
-                        <input type="radio" id="user-gender" name="gender" value="woman" class="form-check-input">
+                        <input type="radio" id="user-gender-woman" name="gender" value="woman" class="form-check-input">
                         <label  for="woman">Woman</label>
                         {{-- @error('gender')
                         <div class="invalid-feedback">{{$message}}</div>
@@ -371,11 +373,27 @@
                     password:usr_pass
                 },
                 success: function(dt){
-                    console.log(dt);
+                    // console.log(dt);
+                    $('#edit-user').modal('hide');
+                    $('#ntf-success').css("display", "block");
+                    $("#ntf-success").append("<p>"+dt.data+"</p>");
+                    fetchusers();
                 }
             });
         });
     // });
+
+    function fetchusers()
+    {
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('users.fetch-index') }}',
+            success:function(data){
+                // console.log(data);
+                $('#row-table-user').html(data.html);
+            }
+        });
+    }
 
     const getPhoneNumber = document.querySelector("#add_phone_number");
     const getEmail = document.querySelector("#add-email");
@@ -400,9 +418,9 @@
                     const responseMessage = document.getElementById('msg-email');
                     responseMessage.textContent = e.message;
                     if(msg_email_valid == 'valid' && msg_phone_valid == 'valid'){
-                        btn_set.disabled = false;
-                    }else{
                         btn_set.disabled = true;
+                    }else{
+                        btn_set.disabled = false;
                     }
 
                 }else{
@@ -437,9 +455,9 @@
                     responseMessage.textContent = e.message;
 
                     if(email_valid == 'valid' && phone_valid == 'valid'){
-                        btn_set.disabled = false;
-                    }else{
                         btn_set.disabled = true;
+                    }else{
+                        btn_set.disabled = false;
                     }
                 }else{
                     document.getElementById('msg-phone').style.display = 'block';
@@ -464,10 +482,11 @@
         document.getElementById('user-email').value = user_email;
         document.getElementById('user-phone').value = user_phone;
         document.getElementById('user-address').value = user_address;
+
         if(user_gender == 'man'){
-          document.getElementById('usr-man').checked = true;
+          document.getElementById('user-gender-man').checked = true;
         }else{
-          document.getElementById('usr-woman').checked = true;
+          document.getElementById('user-gender-woman').checked = true;
         }
         /* show data to modal */
     }
@@ -484,17 +503,25 @@
             url: 'users/'+id,
             processdata: false,
             success:function(data){
-                console.log(data);
+                // console.log(data);
                 document.getElementById('u-show-id').innerHTML = data.id;
                 document.getElementById('u-show-name').innerHTML = data.name;
                 document.getElementById('u-show-address').innerHTML = data.address;
                 document.getElementById('u-show-pn').innerHTML = data.phone_number;
                 document.getElementById('u-show-email').innerHTML = data.email;
-                document.getElementById('u-show-role').innerHTML = data.email;
+                document.getElementById('u-show-role').innerHTML = data.role;
+                // if()
                 document.getElementById('u-show-gender').innerHTML = data.gender;
                 document.getElementById('u-show-creat').innerHTML = data.created_at;
             }
         });
     }
+
+    function confirmDeleteUser(id)
+    {
+        const usrid = id;
+        document.getElementById('u-userid').value = usrid;
+    }
+
 </script>
 @endsection

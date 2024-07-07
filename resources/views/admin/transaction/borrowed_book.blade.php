@@ -223,7 +223,7 @@
                 <td>{{$usr->name}}</td>
                 <td>{{$usr->email}}</td>
                 <td>{{$usr->phone_number}}</td>
-                <td>{{$usr->role}}</td>
+                <td>{{($usr->role == 1 || $usr->role == "1") ? 'Admin' : 'Client' }}</td>
                 <td>
                     <button id="pilihuser" class="btn btn-success"
                     data-idusrm="{{$usr->id_user}}"
@@ -333,7 +333,7 @@
             </div>
           </div>
         </div>
-      </div>
+</div>
 
 
 
@@ -349,9 +349,6 @@ $(document).ready(function() {
             var codeborrow = document.getElementById('code_borrow').value;
             var deleterow = '<a href="" id="deleterowborrowbook" class="btn btn-danger btn-sm ml-1" data-toggle="modal" data-target="#">Delete</a>';
 
-
-
-
             var newrow = '<tr> ';
             newrow += '<td> <input type="text" class="form-control" style="border-style: hidden; background-color: white; " id="codeborrowed" name="code_borrowed[]" value="' + codeborrow + '" readonly> </td>';
             newrow += '<td> <input type="text" class="form-control" style="border-style: hidden; background-color: white; " id="idbook" name="id_book[]" value="' + id_book + '" readonly> </td>';
@@ -364,8 +361,12 @@ $(document).ready(function() {
             $('#name_book').val('');
             $('#publisher').val('');
             $('#pages_book').val('');
-
+            
         }
+    });
+
+    $(document).on('click', '#deleterowborrowbook', function() {
+        $(this).closest("tr").remove();
     });
 });
 </script>

@@ -93,7 +93,7 @@
                     <th scope="row">{{$log->id}}</th>
                     <td>{{$log->action ?? ''}}</td>
                     <td>{{$log->description ?? ''}}</td>
-                    <td>{{isset($log->role) ? 'Admin' : 'User' ?? ''}}</td>
+                    <td>{{($log->role == 1 || $log->role == "1") ? 'Admin' : 'User' ?? ''}}</td>
                     <td>{{$log->log_time ?? ''}}</td>
                     <td>
                         {{-- <a href="{{$usr->id_user}}/#ComfirmDeleteUserModal" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ComfirmDeleteUserModal{{$usr->id_user}}">Delete</a> --}}
@@ -127,6 +127,14 @@
                 <div class="row">
                   <div class="col-sm-4"> Name Log : </div>
                   <div class="col"> <p id="l-name"></p> </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4"> Id User : </div>
+                  <div class="col"> <p id="l-iduser"></p> </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4"> Name User : </div>
+                  <div class="col"> <p id="l-nameuser"></p> </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-4"> Action : </div>
@@ -193,15 +201,14 @@
             success:function(data){
                 console.log(data);
                 console.log(data.data_new);
+                document.getElementById('l-iduser').innerHTML = data.user_id;
+                document.getElementById('l-nameuser').innerHTML = data.name_user;
                 document.getElementById('l-name').innerHTML = data.description;
                 document.getElementById('l-action').innerHTML = data.action;
                 document.getElementById('l-description').innerHTML = data.description;
                 document.getElementById('l-role').innerHTML = data.role;
                 document.getElementById('l-time').innerHTML = data.log_time;
                 // document.getElementById('l-data-old').innerHTML = data.data_old;
-                // for(let c=0; c<=data.data_new; c++){
-                //   document.getElementById('l-data-new').innerHTML += c;
-                // }
 
                 // for (const key of Object.keys(data.data_new)) {
                 //     console.log(key, obj[key]);                    
@@ -211,18 +218,8 @@
                 // console.log(objk.name, objk.email, objk.address, objk.phone_number, objk.gender);
                 if(data.data_new !== '-'){
                   let objk = JSON.parse(data.data_new);
-                  let ojb = JSON.parse(data.data_old);
-                  console.log('found data');                  
-
-                  let newline = '<ul>';
-                    newline += '<li>id : ' + ojb.id_user + '</li>';
-                    newline += '<li>name : ' + ojb.name + '</li>';
-                    newline += '<li>email : ' + ojb.email + '</li>';
-                    newline += '<li>address : ' + ojb.address + '</li>';
-                    newline += '<li>gender : ' + ojb.gender + '</li>';
-                    newline += '<li>phone number : ' + ojb.phone_number + '</li>';
-                    newline += '</ul>';
-                    document.getElementById('l-data-old').innerHTML = newline;
+                  
+                  console.log('found data');             
 
                   let barisbaru = '<ul> ';
                     barisbaru += '<li>id : ' + objk.id_user + '</li>';
@@ -234,9 +231,24 @@
                     barisbaru += '</ul>';
                   document.getElementById('l-data-new').innerHTML = barisbaru;
                 //   // document.getElementById('l-data-new').innerHTML = objk.name;
-                }else{
-                  document.getElementById('l-data-old').innerHTML = '-';
+                }else{                  
                   document.getElementById('l-data-new').innerHTML = '-';
+                }
+
+                if(data.data_old  !== '-'){
+                  console.log('found data');      
+                  let ojb = JSON.parse(data.data_old);
+                  let newline = '<ul>';
+                    newline += '<li>id : ' + ojb.id_user + '</li>';
+                    newline += '<li>name : ' + ojb.name + '</li>';
+                    newline += '<li>email : ' + ojb.email + '</li>';
+                    newline += '<li>address : ' + ojb.address + '</li>';
+                    newline += '<li>gender : ' + ojb.gender + '</li>';
+                    newline += '<li>phone number : ' + ojb.phone_number + '</li>';
+                    newline += '</ul>';
+                    document.getElementById('l-data-old').innerHTML = newline;
+                }else{
+                    document.getElementById('l-data-old').innerHTML = '-';
                 }
                 // document.getElementById('l-data-new').innerHTML = data.data_new;
                 document.getElementById('l-create').innerHTML = data.created_at;
