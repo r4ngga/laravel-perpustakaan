@@ -32,7 +32,7 @@ class LogController extends Controller
             'role' => $role,
             'log_time' => $log->log_time,
             'data_old' => $log->data_old,
-            'data_new' => $log->data_new,
+            'data_new' => json_decode($log->data_new),
             'created_at' => $log->created_at,
         );
         // dd($data);

@@ -200,7 +200,7 @@
             processdata: false,
             success:function(data){
                 console.log(data);
-                console.log(data.data_new);
+                // console.log(data.data_new);
                 document.getElementById('l-iduser').innerHTML = data.user_id;
                 document.getElementById('l-nameuser').innerHTML = data.name_user;
                 document.getElementById('l-name').innerHTML = data.description;
@@ -208,7 +208,6 @@
                 document.getElementById('l-description').innerHTML = data.description;
                 document.getElementById('l-role').innerHTML = data.role;
                 document.getElementById('l-time').innerHTML = data.log_time;
-                // document.getElementById('l-data-old').innerHTML = data.data_old;
 
                 // for (const key of Object.keys(data.data_new)) {
                 //     console.log(key, obj[key]);                    
@@ -216,41 +215,42 @@
                 // }
                 // let objk = JSON.parse(data.data_new);
                 // console.log(objk.name, objk.email, objk.address, objk.phone_number, objk.gender);
-                if(data.data_new !== '-'){
-                  let objk = JSON.parse(data.data_new);
-                  
-                  console.log('found data');             
+                // console.log(data.data_new);
+                if(data.data_new !== null){
+                  console.log('found data');
+                  // let objk = JSON.parse(data.data_new);
+                  let obj = data.data_new;
+                  let line = '<ul> ';                 
 
-                  let barisbaru = '<ul> ';
-                    barisbaru += '<li>id : ' + objk.id_user + '</li>';
-                    barisbaru += '<li>name : ' + objk.name + '</li>';
-                    barisbaru += '<li>email : ' + objk.email + '</li>';
-                    barisbaru += '<li>address : ' + objk.address + '</li>';
-                    barisbaru += '<li>gender : ' + objk.gender + '</li>';
-                    barisbaru += '<li>phone number : ' + objk.phone_number + '</li>'
-                    barisbaru += '</ul>';
-                  document.getElementById('l-data-new').innerHTML = barisbaru;
-                //   // document.getElementById('l-data-new').innerHTML = objk.name;
+                  // var obj = { first: "John", last: "Doe" };
+
+                  // Object.keys(obj).forEach(function(key) {
+                  //     console.log(key, obj[key]);
+                  // });
+
+                  for (const key of Object.keys(obj)) {
+                      // console.log(key, obj[key]);
+                      let value = (obj[key] !== null) ? obj[key] : ' - ';
+                      line += '<li>'+ key + ' : ' + value + '</li>';
+                  }
+                  line += '</ul>';         
+                document.getElementById('l-data-new').innerHTML = line;
                 }else{                  
                   document.getElementById('l-data-new').innerHTML = '-';
                 }
 
                 if(data.data_old  !== '-'){
                   console.log('found data');      
-                  let ojb = JSON.parse(data.data_old);
-                  let newline = '<ul>';
-                    newline += '<li>id : ' + ojb.id_user + '</li>';
-                    newline += '<li>name : ' + ojb.name + '</li>';
-                    newline += '<li>email : ' + ojb.email + '</li>';
-                    newline += '<li>address : ' + ojb.address + '</li>';
-                    newline += '<li>gender : ' + ojb.gender + '</li>';
-                    newline += '<li>phone number : ' + ojb.phone_number + '</li>';
-                    newline += '</ul>';
-                    document.getElementById('l-data-old').innerHTML = newline;
+                  // let ojb = JSON.parse(data.data_old);
+                  let ojb = data.data_old;
+                  // let newline = '<ul>';
+                  //   newline += '<li>id : ' + ojb.id_user + '</li>';
+                  //   newline += '</ul>';
+                    // document.getElementById('l-data-old').innerHTML = newline;
+                    document.getElementById('l-data-old').innerHTML = data.data_old;
                 }else{
                     document.getElementById('l-data-old').innerHTML = '-';
                 }
-                // document.getElementById('l-data-new').innerHTML = data.data_new;
                 document.getElementById('l-create').innerHTML = data.created_at;
             }
         });

@@ -56,16 +56,16 @@
                 </div>
             </div>
 
-            @if(session('notify'))
+            {{-- @if(session('notify'))
             <div class="alert alert-success my-2" role="alert" >
                 {{session('notify')}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-             @endif
+             @endif --}}
 
-             <div id="ntf-success" class="alert alert-success my-2" role="alert" style="display: none">
+             <div id="ntf-success" class="alert alert-success my-3" role="alert" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -376,7 +376,7 @@
                     // console.log(dt);
                     $('#edit-user').modal('hide');
                     $('#ntf-success').css("display", "block");
-                    $("#ntf-success").append("<p>"+dt.data+"</p>");
+                    $("#ntf-success").append(dt.data);
                     fetchusers();
                 }
             });
