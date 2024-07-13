@@ -20,7 +20,7 @@ class UserController extends Controller
     public function edit(){
         $user = Auth::user();
         $getUser = User::where('id_user', $user->id_user)->first();
-        dd($getUser);
+        // dd($getUser);
         return view('setting');
     }
 

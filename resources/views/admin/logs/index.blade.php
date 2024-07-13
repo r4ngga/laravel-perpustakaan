@@ -230,8 +230,10 @@
 
                   for (const key of Object.keys(obj)) {
                       // console.log(key, obj[key]);
-                      let value = (obj[key] !== null) ? obj[key] : ' - ';
-                      line += '<li>'+ key + ' : ' + value + '</li>';
+                      if(key !== 'password'){
+                        let value = (obj[key] !== null) ? obj[key] : ' - ';
+                        line += '<li>'+ key + ' : ' + value + '</li>';
+                      }
                   }
                   line += '</ul>';         
                 document.getElementById('l-data-new').innerHTML = line;
@@ -239,15 +241,22 @@
                   document.getElementById('l-data-new').innerHTML = '-';
                 }
 
-                if(data.data_old  !== '-'){
+                if(data.data_old  !== null){
                   console.log('found data');      
                   // let ojb = JSON.parse(data.data_old);
                   let ojb = data.data_old;
-                  // let newline = '<ul>';
+                  let newline = '<ul>';
+                    for (const key of Object.keys(ojb)){
+                      if(key !== 'password'){
+                        let val = (ojb[key] !== null) ? ojb[key] : ' - ';
+                        newline += '<li>'+ key + ' : ' + val + '</li>';
+                      }
+                    }
+                    newline += '</ul>';
                   //   newline += '<li>id : ' + ojb.id_user + '</li>';
                   //   newline += '</ul>';
                     // document.getElementById('l-data-old').innerHTML = newline;
-                    document.getElementById('l-data-old').innerHTML = data.data_old;
+                    document.getElementById('l-data-old').innerHTML = newline;
                 }else{
                     document.getElementById('l-data-old').innerHTML = '-';
                 }

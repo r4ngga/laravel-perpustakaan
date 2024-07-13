@@ -62,7 +62,8 @@ class UserApiController extends Controller
                     'phone_number' => $usr->phone_number,
                     'address' => $usr->address,
                     'gender' => $usr->gender,
-                    'created_at' => $usr->created_at
+                    'created_at' => $usr->created_at,
+                    //'photo_profile' => $usr->photo_profile
                 );
 
                 $datauser = array(

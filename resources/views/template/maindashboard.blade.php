@@ -49,7 +49,7 @@
                     <li class=" @if(request()->is('book') || request()->is('books')) 'nav-item active' @else 'nav-item'@endif ">
                     {{-- <li class="{{ (request()->is('book') || request()->is('books')) ? 'nav-item active' : 'nav-item' }}"> --}}
                     {{-- <a class="nav-link" href="{{ ($cekrole == "1") ? ('book') : ('books')}}">Books </a> --}}
-                    <a class="nav-link" href=" @if($cekrole == 1 || $cekrole == 1) {{('book')}} @else {{('books')}} @endif">Books</a>
+                    <a class="nav-link" href=" @if($cekrole == 1 || $cekrole == 1) {{ route('book') }} @else {{('books')}} @endif">Books</a>
                     {{-- <a class="nav-link" href="{{('/book')}}">Books</a> --}}
                     </li>
 

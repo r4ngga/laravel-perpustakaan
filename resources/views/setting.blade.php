@@ -73,10 +73,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="role">Role </label>
-                                <input type="text" class="form-control @error('role') is-invalid @enderror" id="role" name="role"  value="{{auth()->user()->role}}" readonly>
+                                <input type="text" class="form-control @error('role') is-invalid @enderror" id="role" name="role"
+                                  value="@if(auth()->user()->role == 1 || auth()->user()->role == "1") Admin @else User / Clien  @endif" readonly>
                              @error('role')
                                 <div class="invalid-feedback">{{$message}}</div>
                             @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="photoprofil">Photo Profile</label> 
+                                <input type="file" class="form-control" name="photo_profile" id="photo_profile">
+                            </div>
+                            <div class="form-group">
+                                <label for="ketpprilf">Photo Profile Dapat Dikosongi apabila tidak diubah</label>
                             </div>
 
                         <button type="submit" class="btn btn-primary">Update Data</button>

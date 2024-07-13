@@ -76,6 +76,13 @@ class UserController extends Controller
             // 'gender' => 'required',
         ]);
 
+        $imgName = '';
+        if($request->photo_profile)
+        {
+            $imgName = $request->photo_profile->getClientOriginalName() . '-' . time() . '.' . $request->photo_profile->extension();
+            $request->photo_profile->move(public_path('photo_profile'), $imgName);
+        }
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -84,6 +91,7 @@ class UserController extends Controller
         $user->phone_number = $request->phone_number;
         $user->gender = $request->add_gender;
         $user->role = 2; //untuk client atau user
+        $user->photo_profile = !empty($request->photo_profile) ? $imgName : null;;
         $user->save();
 
         $auth = Auth::user();
@@ -155,6 +163,21 @@ class UserController extends Controller
             'gender' => 'required',
         ]);
 
+        if($request->photo_profile){
+            // $imgName = $request->photo_profile->getClientOriginalName() . '-' . time() . '.' . $request->photo_profile->extension();
+            $setoriname = $request->photo_profile->getClientOriginalName() ;
+            $imgName =  time() . '.' . $request->photo_profile->extension();
+            $request->photo_profile->move(public_path('photo_profile'), $imgName);
+        }
+
+        $oldImg = '';
+        if($request->photo_profile){
+            if($lastUser->photo_profile){
+                $oldImg = '/images/'.$lastUser->photo_profile;
+                unlink(public_path($oldImg));
+            }
+        }       
+
         $user = User::where('id_user', $request->id_user)->first();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -162,6 +185,10 @@ class UserController extends Controller
         $user->phone_number = $request->phone_number;
         $user->gender = $request->gender;
         $user->password = !empty($request->password) ? bcrypt($request['password']) : $lastUserPassword;
+        if(!empty($request->photo_profile))
+        {
+            $user->photo_profile = $imgName;
+        }
         $user->save();
 
         //create a logs
@@ -229,6 +256,7 @@ class UserController extends Controller
             'gender' => $user->gender,
             'role' => $role,
             'created_at' => $user->created_at,
+            //'photo_profile' => $user->photo_profile,
         );
         return response()->json($data);
     }
@@ -236,7 +264,21 @@ class UserController extends Controller
     public function fetchEdit($id){
         $user = User::where('id_user', $id)->where('role', 2)->first();
 
-        return response()->json($user);
+        if($user->photo_profile){
+            $photo_profile = '/photo_profile/'.$user->photo_profile;
+        }else{
+            $photo_profile = '/photo_profile/profile-default.png';
+        }
+
+        return response()->json([
+            'id_user' => $user->id_user,
+            'name' => $user->name,
+            'email' => $user->email,
+            'address' => $user->address,
+            'phone_number' => $user->phone_number,
+            'gender' => $user->gender,
+            'photo_profile' => $photo_profile
+        ]);
     }
 
 }

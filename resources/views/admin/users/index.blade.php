@@ -197,9 +197,14 @@
                     <label for="password">Password</label> <span style="color: red;">*</span>
                     <input type="password" name="password" id="password" class="form-control">
                 </div>
-                {{-- <div class="form-group">
-                    <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
-                </div> --}}
+                <div class="form-group">
+                    <label for="photoprofle">Photo Profile</label>
+                    <input type="file" class="form-control" name="photo_profile" id="photo-profile">
+                </div>
+                <div class="form-group">
+                    <label for="proflepgto">Photo Profile Dapat Dikosongi</label>
+                </div>
+
                 <button id="button-submit" type="submit"  class="btn btn-primary" >Confirm</button>
             </form>
 
@@ -268,6 +273,13 @@
                 <div class="form-group">
                     <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
                 </div>
+                <div class="form-group">
+                    <label for="prfilepotho">Photo Profile</label>
+                    <input type="file" class="form-control" name="user_photo_profile" id="user-photo-profile">
+                </div>
+                <div class="form-group">
+                    <label for="ketpp">Photo Profile dapat dikosongi apabila tidak dirubah</label>
+                </div>
                 <button id="btn-edt-usr" type="button" class="btn btn-primary">Confirm</button>
             </form>
 
@@ -321,6 +333,9 @@
                 <div class="row">
                     <div class="col">Created At : </div>
                     <div class="col"> <p id="u-show-creat"></p></div>
+                </div>
+                <div class="row" > <div class="col" style="justify-content: center; align-self: center"> Photo Profile User ; </div>
+                <div class="col"> <img id="u-img" class="mini-img-photo" src="" alt=""> </div>
                 </div>
             </div>
 
