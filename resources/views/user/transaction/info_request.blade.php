@@ -31,9 +31,9 @@
                   Name Book : {{$rq->name_book}} . <br>
                   Time Request : {{$rq->time_request}}. <br>
                   Status Request : {{$rq->status_request}}. <br>
-                  @if($rq->status_request == "request accept") {{-- 1 request accept --}}
+                  @if($rq->status_request == "1" || $rq->status_request == 1) {{-- 1 request accept --}}
                   <h6>Let's take your book in library soon</h6>
-                  @elseif($rq->status_request == "request cancel") {{-- 2 request cancel --}}
+                  @elseif($rq->status_request == "0" || $rq->status_request == 0) {{-- 0 request cancel --}}
                   <h6>Sorry your request cancelled by admin, please confirmation</h6>
                   @endif
               </p>

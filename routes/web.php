@@ -44,8 +44,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/register', 'UserController@create')->middleware('guest');
     Route::get('/logout', [Authentication\AuthController::class, 'logout'])->middleware('auth');
     Route::get('/book', [Admin\BooksController::class, 'index'])->name('book');
-    Route::get('/setting', [User\UserController::class, 'edit'])->name('setting');
-    Route::post('/setting', [User\UserController::class, 'update'])->name('setting.update');
+    Route::get('/setting', [Authentication\AuthController::class, 'showSetting'])->name('setting');
+    Route::post('/setting', [Authentication\AuthController::class, 'setting'])->name('setting.update');
+    // Route::get('/setting', [User\UserController::class, 'edit'])->name('setting');
+    // Route::post('/setting', [User\UserController::class, 'update'])->name('setting.update');
     Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword']);
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatepassword']);
     Route::group(['middleware' => ['cek_login:1']], function () {

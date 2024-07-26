@@ -218,6 +218,13 @@ class UserController extends Controller
         $now = Carbon::now();
         $cekvalidation = $request->validation;
         if ("delete" == $cekvalidation || "Delete" == $cekvalidation) {
+            $getting = User::where('id_user', $request->id_user)->where('role', 2)->first();
+            $oldImg = '';
+            if($getting->photo_profile)
+            {
+                $oldImg = '/photo_profile/'.$getting->photo_profile;
+                unlink(public_path($oldImg));
+            }
             $lastUser = User::where('id_user', $request->id_user)->first();
             //create a logs
             $logs = new Log();

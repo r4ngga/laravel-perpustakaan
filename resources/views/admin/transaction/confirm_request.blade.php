@@ -42,7 +42,7 @@
                 </thead>
                 <tbody>
                 @foreach($req as $rq)
-                    @if($rq->status_request == "request pending")
+                    @if($rq->status_request == "0" || $rq->status->request == 0)
                     <tr>
                         <th scope="row">{{$rq->code_request}}</th>
                         <td>{{$rq->id_user}}</td>
@@ -86,8 +86,8 @@
                         <label for="exampleFormControlSelect1">Change Status</label>
                         <select class="form-control" id="status_request" name="status_request">
                           <option>Please Select </option>
-                          <option value="request accept">request accept</option>
-                          <option value="request cancel">request cancel</option>
+                          <option value="1">request accept</option>
+                          <option value="0">request cancel</option>
                         </select>
                   </div>
                   <div class="form-group">
@@ -106,7 +106,7 @@
 @endsection()
 
 @section('scripts')
-<script>
+<script type="text/javascript">
     function getEdtReq(cdreq, iduser, idbook){
       let cd_req = cdreq;
       let id_usr = iduser;

@@ -49,7 +49,8 @@ class RequestsController extends Controller
             'id_user' => $request->id_user,
             'id_book' => $request->id_book,
             'time_request' => $request->time_request,
-            'status_request' => "request pending",
+            // 'status_request' => "request pending",
+            'status_request' => 2, //request pending
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

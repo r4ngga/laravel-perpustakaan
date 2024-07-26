@@ -77,6 +77,7 @@ class BooksController extends Controller
             'time_release' => $book->time_release,
             'pages_book' => $book->pages_book,
             'language' => $book->language,
+            'stok' => $book->stok,
             'image_book' => $image_book
         ));
     }
@@ -119,6 +120,7 @@ class BooksController extends Controller
         $book->pages_book = $request->pages_book;
         $book->language =  $request->language;
         $book->isbn = $request->isbn;
+        $book->stok = $request->stok;
         $book->image_book = !empty($request->image_book) ? $imgName : null;
         $book->save();
 
@@ -199,6 +201,7 @@ class BooksController extends Controller
         $book->time_release = $request->time_release;
         $book->pages_book = $request->pages_book;
         $book->language = $request->language;
+        $book->stok = $request->stok;
         $book->isbn = $request->isbn;
         if(!empty($request->image_book))
         {

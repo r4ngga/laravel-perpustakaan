@@ -97,6 +97,68 @@ class AuthController extends Controller
         return redirect('/login')->with('notify', 'Success Logout');
     }
 
+    public function showSetting(){
+        $user = Auth::user();
+        $getUser = User::where('id_user', $user->id_user)->first();
+        // dd($getUser);
+        return view('setting', compact('user', 'getUser'));
+    }
+
+    public function setting(Request $request, $id)
+    {
+        $auth = Auth::user();
+        $now = Carbon::now();
+        $lastUser = DB::table('users')->where('id_user', $id)->first();
+        $lastUserPassword = $lastUser->password;
+        $request->validate([
+            'id_user' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required|numeric',
+            'gender' => 'required',
+        ]);
+
+        if($request->photo_profile){
+            $imgName = time() . '.' . $request->photo_profile->extension();
+            $request->photo_profile->move(public_path('images'), $imgName);
+        }
+
+        $user = User::where('id_user', $id)->first();
+        $oldImg = '';
+        if($request->photo_profile){
+            if($user->photo_profile)
+            {
+                $oldImg = '/images/'.$user->photo_profile;
+                unlink(public_path($oldImg));
+            }
+        }
+
+        $user->name = $request->name;
+        $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
+        $user->gender = $request->gender;
+        if(!empty($request->photo_profile))
+        {
+            $user->photo_profile = $imgName;
+        }
+        $user->save();
+
+        $last_insert = User::find($user->id_user);        
+        //create a logs
+        $logs = new Log();
+        $logs->id_user = $auth->id_user;
+        $logs->action = 'PUT';
+        $logs->description = 'update setting a profile';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($lastUser);
+        $logs->data_new = json_encode($last_insert);
+        $logs->save();
+
+        return response()->json(['notify' => 'success', 'data' => 'Your Profile successfully change !']);
+    }
+
     public function changepassword()
     {
         return view('change_password');
@@ -109,7 +171,7 @@ class AuthController extends Controller
             'reply_password' => 'required|same:password'
         ]);
 
-        DB::table('users')->where('id_user', auth()->user()->id_user)
+        $get_last_user = DB::table('users')->where('id_user', auth()->user()->id_user)
             ->update([
                 'password' => bcrypt($request['password'])
             ]);
@@ -121,11 +183,11 @@ class AuthController extends Controller
         // create a logs
         $logs = new Log();
         $logs->user_id = $user->id_user;
-        $logs->action = 'POST';
+        $logs->action = 'PUT';
         $logs->description = 'update a password';
         $logs->log_time = $now;
         $logs->data_old = '';
-        // $logs->data_new = json_encode($get_last_user);
+        $logs->data_new = json_encode($get_last_user);
         $logs->role = $user->role;
         $logs->save();
         return redirect('changepassword')->with('notify', 'Success change your password');

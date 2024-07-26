@@ -95,6 +95,13 @@
                         @enderror
                         </div>
                         <div class="form-group">
+                            <label for="stko">Stock Book</label>
+                            <input type="text" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok">
+                        @error('stok')
+                            <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="image_book">Book Cover </label>
                             <input type="file" onchange="prevImage(event);" class="form-control-file @error('image_book') is-invalid @enderror" id="image_book" name="image_book">
                         @error('image_book')

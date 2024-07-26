@@ -74,6 +74,32 @@
                         @enderror
                         </div>
                         <div class="form-group">
+                            <label for="sotk">Stokc</label>
+                            <div class="row">
+                                {{-- <div class="col"> --}}
+                                    {{-- <div class="row"> --}}
+                                        {{-- <div class=""> --}}
+                                            <div class="py-4 pl-4"><button class="btn btn-primary">+</button></div>
+                                            <div class="py-4 px-2">
+                                                <input type="text" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" value="{{$book->stok}}" readonly>
+                                            </div>
+                                            <div class="py-4"><button class="btn btn-md btn-primary">-</button></div>
+                                        {{-- </div> --}}
+                                    {{-- </div> --}}
+                                    
+                                    
+                                    @error('stok')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                {{-- </div> --}}
+                                {{-- <div class="col"> --}}
+                                  <div class="py-4 px-2"> Qty Stok : <span id="qty-stok"> 0 </span></div> 
+                                  <div class="py-4 px-3" id="qty-alrt" style="visibility: hidden"> <p> Jumlah tidak boleh negatif</p> </div>
+                                {{-- </div> --}}
+                            </div>
+                            
+                        </div>
+                        <div class="form-group">
                                 <label for="name">Time Request </label>
                                 <input type="date" class="form-control @error('name_book') is-invalid @enderror" id="time_request" name="time_request" >
                         @error('name_book')
@@ -90,3 +116,29 @@
     </div>
 </div>
 @endsection()
+
+@section('scripts')
+<script type="text/javascript">
+    function incrementQty(){
+        let stok = document.getElementById('stok').value;
+        let default_val = 0;
+        default_val = default_val + 1;
+        stok = default_val;
+    }
+
+    function decrementQty()
+    {
+        let stock = document.getElementById('stok').value;
+        let default_val = 1;
+        if(stock == 0 || stock < 0){
+            document.getElementById('qty-alrt').style('visibility') = 'block';
+        }else{
+            document.getElementById('qty-alrt').style('visibility') = 'hidden';
+            let stok_now = stock - default_val;
+            document.getElementById('stok').value = stok_now;
+        }
+        
+    }
+</script>
+    
+@endsection

@@ -196,12 +196,16 @@
                   <input type="text" name="time_release" id="timerelease-book" class="form-control" value="" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Pasges Book</label>
+                    <label for="password">Pages Book</label>
                     <input type="text" name="pages_book" id="pages-book" class="form-control" value="">
                 </div>
                 <div class="form-group">
                     <label for="label">Language</label>
                     <input type="text" name="language" id="language-book" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label for="stk">Ready Stok Book </label>
+                    <input type="text" name="stok" id="stok-book" class="form-control" value="">
                 </div>
                 <div class="form-group ">
                     <label for="forimg">Image Cover Book </label>
@@ -261,6 +265,10 @@
                 <div class="row">
                   <div class="col"> Language :</div>
                   <div class="col"> <p id="b-language"></p> </div>
+                </div>
+                <div class="row">
+                   <div class="col">Stok : </div>
+                   <div class="col"> <p id="b-stok"></p></div>
                 </div>
                 <div class="row" > <div class="col" style="justify-content: center; align-self: center"> Image Cover Book ; </div>
                 <div class="col"> <img id="b-img" class="mini-img-cover" src="" alt=""> </div>
@@ -361,6 +369,7 @@
                 document.getElementById('language-book').value = data.language;
                 document.getElementById('img-book').src = data.image_book;
                 document.getElementById('img-book').value = "";
+                document.getElementById('stok-book').value = data.stok;
 
             }
         });
@@ -408,6 +417,7 @@
         let pages_book = $('#pages-book').val();
         let language = $('#language-book').val();
         let img_book = $('#image-book').val() ;
+        let stok_book= $('#stok-book').val();
 
         let form = new FormData($("#form-edt")[0]);
         // let replace_name_img = img_book.replace("C:\\fakepath\\","");
@@ -479,6 +489,7 @@
                 document.getElementById('b-timerelease').innerHTML = data.time_release;
                 document.getElementById('b-pagesbook').innerHTML = data.pages_book;
                 document.getElementById('b-language').innerHTML = data.language;
+                document.getElementById('b-stok').innerHTML = data.stok;
                 if(!data.image_book )
                 {
                     document.getElementById('b-img').src =  '/images/default.jpeg';
