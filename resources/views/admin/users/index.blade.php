@@ -18,6 +18,13 @@
         /* padding-top: 1px; */
     }
 
+    .mini-img-photo{
+        max-width: 100px;
+        width: 100%;
+        max-height: 100px;
+        height: 100%;
+    }
+
     .position-col{
         right: 100%;
     }
@@ -93,7 +100,8 @@
                     <td>{{$usr->phone_number}}</td>
                     {{-- <td>{{$usr->role}}</td> --}}
                     <td>
-                        <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>
+                        {{-- <button onclick="getEdit({{ $usr->id_user }}, '{{ $usr->name }}', '{{ $usr->email }}', '{{$usr->phone_number}}', '{{$usr->address}}', '{{ $usr->gender }}')" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button> --}}
+                        <button onclick="fetchEdit({{ $usr->id_user ?? ''}})" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>
                         <a href="#" onclick="confirmDeleteUser({{$usr->id_user ?? ''}})" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ConfirmDeleteUser">Delete</a>
                         <button onclick="fetchShowUser({{ $usr->id_user }})" data-toggle="modal" data-target="#ShowUserModal" class="btn btn-sm btn-warning">Show</button>
                     </td>
@@ -253,6 +261,10 @@
                     <input type="text" name="address" id="user-address" class="form-control" value="" required>
                 </div>
                 <div class="form-group">
+                    <label for="placedatebirth">Place Date Of Birth</label>
+                    <input type="text" class="form-control" name="" id="">
+                </div>
+                <div class="form-group">
                     <label for="gender">Gender</label> <span style="color: red;">*</span>
                     <div class="form-check">
                         <input type="radio" id="user-gender-man" name="gender" value="man" class="form-check-input" required>
@@ -275,7 +287,8 @@
                 </div>
                 <div class="form-group">
                     <label for="prfilepotho">Photo Profile</label>
-                    <input type="file" class="form-control" name="user_photo_profile" id="user-photo-profile">
+                    <img src="" id="img-user" class="mini-img-photo" alt="" style="margin-top: 2px; margin-bottom: 4px;">
+                    <input type="file" class="form-control mt-2" onchange="previewImage(event);" name="user_photo_profile" id="user-photo-profile">
                 </div>
                 <div class="form-group">
                     <label for="ketpp">Photo Profile dapat dikosongi apabila tidak dirubah</label>
@@ -361,6 +374,41 @@
         }
     });
 
+    const previewImage = (event) => { //untuk preview image ketika edit
+        /**
+       * Get the selected files.
+       */
+      const imageFiles = event.target.files;
+      /**
+       * Count the number of files selected.
+       */
+      const imageFilesLength = imageFiles.length;
+      /**
+       * If at least one image is selected, then proceed to display the preview.
+       */
+      /**
+       * If at least one image is selected, then proceed to display the preview.
+       */
+      if (imageFilesLength > 0) {
+          /**
+           * Get the image path.
+           */
+          const imageSrc = URL.createObjectURL(imageFiles[0]);
+          /**
+           * Select the image preview element.
+           */
+          const imagePreviewElement = document.querySelector("#img-user");
+          /**
+           * Assign the path to the image preview element.
+           */
+          imagePreviewElement.src = imageSrc;
+          /**
+           * Show the element by changing the display value to "block".
+           */
+          imagePreviewElement.style.display = "block";
+      }
+    };
+
     // $(document).ready(function() {
         $('#btn-edt-usr').click(function(event) {
             event.preventDefault();
@@ -406,6 +454,29 @@
             success:function(data){
                 // console.log(data);
                 $('#row-table-user').html(data.html);
+            }
+        });
+    }
+
+    function fetchEdit(id){
+        $.ajax({
+            type: 'GET',
+            url: '/fetchedit-user/' + id,
+            processdata: false,
+            success:function(data){
+                console.log();
+                document.getElementById('user-id').value = data.user_id;
+                document.getElementById('user-name').value = data.name;
+                document.getElementById('user-email').value = data.email;
+                document.getElementById('user-address').value = data.address;
+                document.getElementById('user-phone').value = data.phone_number;
+                if(data.gender == 'man'){
+                    document.getElementById('user-gender-man').checked = true;
+                }else{
+                    document.getElementById('user-gender-woman').checked = true;
+                }
+
+                document.getElementById('img-user').src = data.photo_profile;
             }
         });
     }
@@ -528,6 +599,13 @@
                 // if()
                 document.getElementById('u-show-gender').innerHTML = data.gender;
                 document.getElementById('u-show-creat').innerHTML = data.created_at;
+                document.getElementById('u-img').src = data.photo_profile;
+                if(!data.photo_profile )
+                {
+                    document.getElementById('u-img').src =  '/photo_profile/profile-default.png';
+                }else{
+                document.getElementById('u-img').src =  '/photo_profile/'+data.photo_profile;
+            }
             }
         });
     }

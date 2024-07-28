@@ -40,7 +40,7 @@ class UserController extends Controller
             $html .= '<td>'.$user->phone_number ?? '' .'</td>';
             // $html .= '<td>'.$user->publisher ?? '' .'</td>';
             $html .= '<td>'; //act
-                $html .= '<button onclick="getEdit(`'. $user->id_user .'`, `'. $user->name .'`, `'. $user->email .'`, `'.$user->phone_number.'`, `'.$user->address.'`, `'. $user->gender .'`)" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>';
+                $html .= '<button onclick="fetchEdit(`'. $user->id_user .'`)" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>';
 
                 $html .= '<a href="#" onclick="confirmDeleteUser('.$user->id_user .')" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ConfirmDeleteUser">Delete</a>';
 
@@ -91,7 +91,8 @@ class UserController extends Controller
         $user->phone_number = $request->phone_number;
         $user->gender = $request->add_gender;
         $user->role = 2; //untuk client atau user
-        $user->photo_profile = !empty($request->photo_profile) ? $imgName : null;;
+        $user->place_date_birth = $request->place_date_birth;
+        $user->photo_profile = !empty($request->photo_profile) ? $imgName : null;
         $user->save();
 
         $auth = Auth::user();
@@ -173,7 +174,7 @@ class UserController extends Controller
         $oldImg = '';
         if($request->photo_profile){
             if($lastUser->photo_profile){
-                $oldImg = '/images/'.$lastUser->photo_profile;
+                $oldImg = '/photo_profile/'.$lastUser->photo_profile;
                 unlink(public_path($oldImg));
             }
         }       
@@ -263,7 +264,7 @@ class UserController extends Controller
             'gender' => $user->gender,
             'role' => $role,
             'created_at' => $user->created_at,
-            //'photo_profile' => $user->photo_profile,
+            'photo_profile' => $user->photo_profile,
         );
         return response()->json($data);
     }

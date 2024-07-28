@@ -10,7 +10,7 @@ class UserApiController extends Controller
 {
     public function getAllUsers()
     {
-        $users = User::where('role', 2)->ge();
+        $users = User::where('role', 2)->get();
         $countuser = count($users);
 
         if($countuser > 0)
@@ -23,7 +23,8 @@ class UserApiController extends Controller
                     'phone_number' => $usr->phone_number,
                     'address' => $usr->address,
                     'gender' => $usr->gender,
-                    'created_at' => $usr->created_at
+                    'photo_profile' => $usr->photo_profile,
+                    'created_at' => $usr->created_at,
                 );
             }
 
@@ -62,6 +63,7 @@ class UserApiController extends Controller
                     'phone_number' => $usr->phone_number,
                     'address' => $usr->address,
                     'gender' => $usr->gender,
+                    'photo_profile' => $usr->photo_profile,
                     'created_at' => $usr->created_at,
                     //'photo_profile' => $usr->photo_profile
                 );
@@ -108,6 +110,7 @@ class UserApiController extends Controller
                     'phone_number' => $usr->phone_number,
                     'address' => $usr->address,
                     'gender' => $usr->gender,
+                    'photo_profile' =>  $usr->photo_profile,
                     'created_at' => $usr->created_at
                 );
             }

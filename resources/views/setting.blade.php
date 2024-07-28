@@ -65,6 +65,10 @@
                             @enderror
                            </div>
                            <div class="form-group">
+                                <label for="placedtebirht">Place Date Of Birth</label>
+                                <input type="text" name="place_date_birth" id="" class="form-control @error('address') is-invalid @enderror">
+                           </div>
+                           <div class="form-group">
                                 <label for="gender">Gender </label>
                                 <input type="text" class="form-control @error('gender') is-invalid @enderror" id="gender" name="gender"  value="{{auth()->user()->gender}}" readonly>
                             @error('gender')

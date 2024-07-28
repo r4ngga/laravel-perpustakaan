@@ -79,11 +79,11 @@
                                 {{-- <div class="col"> --}}
                                     {{-- <div class="row"> --}}
                                         {{-- <div class=""> --}}
-                                            <div class="py-4 pl-4"><button class="btn btn-primary">+</button></div>
+                                            <div class="py-4 pl-4"><button onclick="incrementQty()" class="btn btn-primary">+</button></div>
                                             <div class="py-4 px-2">
                                                 <input type="text" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" value="{{$book->stok}}" readonly>
                                             </div>
-                                            <div class="py-4"><button class="btn btn-md btn-primary">-</button></div>
+                                            <div class="py-4"><button onclick="decrementQty()" class="btn btn-md btn-primary">-</button></div>
                                         {{-- </div> --}}
                                     {{-- </div> --}}
                                     
