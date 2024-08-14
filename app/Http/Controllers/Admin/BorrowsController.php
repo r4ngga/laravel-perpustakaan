@@ -46,6 +46,7 @@ class BorrowsController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         $validateData = $request->validate([
             'code_borrowed' => 'required',
             'code_borrow' => 'required',
@@ -64,18 +65,20 @@ class BorrowsController extends Controller
             'time_borrow' => $request->time_borrow,
             'time_return' => $request->time_return,
             'status' => "borrow",
+            //'points'
             // 'created_at' => date('Y-m-d H:i:s'),
             // 'updated_at' => date('Y-m-d H:i:s'),
         ]);
         $cdborrow = $request->input('code_borrowed');
         $idbook = $request->id_book;
-        $quantity = $request->qty;
+        $quantity = $request->qty_book;
         foreach ($cdborrow as $code => $value) {
             DB::table('detail_book_loans')->insert([
                 'code_borrow' => $value,
                 'id_book' => $idbook[$code],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                //'qty' => $quantity[$value],
                 // 'created_at' => date('Y-m-d H:i:s'),
                 // 'updated_at' => date('Y-m-d H:i:s'),
             ]);
@@ -89,9 +92,11 @@ class BorrowsController extends Controller
             $logs->activity = 'insert detail borrows a book';
             $logs->log_time = $now;
             $logs->data_old = '-';
-            $logs->data_new = '-';
+            $logs->data_new = json_encode($detail_book_loans);
             $logs->role = $user->role;
             $logs->save();
+
+            DB::table('books')->where('id_book', $idbook[$code])->first();
         }
         // $sisastok = $request->stok;
         // $count_book = count($request->id_book);

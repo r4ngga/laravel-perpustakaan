@@ -265,6 +265,7 @@ class UserController extends Controller
             'role' => $role,
             'created_at' => $user->created_at,
             'photo_profile' => $user->photo_profile,
+            //'place_date_birth' => $user->place_date_birth
         );
         return response()->json($data);
     }
@@ -285,7 +286,8 @@ class UserController extends Controller
             'address' => $user->address,
             'phone_number' => $user->phone_number,
             'gender' => $user->gender,
-            'photo_profile' => $photo_profile
+            'photo_profile' => $photo_profile,
+            //'place_date_birth' => $user->place_date_birth
         ]);
     }
 

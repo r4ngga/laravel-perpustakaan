@@ -195,12 +195,12 @@
 			var nmbook = $(this).data('nmbkm');
 			var publisher = $(this).data('publism');
             var timerelease = $(this).data('tmrlsm');
-            var pagesbook = $(this).data('pgsbkm');
+            var stokbook = $(this).data('stkbkm');
             var stok = $(this).data('stkm');
 			$('#id_book').val(idbook);
 			$('#name_book').val(nmbook);
 			$('#publisher').val(publisher);
-            $('#pages_book').val(pagesbook);
+            $('#stok_book').val(stokbook);
             $('#stok').val(stok);
 			$('#SelectBookModal').modal('hide');
 		});

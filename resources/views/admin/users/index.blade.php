@@ -477,6 +477,7 @@
                 }
 
                 document.getElementById('img-user').src = data.photo_profile;
+                document.getElementById('user-placedatebirth').value = data.place_date_birth;
             }
         });
     }
