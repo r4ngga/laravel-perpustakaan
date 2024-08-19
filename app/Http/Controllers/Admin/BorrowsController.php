@@ -59,7 +59,7 @@ class BorrowsController extends Controller
             'code_borrowed' => 'required',
             'id_book' => 'required',
         ]);
-        DB::table('book_borrows')->insert([
+        $insert_borrow = DB::table('book_borrows')->insert([
             'code_borrow' => $request->code_borrow,
             'id_user' => $request->id_user,
             'time_borrow' => $request->time_borrow,
@@ -73,6 +73,7 @@ class BorrowsController extends Controller
         $idbook = $request->id_book;
         $quantity = $request->qty_book;
         foreach ($cdborrow as $code => $value) {
+            $first_data_book = DB::table('books')->where('id_book', $idbook[$code])->first();
             DB::table('detail_book_loans')->insert([
                 'code_borrow' => $value,
                 'id_book' => $idbook[$code],
@@ -96,7 +97,18 @@ class BorrowsController extends Controller
             $logs->role = $user->role;
             $logs->save();
 
-            DB::table('books')->where('id_book', $idbook[$code])->first();
+            $bkupdate = DB::table('books')->where('id_book', $idbook[$code])->first();
+            $bkupdate->update(['stok' => $request->stok[$code]]);
+
+            // $logs = new Log();
+            // $logs->user_id = $user->user_id;
+            // $logs->action = 'POST';
+            // $logs->activity = 'changes a stok of book after borrow';
+            // $logs->log_time = $now;
+            // $logs->data_old = json_encode($first_data_book);
+            // $logs->data_new = '';
+            // $logs->role = $user->role ;
+            // $logs->save();
         }
         // $sisastok = $request->stok;
         // $count_book = count($request->id_book);

@@ -54,6 +54,10 @@ class RequestController extends Controller
             ->update([
                 'status_request' => $request->status_request,
             ]);
+
+        $book_update = DB::table('books')
+        ->where('id', $update_requestbook->id_book)
+        ->first();
         
         $now = Carbon::now();
         

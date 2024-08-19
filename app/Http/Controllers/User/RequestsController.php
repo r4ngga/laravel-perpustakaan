@@ -17,7 +17,8 @@ class RequestsController extends Controller
 
     public function index()
     {
-        $book = Book::orderBy('created_at', 'desc')->paginate(6);
+        $book = Book::orderBy('created_at', 'desc')
+        ->where('stok', '>', 0)->paginate(6);
 
         return view('user.request_book.index', compact('book'));
     }
@@ -34,6 +35,16 @@ class RequestsController extends Controller
         // $set_value = Str::random(7);
         $set_value = $this->generateRandomString(10);
         return view('user.transaction.applyrequest_book', compact('book', 'set_value'));
+    }
+
+    public function stokbookApi($id)
+    {
+        $book = Book::where('id_book', $id)->first();
+        $stok = $book->stok;
+
+        return response()->json([
+            'stok' => $stok,
+        ]);
     }
 
     public function store(Request $request)

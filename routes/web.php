@@ -112,5 +112,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/requestbook/info/{request}', [User\RequestsController::class, 'show']);
 
         Route::get('history', [User\HistoryController::class, 'index'])->name('history');
+
+        //api
+        Route::get('getstock/{id}', [User\RequestsController::class, 'stokbookApi']);
     });
 });

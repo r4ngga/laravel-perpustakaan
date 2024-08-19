@@ -79,11 +79,11 @@
                                 {{-- <div class="col"> --}}
                                     {{-- <div class="row"> --}}
                                         {{-- <div class=""> --}}
-                                            <div class="py-4 pl-4"><button onclick="incrementQty()" class="btn btn-primary">+</button></div>
+                                            <div class="py-4 pl-4"><button type="button" onclick="incrementQty()" class="btn btn-primary">+</button></div>
                                             <div class="py-4 px-2">
-                                                <input type="text" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" value="{{$book->stok}}" readonly>
+                                                <input type="text" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" value="0" readonly>
                                             </div>
-                                            <div class="py-4"><button onclick="decrementQty()" class="btn btn-md btn-primary">-</button></div>
+                                            <div class="py-4"><button type="button" onclick="decrementQty()" class="btn btn-md btn-primary">-</button></div>
                                         {{-- </div> --}}
                                     {{-- </div> --}}
                                     
@@ -93,8 +93,8 @@
                                     @enderror
                                 {{-- </div> --}}
                                 {{-- <div class="col"> --}}
-                                  <div class="py-4 px-2"> Qty Stok : <span id="qty-stok"> 0 </span></div> 
-                                  <div class="py-4 px-3" id="qty-alrt" style="visibility: hidden"> <p> Jumlah tidak boleh negatif</p> </div>
+                                  <div class="py-4 px-2"> Qty Stok : <span id="qty-stok">  </span></div> 
+                                  <div class="py-4 px-3" id="qty-alrt" style="visibility: hidden"> <p id="msg-qty"> </p> </div>
                                 {{-- </div> --}}
                             </div>
                             
@@ -119,23 +119,80 @@
 
 @section('scripts')
 <script type="text/javascript">
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+    $.ajax({
+        type: 'GET',
+        url: '/getstock/'+{{ $book->id_book }},
+        processdata: false,
+        success:function(data){
+            document.getElementById('qty-stok').innerHTML = data.stok;
+        }
+    });
+
+    // let alert = document.getElementById('qty-alrt');
+    // let stok =  parseInt($("#stok").val());
+    // let actualstock = {{ $book->stok }};
+    // console.log(actualstock);
+    // if(stok > actualstock){
+            // console.log(actualstock);
+            // console.log('too much');
+            // if(alert.style.visibility === 'hidden'){
+            // $("#qty-alrt").css("visibility", "visible");
+            // $("#msg-qty").text("Terlalu melampaui jumlah");
+            // document.getElementById('qty-alrt').style.visibility = 'visible';
+            // document.getElementById('msg-qty').innerHTML = 'Jumlah tidak boleh negatif';
+        //   }
+    // }
+});
+
     function incrementQty(){
-        let stok = document.getElementById('stok').value;
-        let default_val = 0;
-        default_val = default_val + 1;
-        stok = default_val;
+        // e.preventDefault();
+        let alert = document.getElementById('qty-alrt');
+        let stok = parseInt(document.getElementById('stok').value);
+        // let actualstock = parseInt(document.getElementById('qty-stok').innerHTML);
+        let actualstock = {{ $book->stok }};
+        
+        
+
+        stok = isNaN(stok) ? 0 : stok;
+        stok++;
+
+        if(stok > actualstock){
+            // console.log(actualstock);
+            // console.log('too much');
+            if(alert.style.visibility === 'hidden'){
+            document.getElementById('qty-alrt').style.visibility = 'visible';
+            document.getElementById('msg-qty').innerHTML = 'Buku yang disewa lebih <br> dari stok yang tersedia';
+            // stok--;
+          }
+        }
+        else if(alert.style.visibility === 'visible'){
+            document.getElementById('qty-alrt').style.visibility = 'hidden';
+        }        
+       
+        document.getElementById('stok').value = stok;
+        // document.getElementById('qty-stok').innerHTML = after;
     }
 
     function decrementQty()
     {
-        let stock = document.getElementById('stok').value;
-        let default_val = 1;
+        let stock = parseInt(document.getElementById('stok').value);
+        let alert = document.getElementById('qty-alrt');
+
+        stock = isNaN(stock) ? 0 : stock; 
+        // let default_val = 1;
         if(stock == 0 || stock < 0){
-            document.getElementById('qty-alrt').style('visibility') = 'block';
+            if(alert.style.visibility === 'hidden'){
+            document.getElementById('qty-alrt').style.visibility = 'visible';
+            document.getElementById('msg-qty').innerHTML = 'Jumlah tidak boleh negatif';
+            }
         }else{
-            document.getElementById('qty-alrt').style('visibility') = 'hidden';
-            let stok_now = stock - default_val;
-            document.getElementById('stok').value = stok_now;
+            document.getElementById('qty-alrt').style.visibility = 'hidden';
+            stock--;
+            // let stok_now = stock - default_val;
+            document.getElementById('stok').value = stock;
         }
         
     }
