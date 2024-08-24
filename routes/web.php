@@ -105,11 +105,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('borrow-count', [User\UserController::class, 'fetchCountBorrow'])->name('borrow-count');
         Route::get('books', [User\BookController::class, 'index'])->name('books');
 
-        Route::get('/requestbook', [User\RequestsController::class, 'index'])->name('request-book');
-        Route::get('/requestbook/applyrequest/{book}', [User\RequestsController::class, 'requestbook']);
-        Route::post('/requestbook/applyrequest', [User\RequestsController::class, 'store']);
+        Route::get('requestbook', [User\RequestsController::class, 'index'])->name('request-book');
+        Route::get('requestbook/applyrequest/{id}', [User\RequestsController::class, 'requestbook'])->name('applyrequest');
+        Route::post('requestbook/applyrequest', [User\RequestsController::class, 'store'])->name('applyrequest.store');
 
-        Route::get('/requestbook/info/{request}', [User\RequestsController::class, 'show']);
+        Route::get('/requestbook/info/{id}', [User\RequestsController::class, 'show']);
 
         Route::get('history', [User\HistoryController::class, 'index'])->name('history');
 

@@ -54,10 +54,15 @@ class RequestController extends Controller
             ->update([
                 'status_request' => $request->status_request,
             ]);
+        
+        $get_book = DB::table('books')->where('id', $update_requestbook->id_book)->first();
+        $total_book = $get_book->stok - $request->stok;
 
         $book_update = DB::table('books')
         ->where('id', $update_requestbook->id_book)
-        ->first();
+        ->update([
+            'stok' => $total_book,
+        ]);
         
         $now = Carbon::now();
         
@@ -70,6 +75,15 @@ class RequestController extends Controller
         $logs->data_old = json_encode($old_data);
         $logs->data_new = json_encode($update_requestbook);
         $logs->save();
+
+        $booklogs = new Log();
+        $booklogs->id_user = $auth->id_user;
+        $booklogs->update = 'PUT';
+        $booklogs->description = 'update stok books';
+        $booklogs->log_time = $now;
+        $booklogs->data_old = '-';
+        $booklogs->data_new = json_encode($book_update);
+        $booklogs->save();
 
         return redirect('requestedbook')->with('notify', 'Successfully accept request a books by borrowers !');
     }

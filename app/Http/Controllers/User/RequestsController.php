@@ -55,6 +55,12 @@ class RequestsController extends Controller
             'id_book' => 'required',
             'time_request' => 'required',
         ]);
+
+        $checkbook = DB::table('books')->where('id', $request->id_book)->first();
+        if($request->stok > $checkbook->stok ){ //if book request is higher than stok book
+            return redirect()->back()->withErrors(['stok' => ['Buku yang disewa lebih <br> dari stok yang tersedia']]);
+        }
+
         $request_book = DB::table('book_requests')->insert([
             'code_request' => $request->code_request,
             'id_user' => $request->id_user,

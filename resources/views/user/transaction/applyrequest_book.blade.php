@@ -131,20 +131,6 @@ $( document ).ready(function() {
         }
     });
 
-    // let alert = document.getElementById('qty-alrt');
-    // let stok =  parseInt($("#stok").val());
-    // let actualstock = {{ $book->stok }};
-    // console.log(actualstock);
-    // if(stok > actualstock){
-            // console.log(actualstock);
-            // console.log('too much');
-            // if(alert.style.visibility === 'hidden'){
-            // $("#qty-alrt").css("visibility", "visible");
-            // $("#msg-qty").text("Terlalu melampaui jumlah");
-            // document.getElementById('qty-alrt').style.visibility = 'visible';
-            // document.getElementById('msg-qty').innerHTML = 'Jumlah tidak boleh negatif';
-        //   }
-    // }
 });
 
     function incrementQty(){
