@@ -121,7 +121,7 @@ class BooksController extends Controller
         $book->language =  $request->language;
         $book->isbn = $request->isbn;
         $book->stok = $request->stok;
-        //$book->categori_id = $request->category_id;
+        //$book->category_id = $request->category_id;
         $book->image_book = !empty($request->image_book) ? $imgName : null;
         $book->save();
 

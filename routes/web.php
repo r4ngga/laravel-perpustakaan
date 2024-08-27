@@ -92,6 +92,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('fetchuser', [Admin\UserController::class, 'fetchIndex'])->name('users.fetch-index');
         Route::get('fetchedit-user/{id}', [Admin\UserController::class, 'fetchEdit'])->name('users.fetch-edit');
 
+        //categoreis
+        Route::get('categories', [Admin\CategoriesController::class, 'index'])->name('categories');
+        //Route::post('categories', [Admin\CategoriesController::class, 'store'])->name('categories.store');
+
         //logs
         Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
         Route::get('logs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.detail');
