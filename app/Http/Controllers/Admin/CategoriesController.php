@@ -47,4 +47,6 @@ class CategoriesController extends Controller
 
         return redirect()->back()->with('notify', 'Data a new category successfully insert !');
     }
+
+    public function update(Request $request){}
 }
