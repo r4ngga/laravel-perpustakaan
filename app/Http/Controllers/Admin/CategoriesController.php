@@ -48,5 +48,64 @@ class CategoriesController extends Controller
         return redirect()->back()->with('notify', 'Data a new category successfully insert !');
     }
 
-    public function update(Request $request){}
+    public function update($id, Request $request)
+    {
+        $user = Auth::user();
+        $now = Carbon::now();
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $old_data = DB::table('categories')->where('id', $id)->where('deleted_at', null)->first();        
+
+        $categories = DB::table('categories')->where('id', $id)->update([
+            'name' => $request->name,
+        ]);
+
+        //create logs
+        DB::table('logs')->create([
+            'user_id' => $user->id_user,
+            'action' => 'PUT',
+            'description' => 'update a category',
+            'role' => $user->role,
+            'log_time' => $now,            
+            'data_old' => $categories,
+            'data_new' => $old_data,
+
+        ]);
+        //create logs
+
+        return redirect()->back()->with('notify', 'Data a category successfully change !');
+    }
+
+    public function delete($id)
+    {
+        $user = Auth::user();
+        $now = Carbon::now();
+        $old_data = DB::table('categories')->where('id', $id)->where('deleted_at', null)->first();
+
+        if(!$old_data)
+        {
+            return redirect()->back()->with('error', 'Category not found !!');
+        }
+
+        $delete_category = Categories::find($id);
+        $delete_category->destroy();
+
+        //create logs
+        DB::table('categories')->create([
+            'user_id' => $user->id_user,
+            'action' => `DELETE`,
+            'description' => 'delete a category',
+            'role' => $user->role,
+            'log_time' => $now,
+            'data_old' => $old_data,
+            'data_new' => '-',
+        ]);
+        //create logs
+
+        return response()->json([
+            'notify' => 'Success delete a category !!'
+        ]);
+    }
 }

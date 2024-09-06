@@ -95,6 +95,7 @@ Route::group(['middleware' => ['auth']], function () {
         //categoreis
         Route::get('categories', [Admin\CategoriesController::class, 'index'])->name('categories');
         //Route::post('categories', [Admin\CategoriesController::class, 'store'])->name('categories.store');
+        //Route::post('categories/update/{id}', [Admin\CategoriesController::class, 'update'])->name('categories.update');
 
         //logs
         Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');

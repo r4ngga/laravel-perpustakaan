@@ -50,7 +50,6 @@
             <?php
             $cekrole = auth()->user()->role
             ?>
-            @if($cekrole == "1")
             <div class="row mb-4">
                 <div class="col col-lg-6">
                     <a href="{{route('category.create')}}" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
@@ -64,7 +63,7 @@
                 </div>
             </div>
 
-            @endif          
+      
 
              <div id="aler-success" class="alert alert-success my-3" role="alert" style="display: none">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
@@ -189,7 +188,7 @@
     {
         $.ajax({
             type: 'GET',
-            url: '/category'+id,
+            url: '/category/'+id,
             processdata: false,
             // type: 'JSON',
             success:function(data){
@@ -200,7 +199,6 @@
     }
 
     function editApi(id, category_name){
-    //     // let values =
             $.ajax({
                 type: 'PUT',
                 enctype: 'multipart/form-data',
@@ -242,11 +240,10 @@
                 dataType: 'json',
                 processData: false,
                 contentType: false,
-                data:form,
-                // data : {
-                //     id: category_id,
-                //     name: category_name,
-                // },
+                data : {
+                    id: category_id,
+                    name: category_name,
+                },
                 success: function(data){
                 //   console.log(data.data);
                   $('#editcategory').modal('hide');
