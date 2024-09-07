@@ -78,10 +78,12 @@
                     {{-- <li class="nk-menu-item "><a class="nk-menu-link" href="{{route('client.product')}}" style="color: {{ request()->is('client/product')  ? '#0fac81' : 'black' }};"><span class="nk-menu-icon"><em class="icon ni ni-bag " style="color:{{ request()->is('client/product')  ? '#0fac81' : 'grey' }} ;"></em></span><span class="nk-menu-text">My Product</span></a></li>
                     <li class="nk-menu-item "><a class="nk-menu-link" href="{{route('client.akun.index')}}" style="color: {{ request()->is('client/akun')  ? '#0fac81' : 'black' }};"><span class="nk-menu-icon"><em class="icon ni ni-account-setting" style="color:{{ request()->is('client/akun')  ? '#0fac81' : 'grey' }} ;"></em></span><span class="nk-menu-text">Akun</span></a></li> --}}
 
-
+                    <li class="{{ request()->is('borrowedbook') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{route('categories')}}">Category</a>
+                    </li>
                     <li class="{{ request()->is('borrowedbook') ? 'nav-item active' : 'nav-item' }}">
                     <a class="nav-link" href="{{route('borrowedbook')}}">Book Out</a>
-                    </li>
+                    </li>                    
                     <li class="{{ request()->is('reportborrowedbook') ? 'nav-item active' : 'nav-item' }}">
                         <a class="nav-link" href="{{route('report-borrowed-book')}}">Report Book Out</a>
                     </li>

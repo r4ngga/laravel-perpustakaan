@@ -94,8 +94,9 @@ Route::group(['middleware' => ['auth']], function () {
 
         //categoreis
         Route::get('categories', [Admin\CategoriesController::class, 'index'])->name('categories');
-        //Route::post('categories', [Admin\CategoriesController::class, 'store'])->name('categories.store');
-        //Route::post('categories/update/{id}', [Admin\CategoriesController::class, 'update'])->name('categories.update');
+        Route::post('categories', [Admin\CategoriesController::class, 'store'])->name('categories.store');
+        //Route::post('categories-update/{id}', [Admin\CategoriesController::class, 'update'])->name('categories.update');
+        //Route::delete('categoreis-delete/{id}', [Admin\Categories::class, 'delete'])->name('categories.delete');
 
         //logs
         Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');

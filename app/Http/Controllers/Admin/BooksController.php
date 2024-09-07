@@ -84,7 +84,8 @@ class BooksController extends Controller
 
     public function create()
     {
-        return view('admin.book.add_book');
+        $categories = DB::table('categories')->get();
+        return view('admin.book.add_book', compact('categories'));
     }
 
     public function store(Request $request)
@@ -121,7 +122,7 @@ class BooksController extends Controller
         $book->language =  $request->language;
         $book->isbn = $request->isbn;
         $book->stok = $request->stok;
-        //$book->category_id = $request->category_id;
+        $book->category_id = $request->category_id;
         $book->image_book = !empty($request->image_book) ? $imgName : null;
         $book->save();
 

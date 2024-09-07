@@ -112,7 +112,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <form action="{{ route('category/delete')}}" method="POST">
+            <form action="{{ route('category/delete'])}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- @method('delete') --}}
                     <div class="form group">

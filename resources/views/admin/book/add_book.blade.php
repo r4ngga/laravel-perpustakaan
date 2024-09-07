@@ -60,6 +60,15 @@
                         @enderror
                         </div>
                         <div class="form-group">
+                            <label for="categiry">Category</label> <span style="color: red;">*</span>
+                            <select name="category_id" id="category_id" class="form-control">
+                                <option value="">Select Category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id ?? '' }}"> {{ $category->name }}</option>
+                                @endforeach
+                            </select>                          
+                        </div>
+                        <div class="form-group">
                             <label for="author">Author </label> <span style="color: red;">*</span>
                             <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author">
                         @error('author')
